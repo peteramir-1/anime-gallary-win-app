@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es6",
+    "module": "commonjs",
+    "lib": ["esnext", "DOM"],
+    "strict": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "./app/typings",
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "./app",
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modues", "src/**/*.test.ts"]
+}

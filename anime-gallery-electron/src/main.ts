@@ -1,0 +1,77 @@
+import * as electron from 'electron';
+import * as customElectronTitleBar from 'custom-electron-titlebar/main';
+import * as path from 'path';
+import * as handlers from './handlers';
+
+// Express servers imports
+import * as app from './servers/frontend/app';
+
+// Electron titlebar
+customElectronTitleBar.setupTitlebar();
+electron.Menu?.setApplicationMenu(null);
+
+const createWindow = () => {
+  const mainWindow = new electron.BrowserWindow({
+    frame: false,
+    autoHideMenuBar: true,
+    resizable: false,
+    fullscreen: false,
+    webPreferences: {
+      sandbox: false,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+  });
+  mainWindow.maximize();
+  setTimeout(() => {
+    mainWindow.focus();
+  }, 1000);
+  mainWindow.loadURL(`http://localhost:${app.PORT}/#/`);
+  return mainWindow;
+};
+
+// Handle creating/removing shortcuts on Windows when installing/uninstalling.
+if (require('electron-squirrel-startup')) electron.app.quit();
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+electron.app.on('ready', () => {
+  electron.ipcMain.handle('selectFolder', handlers.selectFolder);
+  electron.ipcMain.handle('selectFile', handlers.selectFile);
+  electron.ipcMain.handle(
+    'selectFilesFromFolder',
+    handlers.selectFilesFromFolder
+  );
+  app.startFrontendServer(() => {
+    const mainWindow = createWindow();
+    electron.globalShortcut.register('Control+R', () => {
+      mainWindow.reload();
+    });
+    electron.globalShortcut.register('Control+Shift+I', () => {
+      mainWindow.webContents.openDevTools();
+    });
+    electron.globalShortcut.register('Alt+F4', () => {
+      (0, app.closeFrontendServer)();
+      electron.app.quit();
+    });
+  });
+});
+
+// Quit when all windows are closed, except on macOS. There, it's common
+// for applications and their menu bar to stay active until the user quits
+// explicitly with Cmd + Q.
+electron.app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.closeFrontendServer();
+    electron.app.quit();
+  }
+});
+
+electron.app.on('activate', () => {
+  electron.ipcMain.handle('selectFolder', handlers.selectFolder);
+  electron.ipcMain.handle('selectFile', handlers.selectFile);
+  electron.ipcMain.handle(
+    'selectFilesFromFolder',
+    handlers.selectFilesFromFolder
+  );
+  createWindow();
+});

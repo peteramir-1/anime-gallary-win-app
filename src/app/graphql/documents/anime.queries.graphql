@@ -1,0 +1,25 @@
+query GetAllAnimes {
+  animes {
+    description
+    episodes
+    id
+    thumbnail
+    name
+    numOfEpisodes
+    type
+    status
+  }
+}
+
+query GetAnimeById($animeId: String!) {
+  anime(id: $animeId) {
+    description
+    episodes
+    id
+    thumbnail
+    name
+    numOfEpisodes
+    type
+    status
+  }
+}

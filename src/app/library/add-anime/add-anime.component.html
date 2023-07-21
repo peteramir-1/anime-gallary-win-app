@@ -1,0 +1,296 @@
+<article
+  class="main-section flex h-[calc(100vh_-_4rem_-_50px)] max-w-full flex-1 flex-col items-stretch gap-7">
+  <!-- 
+    + RETUN BACK Button "<--"  
+  -->
+  <button
+    class="btn btn-secondary"
+    type="button"
+    routerLink="/library"
+    role="navigation"
+    tabindex="-1">
+    <ng-icon name="heroArrowLeft"></ng-icon>
+  </button>
+
+  <!-- 
+    + ADD Anime Form ->
+    + Currently emplemented Fields:
+    +   1. Name (required)
+    +   2. Number of Episodes (required)
+    +   3. Thumbnail or Picture for anime (optional)
+    +   4. Story (optional)
+    +   5. Status of the anime[Complete, InComplete] (required | has a Default Value)
+    +   6. Type of the anime[serie, ova, movie] (required | has a Default Value)
+    +   7. episodes[Array(string)] (required | at least one episode)
+    + TODO: 
+    +   [] Implement visible form validation
+   -->
+  <form
+    [formGroup]="_animeForm"
+    class="flex h-fit max-w-full flex-initial flex-col gap-16">
+    <section class="flex flex-col gap-2">
+      <h1
+        class="mb-4 text-4xl font-extrabold leading-none tracking-normal text-gray-900 dark:text-white">
+        {{ !prevAnime ? 'Create A New Anime' : 'Edit an Anime' }}
+      </h1>
+      <section class="flex h-[35rem] flex-initial flex-row gap-10">
+        <section class="flex flex-auto flex-col gap-5">
+          <section class="flex flex-initial flex-row gap-5">
+            <section class="flex flex-auto flex-col">
+              <label
+                for="name"
+                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                Name
+                <span
+                  class="ml-2 text-xs font-normal italic text-red-500 dark:text-red-300">
+                  required
+                </span>
+              </label>
+              <input
+                formControlName="name"
+                type="text"
+                id="name"
+                required
+                class="input"
+                tabindex="1" />
+            </section>
+            <app-num-input
+              inputLabel="Num. of Episodes"
+              required
+              inputId="numOfEpisodes"
+              [inputMin]="1"
+              (focusout)="enableScroll()"
+              (focusin)="disableScroll()"
+              inputTabIndex="2"
+              class="flex flex-initial flex-col"
+              formControlName="numOfEpisodes"></app-num-input>
+          </section>
+          <section class="flex flex-auto flex-col">
+            <label
+              for="story"
+              class="mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Story
+            </label>
+            <textarea
+              id="story"
+              resizable
+              formControlName="story"
+              name="story"
+              class="textarea"
+              tabindex="3"></textarea>
+          </section>
+          <section class="flex flex-initial flex-col">
+            <label
+              for="status"
+              class="mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Status
+              <span
+                class="ml-2 text-xs font-normal italic text-red-500 dark:text-red-300">
+                required
+              </span>
+            </label>
+            <fieldset id="status">
+              <div class="mb-4 flex items-center">
+                <input
+                  formControlName="status"
+                  id="option-complete"
+                  type="radio"
+                  name="status"
+                  value="complete"
+                  class="input"
+                  tabindex="5" />
+                <label
+                  for="option-complete"
+                  class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Complete
+                </label>
+              </div>
+              <div class="mb-4 flex items-center">
+                <input
+                  formControlName="status"
+                  id="option-in-complete"
+                  type="radio"
+                  name="status"
+                  tabindex="5"
+                  value="in_complete"
+                  class="input" />
+                <label
+                  for="option-in-complete"
+                  class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Incomplete
+                </label>
+              </div>
+            </fieldset>
+          </section>
+          <section class="flex flex-initial flex-col">
+            <label
+              for="type"
+              class="mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Type
+              <span
+                class="ml-2 text-xs font-normal italic text-red-500 dark:text-red-300">
+                required
+              </span>
+            </label>
+            <fieldset id="type">
+              <div class="mb-4 flex items-center">
+                <input
+                  formControlName="type"
+                  id="option-serie"
+                  type="radio"
+                  name="type"
+                  value="serie"
+                  class="input"
+                  tabindex="6" />
+                <label
+                  for="option-serie"
+                  class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Serie
+                </label>
+              </div>
+              <div class="mb-4 flex items-center">
+                <input
+                  formControlName="type"
+                  id="option-movie"
+                  type="radio"
+                  name="type"
+                  value="movie"
+                  tabindex="6"
+                  class="input" />
+                <label
+                  for="option-movie"
+                  class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Movie
+                </label>
+              </div>
+              <div class="mb-4 flex items-center">
+                <input
+                  formControlName="type"
+                  id="option-ova"
+                  type="radio"
+                  name="type"
+                  value="ova"
+                  class="input"
+                  tabindex="6" />
+                <label
+                  for="option-ova"
+                  class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
+                  OVA
+                </label>
+              </div>
+            </fieldset>
+          </section>
+        </section>
+        <label
+          for="dropzone-file"
+          tabindex="4"
+          (click)="selectAnimePicture()"
+          (keyup.enter)="selectAnimePicture()"
+          (drop)="selectAnimePicture($event)"
+          (dragover)="$event.preventDefault(); $event.stopPropagation()"
+          class="flex w-1/3 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 bg-cover hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-500 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-800 dark:focus-visible:outline dark:focus-visible:outline-1 dark:focus-visible:outline-teal-500"
+          [style]="
+            isThumbnailNOTDefault
+              ? utilService.convertPathToBackgroundStyle(
+                  _animeForm.get('thumbnail').value
+                )
+              : undefined
+          "
+          [ngClass]="{
+            '!border-0': isThumbnailNOTDefault,
+            '!shadow-inner': isThumbnailNOTDefault
+          }">
+          <div
+            *ngIf="!isThumbnailNOTDefault"
+            class="flex flex-col items-center justify-center pb-6 pt-5">
+            <ng-icon
+              class="mb-3 text-2xl text-gray-400"
+              name="lucideUpload"></ng-icon>
+            <p class="mb-2 text-base text-gray-500 dark:text-gray-400">
+              Anime Picture
+            </p>
+            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+              <span class="font-semibold">Click to upload</span> or drag and
+              drop
+            </p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              BMP, PNG, JPG or GIF
+            </p>
+          </div>
+        </label>
+      </section>
+    </section>
+    <section class="flex flex-col gap-2">
+      <h1
+        class="mb-2 text-3xl font-bold leading-none tracking-normal text-gray-900 dark:text-white">
+        Anime Episodes
+        <span
+          class="mt-2 block text-xs text-gray-500 dark:text-gray-300"
+          id="file_input_help">
+          MP4, MKV, FLV or MWV.
+        </span>
+      </h1>
+      <fieldset class="mb-6 flex flex-initial flex-row items-center gap-5">
+        <div class="flex items-center">
+          <input
+            id="select-from-file"
+            type="radio"
+            value="file"
+            class="input"
+            formControlName="addFromFileOrFolder"
+            tabindex="7" />
+          <label
+            for="select-from-file"
+            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            File By File
+          </label>
+        </div>
+        <div class="flex items-center">
+          <input
+            id="select-from-folder"
+            type="radio"
+            value="folder"
+            formControlName="addFromFileOrFolder"
+            class="input"
+            tabindex="7" />
+          <label
+            for="select-from-folder"
+            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            From Folder
+          </label>
+        </div>
+      </fieldset>
+      <ng-container formArrayName="episodes">
+        <section
+          *ngIf="_animeForm.get('addFromFileOrFolder').value === 'file'"
+          class="flex flex-1 flex-row flex-wrap gap-5">
+          <app-filepath-input
+            class="min-w-[40%] flex-auto"
+            *ngFor="let num of getEpisodesLength(); let i = index"
+            [formControlName]="i"
+            (ngModelChange)="updateEpisodesArray($event)"
+            [extensions]="['mp4', 'mkv', 'flv', 'mwv']"
+            [inputLabel]="'Episode ' + (i + 1)"
+            [inputId]="'file_input_' + i"
+            [inputTabIndex]="8 + i"></app-filepath-input>
+        </section>
+        <section
+          *ngIf="_animeForm.get('addFromFileOrFolder').value === 'folder'"
+          class="flex flex-1 flex-col gap-5">
+          <app-folder-input
+            label="Episodes Folder"
+            (click)="selectEpisodesFromFolder()"
+            tabindex="8"></app-folder-input>
+        </section>
+      </ng-container>
+    </section>
+    <section class="flex flex-row items-start gap-5">
+      <button class="btn btn-outline-danger" type="button" routerLink="..">
+        Cancel
+      </button>
+      <button class="btn btn-secondary" type="submit" (click)="submit()">
+        {{ !prevAnime ? 'Add' : 'Edit' }}
+      </button>
+    </section>
+  </form>
+</article>

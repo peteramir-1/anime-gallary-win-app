@@ -1,0 +1,35 @@
+mutation CreateAnime($createAnimeInput: CreateAnimeInput) {
+  createAnime(animeInput: $createAnimeInput) {
+    id
+    name
+    description
+    numOfEpisodes
+    status
+    thumbnail
+    type
+    episodes
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpdateAnime($updateAnimeInput: UpdateAnimeInput) {
+  updateAnime(animeInput: $updateAnimeInput) {
+    id
+    name
+    description
+    numOfEpisodes
+    status
+    thumbnail
+    type
+    episodes
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DeleteAnime($id: ID!) {
+  deleteAnime(id: $id) {
+    affectedRows
+  }
+}

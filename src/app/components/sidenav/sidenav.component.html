@@ -1,0 +1,36 @@
+<!-- Menu Button -->
+<ng-container *ngFor="let item of sidenav" tabindex="-1">
+  <button
+    class="btn btn-secondary w-full flex-initial gap-2"
+    [routerLink]="item.link"
+    routerLinkActive="!bg-teal-900 shadow-lg"
+    [routerLinkActiveOptions]="{ exact: item.link === '/' ? true : false }">
+    <ng-icon [name]="item.icon"></ng-icon>
+    <span class="text-bold inline align-middle">
+      {{ item.title | titlecase }}
+    </span>
+  </button>
+</ng-container>
+
+<!-- Dark/Light Mode Buttons -->
+<button
+  class="btn mt-auto flex-initial gap-2 self-end bg-gray-600 align-bottom text-gray-50"
+  (click)="toggleTheme()"
+  tabindex="-1">
+  <span
+    class="flex animate-rotate-y items-center gap-2 animate-duration-500 animate-once"
+    #lightModeBtn>
+    <ng-icon name="heroMoon"></ng-icon>
+    <span class="text-bold inline align-middle">
+      {{ 'Dark Mode' | titlecase }}
+    </span>
+  </span>
+  <span
+    class="flex animate-rotate-y items-center gap-2 animate-duration-500 animate-once"
+    #darkModeBtn>
+    <ng-icon name="heroSun"></ng-icon>
+    <span class="text-bold inline align-middle">
+      {{ 'Light Mode' | titlecase }}
+    </span>
+  </span>
+</button>
