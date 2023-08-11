@@ -150,18 +150,14 @@ export class AddAnimeComponent implements OnInit {
   selectEpisodesFromFolder() {
     this.electronService.selectFilesFromFolder().then(res => {
       if (!!res?.data) {
-        const files = res.data;
-        if (files.length === 0) {
+        if (res.data.length === 0) {
           this.resetEpisodes();
         } else {
-          const filteredFiles = this.filterFilesByExtensions(files, [
-            'mp4',
-            'mkv',
-            'flv',
-            'mwv',
-          ]);
-          this._animeForm.get('numOfEpisodes').setValue(filteredFiles.length);
-          this.saveFilesToAnimeForm(filteredFiles);
+          const files = this.sortFilesByEpisodeNumber(
+            this.filterFilesByExtensions(res.data, ['mp4', 'mkv', 'flv', 'mwv'])
+          );
+          this._animeForm.get('numOfEpisodes').setValue(files.length);
+          this.saveFilesToAnimeForm(files);
           this._animeForm.get('addFromFileOrFolder').setValue('file');
         }
       }
@@ -176,9 +172,12 @@ export class AddAnimeComponent implements OnInit {
     files: string[],
     extensions: string[]
   ): string[] {
-    return files
-      .filter(file => extensions.some(extension => file.endsWith(extension)))
-      .sort((a, b) => +a.match(/\d+/)[0] - +b.match(/\d+/)[0]);
+    return files.filter(file =>
+      extensions.some(extension => file.endsWith(extension))
+    );
+  }
+  private sortFilesByEpisodeNumber(files: string[]): string[] {
+    return files.sort((a, b) => +a.match(/\d+/)[0] - +b.match(/\d+/)[0]);
   }
   private saveFilesToAnimeForm(files: string[]) {
     for (const [index, control] of this._episodes.controls.entries()) {

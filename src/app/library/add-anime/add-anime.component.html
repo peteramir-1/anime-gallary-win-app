@@ -61,6 +61,7 @@
               [inputMin]="1"
               (focusout)="enableScroll()"
               (focusin)="disableScroll()"
+              (ngModelChange)="updateEpisodesArray($event)"
               inputTabIndex="2"
               class="flex flex-initial flex-col"
               formControlName="numOfEpisodes"></app-num-input>
@@ -268,7 +269,6 @@
             class="min-w-[40%] flex-auto"
             *ngFor="let num of getEpisodesLength(); let i = index"
             [formControlName]="i"
-            (ngModelChange)="updateEpisodesArray($event)"
             [extensions]="['mp4', 'mkv', 'flv', 'mwv']"
             [inputLabel]="'Episode ' + (i + 1)"
             [inputId]="'file_input_' + i"
