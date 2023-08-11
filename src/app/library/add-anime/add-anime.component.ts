@@ -56,6 +56,11 @@ export class AddAnimeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this._animeForm
+      .get('numOfEpisodes')
+      .valueChanges.subscribe(numOfEpisodes =>
+        this.updateEpisodesArray(numOfEpisodes)
+      );
     if (!!this.prevAnime) {
       this.updateAnimeFormValue(this.prevAnime);
     }
