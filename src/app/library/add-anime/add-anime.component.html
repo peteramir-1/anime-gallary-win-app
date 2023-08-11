@@ -190,18 +190,18 @@
           (dragover)="$event.preventDefault(); $event.stopPropagation()"
           class="flex w-1/3 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 bg-cover hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-500 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-800 dark:focus-visible:outline dark:focus-visible:outline-1 dark:focus-visible:outline-teal-500"
           [style]="
-            isThumbnailNOTDefault
-              ? utilService.convertPathToBackgroundStyle(
+            thumbnailDefault
+              ? undefined
+              : utilService.convertPathToBackgroundStyle(
                   _animeForm.get('thumbnail').value
                 )
-              : undefined
           "
           [ngClass]="{
-            '!border-0': isThumbnailNOTDefault,
-            '!shadow-inner': isThumbnailNOTDefault
+            '!border-0': !thumbnailDefault,
+            '!shadow-inner': !thumbnailDefault
           }">
           <div
-            *ngIf="!isThumbnailNOTDefault"
+            *ngIf="thumbnailDefault"
             class="flex flex-col items-center justify-center pb-6 pt-5">
             <ng-icon
               class="mb-3 text-2xl text-gray-400"

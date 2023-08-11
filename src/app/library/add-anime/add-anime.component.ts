@@ -39,8 +39,7 @@ export class AddAnimeComponent implements OnInit {
     ),
     addFromFileOrFolder: this.fb.control('file'),
   });
-  isThumbnailNOTDefault =
-    this._animeForm.get('thumbnail').value !== 'assets/pictures/no-image.webp';
+  thumbnailDefault = true;
   private _episodes = this._animeForm.get('episodes') as FormArray;
   enableScroll: () => void;
 
@@ -124,9 +123,9 @@ export class AddAnimeComponent implements OnInit {
       .selectFile(['bmp', 'png', 'jpg', 'gif', 'jpeg'])
       .then(path => {
         if (!!path) {
-          this._animeForm
-            .get('thumbnail')
-            .setValue(this.utilService.convertPathToValidPath(path));
+          const validPath = this.utilService.convertPathToValidPath(path);
+          this._animeForm.get('thumbnail').setValue(validPath);
+          this.thumbnailDefault = false;
         }
       });
   }
@@ -144,6 +143,7 @@ export class AddAnimeComponent implements OnInit {
     if (imageAllowedTypes.includes(file.type)) {
       const validPath = this.utilService.convertPathToValidPath(file.path);
       this._animeForm.get('thumbnail').setValue(validPath);
+      this.thumbnailDefault = false;
     }
   }
 
