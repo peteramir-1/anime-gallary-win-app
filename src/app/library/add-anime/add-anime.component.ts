@@ -64,6 +64,10 @@ export class AddAnimeComponent implements OnInit {
     this._animeForm.get('name').setValue(prevAnime.name);
     this._animeForm.get('story').setValue(prevAnime.description);
     this._animeForm.get('thumbnail').setValue(prevAnime.thumbnail);
+    if (
+      this._animeForm.get('thumbnail').value !== 'assets/pictures/no-image.webp'
+    )
+      this.thumbnailDefault = false;
     this._animeForm.get('numOfEpisodes').setValue(prevAnime.numOfEpisodes);
     this._animeForm.get('type').setValue(prevAnime.type);
     this._animeForm.get('status').setValue(prevAnime.status);
