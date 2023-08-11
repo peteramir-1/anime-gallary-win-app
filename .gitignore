@@ -98,3 +98,8 @@ views/
 
 # vscode
 .vscode/
+
+# Database files
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
