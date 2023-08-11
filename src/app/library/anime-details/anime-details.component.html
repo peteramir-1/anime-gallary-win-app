@@ -53,16 +53,6 @@
         <section class="flex flex-initial flex-col gap-2">
           <h4
             class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
-            Episodes
-          </h4>
-          <p
-            class="text-sm font-normal leading-none text-neutral-900 dark:text-white">
-            {{ anime?.numOfEpisodes }}
-          </p>
-        </section>
-        <section class="flex flex-initial flex-col gap-2">
-          <h4
-            class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
             Type
           </h4>
           <p
@@ -70,7 +60,21 @@
             {{ anime?.type | titlecase }}
           </p>
         </section>
-        <section class="flex flex-initial flex-col gap-2">
+        <section
+          class="flex flex-initial flex-col gap-2"
+          *ngIf="anime?.type !== 'movie'">
+          <h4
+            class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
+            Episodes
+          </h4>
+          <p
+            class="text-sm font-normal leading-none text-neutral-900 dark:text-white">
+            {{ anime?.numOfEpisodes }}
+          </p>
+        </section>
+        <section
+          class="flex flex-initial flex-col gap-2"
+          *ngIf="anime?.type !== 'movie'">
           <h4
             class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
             State
