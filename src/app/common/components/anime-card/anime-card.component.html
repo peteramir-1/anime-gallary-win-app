@@ -1,9 +1,13 @@
 <a
-  class="group relative mx-auto block h-[350px] w-[70%] overflow-hidden rounded-lg bg-cover bg-top bg-origin-padding shadow-inner md:mx-auto md:w-auto"
+  class="group relative mx-auto block h-[350px] overflow-hidden rounded-lg bg-cover bg-top bg-origin-padding shadow-inner md:mx-auto md:w-auto"
   [routerLink]="['/library', 'details', anime.id]">
   <div
     class="relative left-0 top-0 z-0 h-full w-full after:absolute after:bottom-0 after:block after:h-full after:w-full after:shadow-inner-md">
     <img class="h-full w-full object-cover" [src]="anime.thumbnail" />
+  </div>
+  <div
+    class="absolute left-4 top-4 z-10 rounded-md bg-teal-600 px-6 py-3 text-center text-xs font-bold text-white shadow-lg">
+    {{ anime.type | titlecase }}
   </div>
   <div
     class="absolute bottom-0 z-10 flex h-auto w-full flex-col justify-around rounded-sm bg-teal-800/95 p-4 text-center text-white opacity-0 shadow-lg transition-[opacity] duration-500 group-hover:opacity-100">
