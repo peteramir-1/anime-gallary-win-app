@@ -86,7 +86,7 @@ export class AddAnimeComponent implements OnInit {
       }
     } else {
       const length = this._episodes.length;
-      for (let i = 0; i < numOfEpisode - length - 1; i++) {
+      for (let i = 0; i < numOfEpisode - length; i++) {
         this._episodes.push(this.fb.control(''));
       }
     }
