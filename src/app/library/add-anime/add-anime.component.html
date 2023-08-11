@@ -81,49 +81,6 @@
           </section>
           <section class="flex flex-initial flex-col">
             <label
-              for="status"
-              class="mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Status
-              <span
-                class="ml-2 text-xs font-normal italic text-red-500 dark:text-red-300">
-                required
-              </span>
-            </label>
-            <fieldset id="status">
-              <div class="mb-4 flex items-center">
-                <input
-                  formControlName="status"
-                  id="option-complete"
-                  type="radio"
-                  name="status"
-                  value="complete"
-                  class="input"
-                  tabindex="5" />
-                <label
-                  for="option-complete"
-                  class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
-                  Complete
-                </label>
-              </div>
-              <div class="mb-4 flex items-center">
-                <input
-                  formControlName="status"
-                  id="option-in-complete"
-                  type="radio"
-                  name="status"
-                  tabindex="5"
-                  value="in_complete"
-                  class="input" />
-                <label
-                  for="option-in-complete"
-                  class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
-                  Incomplete
-                </label>
-              </div>
-            </fieldset>
-          </section>
-          <section class="flex flex-initial flex-col">
-            <label
               for="type"
               class="mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Type
@@ -176,6 +133,49 @@
                   for="option-ova"
                   class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
                   OVA
+                </label>
+              </div>
+            </fieldset>
+          </section>
+          <section class="flex flex-initial flex-col">
+            <label
+              for="status"
+              class="mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Status
+              <span
+                class="ml-2 text-xs font-normal italic text-red-500 dark:text-red-300">
+                required
+              </span>
+            </label>
+            <fieldset id="status">
+              <div class="mb-4 flex items-center">
+                <input
+                  formControlName="status"
+                  id="option-complete"
+                  type="radio"
+                  name="status"
+                  value="complete"
+                  class="input"
+                  tabindex="5" />
+                <label
+                  for="option-complete"
+                  class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Complete
+                </label>
+              </div>
+              <div class="mb-4 flex items-center">
+                <input
+                  formControlName="status"
+                  id="option-in-complete"
+                  type="radio"
+                  name="status"
+                  tabindex="5"
+                  value="in_complete"
+                  class="input" />
+                <label
+                  for="option-in-complete"
+                  class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Incomplete
                 </label>
               </div>
             </fieldset>
