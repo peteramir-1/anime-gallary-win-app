@@ -111,9 +111,23 @@
   <section class="flex flex-initial flex-col gap-5">
     <h1
       class="my-4 text-3xl font-extrabold leading-none tracking-normal text-gray-900 dark:text-white">
-      Episodes
+      Watch
     </h1>
-    <section class="flex flex-row flex-wrap gap-5">
+    <section
+      class="flex flex-row flex-wrap gap-5"
+      *ngIf="anime?.type === 'movie'">
+      <div
+        class="flex-initial basis-1/6 cursor-pointer overflow-hidden rounded-lg bg-neutral-100 p-4 font-semibold shadow-md transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:bg-neutral-700 dark:text-white dark:hover:bg-neutral-600"
+        *ngFor="let episode of anime?.episodes; let i = index"
+        [ngClass]="{
+          'ring-1 ring-red-500': episode === ''
+        }">
+        Movie
+      </div>
+    </section>
+    <section
+      class="flex flex-row flex-wrap gap-5"
+      *ngIf="anime?.type !== 'movie'">
       <div
         class="flex-initial basis-1/6 cursor-pointer overflow-hidden rounded-lg bg-neutral-100 p-4 font-semibold shadow-md transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:bg-neutral-700 dark:text-white dark:hover:bg-neutral-600"
         *ngFor="let episode of anime?.episodes; let i = index"
