@@ -284,7 +284,14 @@
       </ng-container>
     </section>
     <section class="flex flex-row items-start gap-5">
-      <button class="btn btn-outline-danger" type="button" routerLink="..">
+      <button
+        class="btn btn-outline-danger"
+        type="button"
+        [routerLink]="
+          _animeForm.get('uuid').value === null
+            ? ['..']
+            : ['/library', 'details', _animeForm.get('uuid').value]
+        ">
         Cancel
       </button>
       <button class="btn btn-secondary" type="submit" (click)="submit()">

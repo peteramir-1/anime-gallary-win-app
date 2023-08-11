@@ -21,6 +21,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AddAnimeComponent implements OnInit {
   prevAnime = this.activeRoute.snapshot.data.anime;
   _animeForm = this.fb.group({
+    uuid: this.fb.control<string | null>(null),
     name: this.fb.control<string>('', Validators.required),
     story: this.fb.control<string | null>(null),
     thumbnail: this.fb.control<string>('assets/pictures/no-image.webp'),
@@ -66,6 +67,7 @@ export class AddAnimeComponent implements OnInit {
     }
   }
   private updateAnimeFormValue(prevAnime: any) {
+    this._animeForm.get('uuid').setValue(prevAnime.id);
     this._animeForm.get('name').setValue(prevAnime.name);
     this._animeForm.get('story').setValue(prevAnime.description);
     this._animeForm.get('thumbnail').setValue(prevAnime.thumbnail);
