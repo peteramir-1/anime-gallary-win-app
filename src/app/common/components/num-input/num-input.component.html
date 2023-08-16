@@ -17,7 +17,7 @@
     class="inline border-r border-r-gray-300 bg-gray-50 px-4 py-2 text-xs transition-[background-color] duration-300 ease-linear hover:bg-gray-200 dark:border-r-gray-500 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-800"
     type="button"
     [disabled]="isDisabled"
-    [ngClass]="{ '!bg-slate-100': isDisabled }"
+    [ngClass]="{ '!bg-slate-100 dark:!bg-gray-500': isDisabled }"
     (click)="decreaseCounter()"
     tabindex="-1">
     -
@@ -33,14 +33,14 @@
     (ngModelChange)="changeValueTo($event, innerInputModel.valid, innerInput)"
     [ngModelOptions]="{ standalone: true, updateOn: 'blur' }"
     tabindex="-1"
-    [ngClass]="{ '!bg-slate-200': isDisabled }"
+    [ngClass]="{ '!bg-slate-200 dark:!bg-gray-600': isDisabled }"
     [disabled]="isDisabled"
     #innerInputModel="ngModel"
     #innerInput />
   <button
     class="inline border-l border-l-gray-300 bg-gray-50 px-4 py-2 text-xs transition-[background-color] duration-300 ease-linear hover:bg-gray-200 dark:border-l-gray-500 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-800"
     type="button"
-    [ngClass]="{ '!bg-slate-100': isDisabled }"
+    [ngClass]="{ '!bg-slate-100 dark:!bg-gray-500': isDisabled }"
     [disabled]="isDisabled"
     (click)="increaseCounter()"
     tabindex="-1">
