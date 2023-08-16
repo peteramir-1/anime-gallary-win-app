@@ -46,29 +46,34 @@ export class NumInputComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
+  setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
   }
 
   changeValueTo(number: number, valid: boolean, innerInput: any) {
-    if (valid) {
-      this.onChange(number);
-      this.onTouched();
-    } else {
-      innerInput.value = this._value;
+    if (!this.isDisabled) {
+      if (valid) {
+        this.onChange(number);
+        this.onTouched();
+      } else {
+        innerInput.value = this._value;
+      }
     }
-    console.log(this._value, valid);
   }
 
   decreaseCounter(): void {
-    this._value = this._value - 1;
-    this.onChange(this._value);
-    this.onTouched();
+    if (!this.isDisabled) {
+      this._value = this._value - 1;
+      this.onChange(this._value);
+      this.onTouched();
+    }
   }
 
   increaseCounter(): void {
-    this._value = this._value + 1;
-    this.onChange(this._value);
-    this.onTouched();
+    if (!this.isDisabled) {
+      this._value = this._value + 1;
+      this.onChange(this._value);
+      this.onTouched();
+    }
   }
 }
