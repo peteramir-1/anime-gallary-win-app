@@ -78,6 +78,17 @@ export class AddAnimeComponent implements OnInit {
     this._animeForm.controls.numOfEpisodes.valueChanges.subscribe(
       numOfEpisodes => this.updateEpisodesArray(numOfEpisodes)
     );
+    this._animeForm.controls.type.valueChanges.subscribe(type => {
+      if (type === 'movie') {
+        this._animeForm.controls.status.setValue(Status.Complete);
+        this._animeForm.controls.numOfEpisodes.setValue(1);
+        this._animeForm.controls.numOfEpisodes.disable();
+        this._animeForm.controls.numOfEpisodes.updateValueAndValidity();
+      } else {
+        this._animeForm.controls.numOfEpisodes.enable();
+        this._animeForm.controls.numOfEpisodes.updateValueAndValidity();
+      }
+    });
     if (!!this.anime) {
       this.updateAnimeFormValue(this.anime);
     }
@@ -112,7 +123,7 @@ export class AddAnimeComponent implements OnInit {
   private changeEpisodesArrayToMatch(numOfEpisode: number) {
     if (numOfEpisode < this._episodes.length) {
       const length = this._episodes.length;
-      for (let i = 0; i <= length - numOfEpisode; i++) {
+      for (let i = 0; i < length - numOfEpisode; i++) {
         this._episodes.removeAt(this._episodes.length - 1);
       }
     } else {
