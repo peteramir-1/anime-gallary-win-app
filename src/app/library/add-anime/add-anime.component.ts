@@ -1,5 +1,10 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   GetAllAnimesDocument,
@@ -19,7 +24,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./add-anime.component.scss'],
 })
 export class AddAnimeComponent implements OnInit {
-  prevAnime = this.activeRoute.snapshot.data.anime;
+  anime = this.activeRoute.snapshot.data.anime;
   _animeForm = this.fb.group({
     uuid: this.fb.control<string | null>(null),
     name: this.fb.control<string>('', Validators.required),
@@ -29,7 +34,7 @@ export class AddAnimeComponent implements OnInit {
       Validators.required,
       Validators.min(1),
     ]),
-    episodes: this.fb.array([this.fb.control('')]),
+    episodes: this.fb.array<FormControl<string>>([this.fb.control<string>('')]),
     status: this.fb.control<Status.Complete | Status.InComplete>(
       Status.Complete,
       Validators.required
@@ -38,9 +43,22 @@ export class AddAnimeComponent implements OnInit {
       Type.Serie,
       Validators.required
     ),
-    addFromFileOrFolder: this.fb.control('file'),
+    addFromFileOrFolder: this.fb.control<'file' | 'folder'>('file'),
   });
-  thumbnailDefault = true;
+  isThumbnailDefault = true;
+  private readonly allowedPictureTypes = [
+    'image/jpeg',
+    'image/jpg',
+    'image/png',
+    'image/gif',
+    'image/x-png',
+    'bmp',
+    'png',
+    'jpg',
+    'gif',
+    'jpeg',
+  ];
+  private readonly allowedVideoTypes = ['mp4', 'mkv', 'flv', 'mwv'];
   private _episodes = this._animeForm.get('episodes') as FormArray;
   enableScroll: () => void;
 
@@ -57,37 +75,39 @@ export class AddAnimeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this._animeForm
-      .get('numOfEpisodes')
-      .valueChanges.subscribe(numOfEpisodes =>
-        this.updateEpisodesArray(numOfEpisodes)
-      );
-    if (!!this.prevAnime) {
-      this.updateAnimeFormValue(this.prevAnime);
+    this._animeForm.controls.numOfEpisodes.valueChanges.subscribe(
+      numOfEpisodes => this.updateEpisodesArray(numOfEpisodes)
+    );
+    if (!!this.anime) {
+      this.updateAnimeFormValue(this.anime);
     }
   }
-  private updateAnimeFormValue(prevAnime: any) {
-    this._animeForm.get('uuid').setValue(prevAnime.id);
-    this._animeForm.get('name').setValue(prevAnime.name);
-    this._animeForm.get('story').setValue(prevAnime.description);
-    this._animeForm.get('thumbnail').setValue(prevAnime.thumbnail);
-    if (
-      this._animeForm.get('thumbnail').value !== 'assets/pictures/no-image.webp'
-    )
-      this.thumbnailDefault = false;
-    this._animeForm.get('numOfEpisodes').setValue(prevAnime.numOfEpisodes);
-    this._animeForm.get('type').setValue(prevAnime.type);
-    this._animeForm.get('status').setValue(prevAnime.status);
+  private updateAnimeFormValue(anime: any) {
+    this._animeForm.controls.uuid.setValue(anime.id);
+    this._animeForm.controls.name.setValue(anime.name);
+    this._animeForm.controls.story.setValue(anime.description);
+    this._animeForm.controls.thumbnail.setValue(anime.thumbnail);
+    this._animeForm.controls.numOfEpisodes.setValue(anime.numOfEpisodes);
+    this._animeForm.controls.type.setValue(anime.type);
+    this._animeForm.controls.status.setValue(anime.status);
     for (const [index, control] of this._episodes.controls.entries()) {
-      control.setValue(prevAnime.episodes[index]);
+      control.setValue(anime.episodes[index]);
     }
+    this.setIsThumbnailDefault();
+  }
+  private setIsThumbnailDefault() {
+    const isThumbnailDelfault =
+      this._animeForm.controls.thumbnail.value ===
+      'assets/pictures/no-image.webp';
+    if (isThumbnailDelfault) this.isThumbnailDefault = true;
   }
 
   updateEpisodesArray(currentNum: number) {
+    const currentNumOfEpisodes = this._animeForm.controls.numOfEpisodes.value;
     if (currentNum < 1) {
-      this._animeForm.get('numOfEpisodes').setValue(1);
+      this._animeForm.controls.numOfEpisodes.setValue(1);
     }
-    this.changeEpisodesArrayToMatch(this._animeForm.get('numOfEpisodes').value);
+    this.changeEpisodesArrayToMatch(currentNumOfEpisodes);
   }
   private changeEpisodesArrayToMatch(numOfEpisode: number) {
     if (numOfEpisode < this._episodes.length) {
@@ -124,37 +144,29 @@ export class AddAnimeComponent implements OnInit {
 
   selectAnimePicture(dropEvent?: any) {
     if (dropEvent === undefined) {
-      this.selectFromDialog();
+      this.selectPictureFromDialog();
     } else {
-      this.selectFromDragDrop(dropEvent);
+      this.selectPictureFromDragAndDrop(dropEvent);
     }
   }
-  private selectFromDialog() {
+  private selectPictureFromDialog() {
     this.electronService
-      .selectFile(['bmp', 'png', 'jpg', 'gif', 'jpeg'])
-      .then(path => {
-        if (!!path) {
-          const validPath = this.utilService.convertPathToValidPath(path);
-          this._animeForm.get('thumbnail').setValue(validPath);
-          this.thumbnailDefault = false;
-        }
-      });
+      .selectFile(this.allowedPictureTypes)
+      .then(path => this.savePicture(path));
   }
-  private selectFromDragDrop(dropEvent: any) {
+  private selectPictureFromDragAndDrop(dropEvent: any) {
     dropEvent.preventDefault();
     dropEvent.stopPropagation();
-    const imageAllowedTypes = [
-      'image/jpeg',
-      'image/jpg',
-      'image/png',
-      'image/gif',
-      'image/x-png',
-    ];
     const file = dropEvent.dataTransfer.files[0];
-    if (imageAllowedTypes.includes(file.type)) {
-      const validPath = this.utilService.convertPathToValidPath(file.path);
-      this._animeForm.get('thumbnail').setValue(validPath);
-      this.thumbnailDefault = false;
+    if (this.allowedPictureTypes.includes(file.type)) {
+      this.savePicture(file.path);
+    }
+  }
+  private savePicture(path?: string | false): void {
+    if (path) {
+      const validPath = this.utilService.convertPathToValidPath(path);
+      this._animeForm.controls.thumbnail.setValue(validPath);
+      this.isThumbnailDefault = false;
     }
   }
 
@@ -164,12 +176,12 @@ export class AddAnimeComponent implements OnInit {
         if (res.data.length === 0) {
           this.resetEpisodes();
         } else {
-          const files = this.sortFilesByEpisodeNumber(
-            this.filterFilesByExtensions(res.data, ['mp4', 'mkv', 'flv', 'mwv'])
+          const files = this.sortEpisodesByNumber(
+            this.filterEpisodesByExtensions(res.data, this.allowedVideoTypes)
           );
-          this._animeForm.get('numOfEpisodes').setValue(files.length);
-          this.saveFilesToAnimeForm(files);
-          this._animeForm.get('addFromFileOrFolder').setValue('file');
+          this._animeForm.controls.numOfEpisodes.setValue(files.length);
+          this.saveEpisodesToAnimeForm(files);
+          this._animeForm.controls.addFromFileOrFolder.setValue('file');
         }
       }
     });
@@ -179,18 +191,18 @@ export class AddAnimeComponent implements OnInit {
     this._episodes.clear();
     this._episodes.push(this.fb.control(''));
   }
-  private filterFilesByExtensions(
-    files: string[],
+  private filterEpisodesByExtensions(
+    episodes: string[],
     extensions: string[]
   ): string[] {
-    return files.filter(file =>
+    return episodes.filter(file =>
       extensions.some(extension => file.endsWith(extension))
     );
   }
-  private sortFilesByEpisodeNumber(files: string[]): string[] {
+  private sortEpisodesByNumber(files: string[]): string[] {
     return files.sort((a, b) => +a.match(/\d+/)[0] - +b.match(/\d+/)[0]);
   }
-  private saveFilesToAnimeForm(files: string[]) {
+  private saveEpisodesToAnimeForm(files: string[]) {
     for (const [index, control] of this._episodes.controls.entries()) {
       control.setValue(files[index]);
     }
@@ -199,14 +211,14 @@ export class AddAnimeComponent implements OnInit {
   submit() {
     if (this._animeForm.valid) {
       if (this._animeForm.dirty) {
-        if (!!this.prevAnime) {
-          this.editAnime(this.prevAnime.id);
+        if (!!this.anime) {
+          this.editAnime(this.anime.id);
         } else {
           this.createAnime();
         }
       } else {
-        if (!!this.prevAnime) {
-          this.router.navigate(['/library', 'details', this.prevAnime.id]);
+        if (!!this.anime) {
+          this.router.navigate(['/library', 'details', this.anime.id]);
         }
       }
     }
@@ -217,13 +229,13 @@ export class AddAnimeComponent implements OnInit {
       .mutate(
         {
           createAnimeInput: {
-            name: this._animeForm.get('name').value,
-            type: this._animeForm.get('type').value,
-            status: this._animeForm.get('status').value,
-            numOfEpisodes: this._animeForm.get('numOfEpisodes').value,
-            thumbnail: this._animeForm.get('thumbnail').value,
-            description: this._animeForm.get('story').value,
-            episodes: this._animeForm.get('episodes').value,
+            name: this._animeForm.controls.name.value,
+            type: this._animeForm.controls.type.value,
+            status: this._animeForm.controls.status.value,
+            numOfEpisodes: this._animeForm.controls.numOfEpisodes.value,
+            thumbnail: this._animeForm.controls.thumbnail.value,
+            description: this._animeForm.controls.story.value,
+            episodes: this._animeForm.controls.episodes.value,
           },
         },
         {
@@ -245,13 +257,13 @@ export class AddAnimeComponent implements OnInit {
         {
           updateAnimeInput: {
             id,
-            name: this._animeForm.get('name').value,
-            type: this._animeForm.get('type').value,
-            status: this._animeForm.get('status').value,
-            numOfEpisodes: this._animeForm.get('numOfEpisodes').value,
-            thumbnail: this._animeForm.get('thumbnail').value,
-            description: this._animeForm.get('story').value,
-            episodes: this._animeForm.get('episodes').value,
+            name: this._animeForm.controls.name.value,
+            type: this._animeForm.controls.type.value,
+            status: this._animeForm.controls.status.value,
+            numOfEpisodes: this._animeForm.controls.numOfEpisodes.value,
+            thumbnail: this._animeForm.controls.thumbnail.value,
+            description: this._animeForm.controls.story.value,
+            episodes: this._animeForm.controls.episodes.value,
           },
         },
         {
