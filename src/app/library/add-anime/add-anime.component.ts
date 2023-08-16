@@ -107,10 +107,9 @@ export class AddAnimeComponent implements OnInit {
     this.setIsThumbnailDefault();
   }
   private setIsThumbnailDefault() {
-    const isThumbnailDelfault =
+    this.isThumbnailDefault =
       this._animeForm.controls.thumbnail.value ===
       'assets/pictures/no-image.webp';
-    if (isThumbnailDelfault) this.isThumbnailDefault = true;
   }
 
   updateEpisodesArray(currentNum: number) {
