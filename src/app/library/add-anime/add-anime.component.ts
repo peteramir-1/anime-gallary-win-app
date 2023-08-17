@@ -256,7 +256,7 @@ export class AddAnimeComponent implements OnInit {
         this.router
           .navigate(['/library', 'details', res.data.createAnime.id])
           .then(() => {
-            this.snackbar.open('created successfully');
+            this.snackbar.open('Created Successfully');
           });
       });
   }
@@ -284,7 +284,7 @@ export class AddAnimeComponent implements OnInit {
       )
       .subscribe(() => {
         this.router.navigate(['/library', 'details', id]).then(() => {
-          this.snackbar.open('updated successfully');
+          this.snackbar.open('Updated Successfully');
         });
       });
   }
