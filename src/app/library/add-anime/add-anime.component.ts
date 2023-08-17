@@ -108,6 +108,8 @@ export class AddAnimeComponent implements OnInit {
     this._animeForm.controls.numOfEpisodes.setValue(anime.numOfEpisodes);
     this._animeForm.controls.type.setValue(anime.type);
     this._animeForm.controls.status.setValue(anime.status);
+    this._animeForm.controls.released.setValue(anime.released);
+    this._animeForm.controls.season.setValue(anime.season);
     for (const [index, control] of this._episodes.controls.entries()) {
       control.setValue(anime.episodes[index]);
     }
@@ -281,6 +283,8 @@ export class AddAnimeComponent implements OnInit {
             status: this._animeForm.controls.status.value,
             numOfEpisodes: this._animeForm.controls.numOfEpisodes.value,
             thumbnail: this._animeForm.controls.thumbnail.value,
+            released: this._animeForm.controls.released.value,
+            season: this._animeForm.controls.season.value,
             description: this._animeForm.controls.story.value,
             episodes: this._animeForm.controls.episodes.value,
           },
