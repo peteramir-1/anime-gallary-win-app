@@ -10,6 +10,8 @@ exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 			numOfEpisodes INTEGER DEFAULT 1,
 			status TEXT NOT NULL,
 			type TEXT NOT NULL,
+			released VARCHAR(4),
+			season TEXT,
 			createdAt DATE NOT NULL,
 			updatedAt DATE
 		);
@@ -28,9 +30,11 @@ exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 			status,
 			type,
 			thumbnail,
+			released,
+			season,
 			createdAt
-		)
-		VALUES(
+			)
+			VALUES(
 			@id,
 			@name,
 			@description,
@@ -38,6 +42,8 @@ exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 			@status,
 			@type,
 			@thumbnail,
+			@released,
+			@season,
 			@createdAt
 		);
 	`, exports.INSERT_ANIME_EPISODES = `
@@ -54,7 +60,9 @@ exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 				status = @status,
 				type = @type,
 				thumbnail = @thumbnail,
-				updatedAt = @updatedAt
+				updatedAt = @updatedAt,
+				released = @released,
+				season = @season
 		WHERE id = @id;
 	`, exports.DELETE_ANIME_BY_ID = `
 		DELETE FROM ANIMES

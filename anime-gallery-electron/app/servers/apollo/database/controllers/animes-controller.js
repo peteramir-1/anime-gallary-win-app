@@ -54,6 +54,8 @@ class AnimesController {
                 : animeInput.numOfEpisodes,
             status: animeInput.status || 'complete',
             type: animeInput.type || 'serie',
+            season: animeInput.season || null,
+            released: animeInput.released || null,
             thumbnail: animeInput.thumbnail || null,
             createdAt: createdAt,
         });
@@ -70,6 +72,8 @@ class AnimesController {
             status: animeInput.status || prev.status,
             type: animeInput.type || prev.type,
             thumbnail: animeInput.thumbnail || prev.thumbnail,
+            released: animeInput.released || prev.released,
+            season: animeInput.season || prev.season,
             updatedAt,
             id: animeInput.id,
         });

@@ -7,6 +7,8 @@ export const CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 			numOfEpisodes INTEGER DEFAULT 1,
 			status TEXT NOT NULL,
 			type TEXT NOT NULL,
+			released VARCHAR(4),
+			season TEXT,
 			createdAt DATE NOT NULL,
 			updatedAt DATE
 		);
@@ -30,9 +32,11 @@ export const CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 			status,
 			type,
 			thumbnail,
+			released,
+			season,
 			createdAt
-		)
-		VALUES(
+			)
+			VALUES(
 			@id,
 			@name,
 			@description,
@@ -40,6 +44,8 @@ export const CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 			@status,
 			@type,
 			@thumbnail,
+			@released,
+			@season,
 			@createdAt
 		);
 	`,
@@ -58,7 +64,9 @@ export const CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 				status = @status,
 				type = @type,
 				thumbnail = @thumbnail,
-				updatedAt = @updatedAt
+				updatedAt = @updatedAt,
+				released = @released,
+				season = @season
 		WHERE id = @id;
 	`,
   DELETE_ANIME_BY_ID = `

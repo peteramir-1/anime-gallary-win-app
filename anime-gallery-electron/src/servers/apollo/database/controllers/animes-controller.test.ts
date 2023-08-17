@@ -79,6 +79,8 @@ describe('Anime Database Controller', () => {
         numOfEpisodes: 1,
         status: 'test',
         type: 'test',
+        released: null,
+        season: null,
         createdAt: new Date().toLocaleDateString('en-CA'),
         updatedAt: null,
         episodes: [
@@ -100,6 +102,8 @@ describe('Anime Database Controller', () => {
       status: 'test',
       type: 'test',
       thumbnail: 'test',
+      season: 'Summer',
+      released: '2005',
       episodes: [
         'video-link.mp4',
         'video-link.mp4',
@@ -114,6 +118,8 @@ describe('Anime Database Controller', () => {
       numOfEpisodes: 1,
       status: 'changed',
       type: 'test',
+      season: 'winter',
+      released: '2004',
       thumbnail: 'test',
       episodes: [
         'video-link.mp4',
@@ -132,6 +138,8 @@ describe('Anime Database Controller', () => {
         numOfEpisodes: 1,
         status: 'changed',
         type: 'test',
+        released: '2004',
+        season: 'winter',
         createdAt: anime.createdAt,
         updatedAt: updatedAt,
         episodes: [
@@ -152,6 +160,8 @@ describe('Anime Database Controller', () => {
       status: 'test',
       type: 'test',
       thumbnail: 'test',
+      released: 'season',
+      season: 'summer',
       episodes: [
         'video-link.mp4',
         'video-link.mp4',

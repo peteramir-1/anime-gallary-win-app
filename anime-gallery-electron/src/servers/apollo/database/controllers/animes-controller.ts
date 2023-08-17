@@ -69,6 +69,8 @@ export class AnimesController {
     thumbnail?: string;
     status?: string;
     type?: string;
+    released?: string;
+    season?: string;
     episodes?: string[];
   }) {
     const createdAt = new Date().toLocaleDateString('en-CA');
@@ -83,6 +85,8 @@ export class AnimesController {
           : animeInput.numOfEpisodes,
       status: animeInput.status || 'complete',
       type: animeInput.type || 'serie',
+      season: animeInput.season || null,
+      released: animeInput.released || null,
       thumbnail: animeInput.thumbnail || null,
       createdAt: createdAt,
     });
@@ -98,6 +102,8 @@ export class AnimesController {
     thumbnail?: string;
     status?: string;
     type?: string;
+    released?: string;
+    season?: string;
     episodes?: string[];
   }) {
     const prev: any = this.getAnimeById(animeInput.id);
@@ -109,6 +115,8 @@ export class AnimesController {
       status: animeInput.status || prev.status,
       type: animeInput.type || prev.type,
       thumbnail: animeInput.thumbnail || prev.thumbnail,
+      released: animeInput.released || prev.released,
+      season: animeInput.season || prev.season,
       updatedAt,
       id: animeInput.id,
     });
