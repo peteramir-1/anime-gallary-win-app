@@ -8,6 +8,8 @@ export interface CreateAnimeInput {
   numOfEpisodes?: number;
   description?: string;
   thumbnail?: string;
+  released?: string;
+  season?: string;
   episodes?: string[];
 }
 
@@ -19,5 +21,7 @@ export interface UpdateAnimeInput {
   numOfEpisodes?: number;
   status?: STATUS;
   type?: TYPE;
+  released?: string;
+  season?: string;
   episodes?: string[];
 }

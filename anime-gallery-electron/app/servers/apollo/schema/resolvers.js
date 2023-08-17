@@ -32,6 +32,8 @@ exports.resolvers = {
                 thumbnail: animeInput.thumbnail,
                 status: animeInput.status,
                 type: animeInput.type,
+                released: animeInput.released,
+                season: animeInput.season,
                 episodes: animeInput.episodes,
             });
         }),
@@ -44,6 +46,8 @@ exports.resolvers = {
                 thumbnail: animeInput.thumbnail,
                 status: animeInput.status,
                 type: animeInput.type,
+                released: animeInput.released,
+                season: animeInput.season,
                 episodes: animeInput.episodes,
             });
         }),

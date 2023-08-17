@@ -37,6 +37,8 @@ export const resolvers = {
         thumbnail: animeInput.thumbnail,
         status: animeInput.status,
         type: animeInput.type,
+        released: animeInput.released,
+        season: animeInput.season,
         episodes: animeInput.episodes,
       }),
     updateAnime: async (
@@ -51,6 +53,8 @@ export const resolvers = {
         thumbnail: animeInput.thumbnail,
         status: animeInput.status,
         type: animeInput.type,
+        released: animeInput.released,
+        season: animeInput.season,
         episodes: animeInput.episodes,
       });
     },

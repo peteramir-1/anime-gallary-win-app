@@ -13,6 +13,13 @@ exports.typeDefs = `
     ova
   }
 
+  enum SEASON {
+    summer
+    winter
+    spring
+    autumn
+  }
+
   type DeleteReturn {
     affectedRows: Int
   }
@@ -25,6 +32,8 @@ exports.typeDefs = `
     status: STATUS!
     thumbnail: String
     type: TYPE!
+    released: String
+    season: SEASON
     episodes: [String]!
     createdAt: String!
     updatedAt: String
@@ -42,6 +51,8 @@ exports.typeDefs = `
     numOfEpisodes: Int
     status: STATUS!
     type: TYPE!
+    released: String
+    season: SEASON
     episodes: [String]
   }
 
@@ -53,6 +64,8 @@ exports.typeDefs = `
     thumbnail: String
     status: STATUS
     type: TYPE
+    released: String
+    season: SEASON
     episodes: [String]
   }
 
