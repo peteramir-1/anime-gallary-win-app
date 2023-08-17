@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   GetAllAnimesDocument,
   GetAnimeByIdDocument,
+  Season,
   Status,
   Type,
   UpdateAnimeGQL,
@@ -34,6 +35,8 @@ export class AddAnimeComponent implements OnInit {
       Validators.required,
       Validators.min(1),
     ]),
+    released: this.fb.control<string>(null),
+    season: this.fb.control<Season>(null),
     episodes: this.fb.array<FormControl<string>>([this.fb.control<string>('')]),
     status: this.fb.control<Status.Complete | Status.InComplete>(
       Status.Complete,
@@ -46,6 +49,10 @@ export class AddAnimeComponent implements OnInit {
     addFromFileOrFolder: this.fb.control<'file' | 'folder'>('file'),
   });
   isThumbnailDefault = true;
+  years = Array.from(
+    { length: new Date().getFullYear() - 1917 },
+    (_, index) => new Date().getFullYear() - (index + 1)
+  ).map(val => val.toString());
   private readonly allowedPictureTypes = [
     'image/jpeg',
     'image/jpg',
@@ -245,6 +252,8 @@ export class AddAnimeComponent implements OnInit {
             numOfEpisodes: this._animeForm.controls.numOfEpisodes.value,
             thumbnail: this._animeForm.controls.thumbnail.value,
             description: this._animeForm.controls.story.value,
+            season: this._animeForm.controls.season.value,
+            released: this._animeForm.controls.released.value,
             episodes: this._animeForm.controls.episodes.value,
           },
         },

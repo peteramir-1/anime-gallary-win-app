@@ -69,6 +69,58 @@
               formControlName="numOfEpisodes"></app-num-input>
           </section>
 
+          <section class="flex flex-initial flex-row gap-5">
+            <!-- Released Date Form Control -->
+            <section class="flex flex-auto flex-col">
+              <label
+                for="name"
+                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                Released
+                <!-- <span
+                  class="ml-2 text-xs font-normal italic text-red-500 dark:text-red-300">
+                  required
+                </span> -->
+              </label>
+              <select
+                formControlName="released"
+                type="text"
+                id="released"
+                class="input"
+                tabindex="3"
+                class="input w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
+                <option [value]="null">N/A</option>
+                <option *ngFor="let year of years" [value]="year">
+                  {{ year }}
+                </option>
+              </select>
+            </section>
+
+            <!-- Season Form Control -->
+            <section class="flex flex-auto flex-col">
+              <label
+                for="name"
+                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                Season
+                <!-- <span
+                  class="ml-2 text-xs font-normal italic text-red-500 dark:text-red-300">
+                  required
+                </span> -->
+              </label>
+              <select
+                formControlName="season"
+                type="text"
+                id="season"
+                tabindex="4"
+                class="input w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
+                <option [value]="null">N/A</option>
+                <option value="winter">Winter</option>
+                <option value="summer">Summer</option>
+                <option value="spring">Spring</option>
+                <option value="autumn">Autumn</option>
+              </select>
+            </section>
+          </section>
+
           <!-- Story Form Control -->
           <section class="flex flex-auto flex-col">
             <label
@@ -82,7 +134,7 @@
               formControlName="story"
               name="story"
               class="textarea"
-              tabindex="3"></textarea>
+              tabindex="5"></textarea>
           </section>
 
           <section class="flex flex-initial flex-row">
@@ -106,7 +158,7 @@
                     name="type"
                     value="serie"
                     class="input"
-                    tabindex="6" />
+                    tabindex="7" />
                   <label
                     for="option-serie"
                     class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -120,7 +172,7 @@
                     type="radio"
                     name="type"
                     value="movie"
-                    tabindex="6"
+                    tabindex="7"
                     class="input" />
                   <label
                     for="option-movie"
@@ -136,7 +188,7 @@
                     name="type"
                     value="ova"
                     class="input"
-                    tabindex="6" />
+                    tabindex="7" />
                   <label
                     for="option-ova"
                     class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -170,7 +222,7 @@
                     name="status"
                     value="complete"
                     class="input"
-                    tabindex="5" />
+                    tabindex="8" />
                   <label
                     for="option-complete"
                     class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -183,7 +235,7 @@
                     id="option-in-complete"
                     type="radio"
                     name="status"
-                    tabindex="5"
+                    tabindex="8"
                     value="in_complete"
                     class="input" />
                   <label
@@ -262,7 +314,7 @@
             [extensions]="['mp4', 'mkv', 'flv', 'mwv']"
             inputLabel=""
             [inputId]="'file_input_' + i"
-            [inputTabIndex]="8 + i"></app-filepath-input>
+            [inputTabIndex]="9 + i"></app-filepath-input>
         </section>
         <section
           *ngIf="_animeForm.get('addFromFileOrFolder').value === 'folder'"
@@ -270,7 +322,7 @@
           <app-folder-input
             label="Episodes Folder"
             (click)="selectEpisodesFromFolder()"
-            tabindex="8"></app-folder-input>
+            tabindex="9"></app-folder-input>
         </section>
       </ng-container>
     </section>
@@ -298,7 +350,7 @@
             value="file"
             class="input"
             formControlName="addFromFileOrFolder"
-            tabindex="7" />
+            tabindex="9" />
           <label
             for="select-from-file"
             class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -331,7 +383,7 @@
             [extensions]="['mp4', 'mkv', 'flv', 'mwv']"
             [inputLabel]="'Episode ' + (i + 1)"
             [inputId]="'file_input_' + i"
-            [inputTabIndex]="8 + i"></app-filepath-input>
+            [inputTabIndex]="9 + i"></app-filepath-input>
         </section>
         <section
           *ngIf="_animeForm.get('addFromFileOrFolder').value === 'folder'"
@@ -339,7 +391,7 @@
           <app-folder-input
             label="Episodes Folder"
             (click)="selectEpisodesFromFolder()"
-            tabindex="8"></app-folder-input>
+            tabindex="9"></app-folder-input>
         </section>
       </ng-container>
     </section>
