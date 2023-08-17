@@ -30,7 +30,7 @@
         }"
         [src]="anime?.thumbnail" />
     </div>
-    <section class="flex flex-auto flex-col gap-5">
+    <section class="flex flex-auto flex-col gap-7">
       <h2
         matTooltip="Click to Copy"
         matTooltipClass="matTooltipClass"
@@ -49,8 +49,8 @@
           {{ anime?.description }}
         </p>
       </section>
-      <section class="flex flex-initial flex-row gap-16">
-        <section class="flex flex-initial flex-col gap-2">
+      <section class="flex flex-initial flex-row">
+        <section class="flex flex-initial basis-1/3 flex-col gap-2">
           <h4
             class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
             Type
@@ -61,7 +61,7 @@
           </p>
         </section>
         <section
-          class="flex flex-initial flex-col gap-2"
+          class="flex flex-initial basis-1/3 flex-col gap-2"
           *ngIf="anime?.type !== 'movie'">
           <h4
             class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
@@ -82,6 +82,29 @@
           <p
             class="text-sm font-normal leading-none text-neutral-900 dark:text-white">
             {{ anime?.status?.replace('_') | titlecase }}
+          </p>
+        </section>
+      </section>
+
+      <section class="flex flex-initial flex-row">
+        <section class="flex flex-initial basis-1/3 flex-col gap-2">
+          <h4
+            class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
+            Released
+          </h4>
+          <p
+            class="text-sm font-normal leading-none text-neutral-900 dark:text-white">
+            {{ anime?.released }}
+          </p>
+        </section>
+        <section class="flex flex-initial basis-1/3 flex-col gap-2">
+          <h4
+            class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
+            Season
+          </h4>
+          <p
+            class="text-sm font-normal leading-none text-neutral-900 dark:text-white">
+            {{ anime?.season | titlecase }}
           </p>
         </section>
       </section>
