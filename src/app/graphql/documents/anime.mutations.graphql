@@ -7,6 +7,8 @@ mutation CreateAnime($createAnimeInput: CreateAnimeInput) {
     status
     thumbnail
     type
+    released
+    season
     episodes
     createdAt
     updatedAt
@@ -22,6 +24,8 @@ mutation UpdateAnime($updateAnimeInput: UpdateAnimeInput) {
     status
     thumbnail
     type
+    released
+    season
     episodes
     createdAt
     updatedAt

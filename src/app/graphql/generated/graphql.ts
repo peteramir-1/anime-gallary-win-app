@@ -25,6 +25,8 @@ export interface Anime {
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   numOfEpisodes?: Maybe<Scalars['Int']['output']>;
+  released?: Maybe<Scalars['String']['output']>;
+  season?: Maybe<Season>;
   status: Status;
   thumbnail?: Maybe<Scalars['String']['output']>;
   type: Type;
@@ -36,6 +38,8 @@ export interface CreateAnimeInput {
   episodes?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   name: Scalars['String']['input'];
   numOfEpisodes?: InputMaybe<Scalars['Int']['input']>;
+  released?: InputMaybe<Scalars['String']['input']>;
+  season?: InputMaybe<Season>;
   status: Status;
   thumbnail?: InputMaybe<Scalars['String']['input']>;
   type: Type;
@@ -79,6 +83,13 @@ export interface QueryAnimeArgs {
   id: Scalars['String']['input'];
 }
 
+export enum Season {
+  Autumn = 'autumn',
+  Spring = 'spring',
+  Summer = 'summer',
+  Winter = 'winter'
+}
+
 export enum Status {
   Complete = 'complete',
   InComplete = 'in_complete'
@@ -96,6 +107,8 @@ export interface UpdateAnimeInput {
   id: Scalars['ID']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
   numOfEpisodes?: InputMaybe<Scalars['Int']['input']>;
+  released?: InputMaybe<Scalars['String']['input']>;
+  season?: InputMaybe<Season>;
   status?: InputMaybe<Status>;
   thumbnail?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Type>;
@@ -106,14 +119,14 @@ export type CreateAnimeMutationVariables = Exact<{
 }>;
 
 
-export type CreateAnimeMutation = { __typename?: 'Mutation', createAnime?: { __typename?: 'Anime', id: string, name: string, description?: string | null, numOfEpisodes?: number | null, status: Status, thumbnail?: string | null, type: Type, episodes: Array<string | null>, createdAt: string, updatedAt?: string | null } | null };
+export type CreateAnimeMutation = { __typename?: 'Mutation', createAnime?: { __typename?: 'Anime', id: string, name: string, description?: string | null, numOfEpisodes?: number | null, status: Status, thumbnail?: string | null, type: Type, released?: string | null, season?: Season | null, episodes: Array<string | null>, createdAt: string, updatedAt?: string | null } | null };
 
 export type UpdateAnimeMutationVariables = Exact<{
   updateAnimeInput?: InputMaybe<UpdateAnimeInput>;
 }>;
 
 
-export type UpdateAnimeMutation = { __typename?: 'Mutation', updateAnime?: { __typename?: 'Anime', id: string, name: string, description?: string | null, numOfEpisodes?: number | null, status: Status, thumbnail?: string | null, type: Type, episodes: Array<string | null>, createdAt: string, updatedAt?: string | null } | null };
+export type UpdateAnimeMutation = { __typename?: 'Mutation', updateAnime?: { __typename?: 'Anime', id: string, name: string, description?: string | null, numOfEpisodes?: number | null, status: Status, thumbnail?: string | null, type: Type, released?: string | null, season?: Season | null, episodes: Array<string | null>, createdAt: string, updatedAt?: string | null } | null };
 
 export type DeleteAnimeMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -132,7 +145,7 @@ export type GetAnimeByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetAnimeByIdQuery = { __typename?: 'Query', anime?: { __typename?: 'Anime', description?: string | null, episodes: Array<string | null>, id: string, thumbnail?: string | null, name: string, numOfEpisodes?: number | null, type: Type, status: Status } | null };
+export type GetAnimeByIdQuery = { __typename?: 'Query', anime?: { __typename?: 'Anime', description?: string | null, episodes: Array<string | null>, id: string, thumbnail?: string | null, name: string, numOfEpisodes?: number | null, type: Type, status: Status, released?: string | null, season?: Season | null } | null };
 
 export const CreateAnimeDocument = gql`
     mutation CreateAnime($createAnimeInput: CreateAnimeInput) {
@@ -144,6 +157,8 @@ export const CreateAnimeDocument = gql`
     status
     thumbnail
     type
+    released
+    season
     episodes
     createdAt
     updatedAt
@@ -171,6 +186,8 @@ export const UpdateAnimeDocument = gql`
     status
     thumbnail
     type
+    released
+    season
     episodes
     createdAt
     updatedAt
@@ -242,6 +259,8 @@ export const GetAnimeByIdDocument = gql`
     numOfEpisodes
     type
     status
+    released
+    season
   }
 }
     `;
