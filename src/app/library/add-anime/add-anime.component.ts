@@ -38,14 +38,8 @@ export class AddAnimeComponent implements OnInit {
     released: this.fb.control<string>(null),
     season: this.fb.control<Season>(null),
     episodes: this.fb.array<FormControl<string>>([this.fb.control<string>('')]),
-    status: this.fb.control<Status.Complete | Status.InComplete>(
-      Status.Complete,
-      Validators.required
-    ),
-    type: this.fb.control<Type.Movie | Type.Ova | Type.Serie>(
-      Type.Serie,
-      Validators.required
-    ),
+    status: this.fb.control<Status>(Status.Complete, Validators.required),
+    type: this.fb.control<Type>(Type.Serie, Validators.required),
     addFromFileOrFolder: this.fb.control<'file' | 'folder'>('file'),
   });
   isThumbnailDefault = true;
