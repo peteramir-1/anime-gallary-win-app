@@ -2,6 +2,13 @@ import { Database } from 'better-sqlite3';
 import * as statusments from './animes-sql';
 import { v4 } from 'uuid';
 import * as path from 'path';
+import {
+  Anime,
+  DBAnime,
+  DBEpisodes,
+  Episode,
+  Nullable,
+} from '../interfaces/anime.interface';
 
 export const AnimesDatabasePath = path.join(__dirname, '..', 'databases');
 export const AnimeDatabaseFilename = 'anime.sqlite';
@@ -11,7 +18,7 @@ export class AnimesController {
     this.prepareDB();
   }
 
-  private prepareDB() {
+  private prepareDB(): void {
     this.DatabaseConnection.prepare(
       statusments.CREATE_ANIME_TABLE_IF_NOT_EXISTED
     ).run();
@@ -21,119 +28,109 @@ export class AnimesController {
     this.DatabaseConnection.pragma('journal_mode = WAL');
   }
 
-  public getAllAnimes() {
-    const animes = this.DatabaseConnection.prepare(
-      statusments.GET_ANIMES
-    ).all();
+  public getAllAnimes(): Nullable<Anime>[] {
+    const animes: DBAnime[] | undefined | null =
+      this.DatabaseConnection.prepare(statusments.GET_ANIMES).all() as
+        | DBAnime[]
+        | undefined
+        | null;
     if (!!animes) {
-      return animes.map((anime: any): any => {
-        const episodes = this.getAnimeEpisodesById(anime.id);
-        return {
+      return animes.map(
+        (anime: DBAnime): Anime => ({
           ...anime,
-          episodes: [...episodes],
-        };
-      });
+          liked: anime.liked === undefined ? false : !!anime.liked,
+          episodes: this.getAnimeEpisodesById(anime.id),
+        })
+      );
     } else {
       return [];
     }
   }
 
-  public getAnimeById(id: string) {
-    const anime: any = this.DatabaseConnection.prepare(
+  public getAnimeById(id: string): Anime | undefined {
+    const anime: DBAnime | undefined | null = this.DatabaseConnection.prepare(
       statusments.GET_ANIME_BY_ID
-    ).get({ id });
-    const episodes = this.getAnimeEpisodesById(id);
-    if (!anime) return undefined;
-    return {
-      ...anime,
-      episodes,
-    };
+    ).get({ id }) as DBAnime | undefined | null;
+    if (anime) {
+      const episodes = this.getAnimeEpisodesById(id);
+      return {
+        ...anime,
+        liked: anime.liked === undefined ? false : !!anime.liked,
+        episodes,
+      };
+    }
   }
 
-  private getAnimeEpisodesById(id: string) {
+  private getAnimeEpisodesById(id: string): string[] {
     return (
       this.DatabaseConnection.prepare(statusments.GET_ANIME_EPISODES_BY_ID).all(
-        {
-          id,
-        }
-      ) as { link: string }[]
-    ).map((episode: { link: string }): string => {
-      return episode.link;
-    });
+        id
+      ) as DBEpisodes[]
+    ).map((episode: DBEpisodes) => episode.link);
   }
 
-  public createAnime(animeInput: {
-    name: string;
-    description?: string;
-    numOfEpisodes?: number;
-    thumbnail?: string;
-    status?: string;
-    type?: string;
-    released?: string;
-    season?: string;
-    episodes?: string[];
-  }) {
-    const createdAt = new Date().toLocaleDateString('en-CA');
+  public createAnime(anime: Omit<Anime, 'id' | 'createdAt' | 'updatedAt'>) {
     const id = v4();
-    this.DatabaseConnection.prepare(statusments.INSERT_ANIME_DETAILS).run({
+    const createdAt = new Date().toLocaleDateString('en-CA');
+    const DBAnime: DBAnime = {
       id,
-      name: animeInput.name,
-      description: animeInput.description || '',
+      name: anime.name,
+      description: anime.description || '',
       numOfEpisodes:
-        !animeInput.numOfEpisodes || animeInput.numOfEpisodes < 1
+        !anime.numOfEpisodes || anime.numOfEpisodes < 1
           ? 1
-          : animeInput.numOfEpisodes,
-      status: animeInput.status || 'complete',
-      type: animeInput.type || 'serie',
-      season: animeInput.season || null,
-      released: animeInput.released || null,
-      thumbnail: animeInput.thumbnail || null,
+          : anime.numOfEpisodes,
+      status: anime.status || 'complete',
+      type: anime.type || 'serie',
+      season: anime.season || null,
+      released: anime.released || null,
+      thumbnail: anime.thumbnail || null,
+      liked: anime.liked === undefined ? 0 : Number(anime.liked),
       createdAt: createdAt,
-    });
-    this.InsertAnimeEpisodes(id, animeInput.episodes);
+    };
+    this.DatabaseConnection.prepare(statusments.INSERT_ANIME_DETAILS).run(
+      DBAnime
+    );
+    this.InsertAnimeEpisodes(id, anime.episodes);
     return this.getAnimeById(id);
   }
 
-  public updateAnimeById(animeInput: {
-    id: string;
-    name?: string;
-    description?: string;
-    numOfEpisodes?: number;
-    thumbnail?: string;
-    status?: string;
-    type?: string;
-    released?: string;
-    season?: string;
-    episodes?: string[];
-  }) {
-    const prev: any = this.getAnimeById(animeInput.id);
+  public updateAnimeById(updatedAnime: Omit<Anime, 'createdAt' | 'updatedAt'>) {
+    const prev: any = this.getAnimeById(updatedAnime.id);
     const updatedAt = new Date().toLocaleDateString('en-CA');
-    this.DatabaseConnection.prepare(statusments.UPDATE_ANIME_BY_ID).run({
-      name: animeInput.name || prev.name,
-      description: animeInput.description || prev.description,
-      numOfEpisodes: animeInput.numOfEpisodes || prev.numOfEpisodes,
-      status: animeInput.status || prev.status,
-      type: animeInput.type || prev.type,
-      thumbnail: animeInput.thumbnail || prev.thumbnail,
-      released: animeInput.released || prev.released,
-      season: animeInput.season || prev.season,
+    const DBAnime: DBAnime = {
+      name: updatedAnime.name || prev.name,
+      description: updatedAnime.description || prev.description,
+      numOfEpisodes: updatedAnime.numOfEpisodes || prev.numOfEpisodes,
+      status: updatedAnime.status || prev.status,
+      type: updatedAnime.type || prev.type,
+      thumbnail: updatedAnime.thumbnail || prev.thumbnail,
+      released: updatedAnime.released || prev.released,
+      season: updatedAnime.season || prev.season,
+      liked:
+        updatedAnime.liked === undefined
+          ? Number(prev.liked)
+          : Number(updatedAnime.liked),
       updatedAt,
-      id: animeInput.id,
-    });
+      id: updatedAnime.id,
+    };
+    this.DatabaseConnection.prepare(statusments.UPDATE_ANIME_BY_ID).run(
+      DBAnime
+    );
     this.DatabaseConnection.prepare(
       statusments.DELETE_ANIME_EPISODES_BY_ID
-    ).run({ id: animeInput.id });
+    ).run({ id: updatedAnime.id });
     this.InsertAnimeEpisodes(
-      animeInput.id,
-      animeInput.episodes || prev.episodes
+      updatedAnime.id,
+      updatedAnime.episodes || prev.episodes
     );
-    return this.getAnimeById(animeInput.id);
+    return this.getAnimeById(updatedAnime.id);
   }
 
-  private InsertAnimeEpisodes(id: string, episodes: string[] | null = []) {
-    if (episodes == null) return;
+  private InsertAnimeEpisodes(id: string, episodes: Episode[] = []): void {
+    if (!episodes) return;
     const InsertAnimeEpisodesTransaction = this.DatabaseConnection.transaction(
-      (_episodes: any[]) => {
+      (_episodes: Episode[]) => {
         for (const link of _episodes) {
           this.DatabaseConnection.prepare(
             statusments.INSERT_ANIME_EPISODES

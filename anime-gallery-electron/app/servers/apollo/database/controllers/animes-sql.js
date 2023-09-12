@@ -12,6 +12,7 @@ exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 			type TEXT NOT NULL,
 			released VARCHAR(4),
 			season TEXT,
+			liked INTEGER DEFAULT 0,
 			createdAt DATE NOT NULL,
 			updatedAt DATE
 		);
@@ -21,7 +22,7 @@ exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 			link TEXT,
 			FOREIGN KEY(anime_id) REFERENCES Animes(id) ON DELETE CASCADE
 		);
-	`, exports.GET_ANIMES = `SELECT * FROM Animes;`, exports.GET_ANIME_BY_ID = `SELECT * FROM Animes WHERE id = @id;`, exports.GET_ANIME_EPISODES_BY_ID = `SELECT link from AnimeEpisodes WHERE anime_id = @id`, exports.INSERT_ANIME_DETAILS = `
+	`, exports.GET_ANIMES = `SELECT * FROM Animes;`, exports.GET_ANIME_BY_ID = `SELECT * FROM Animes WHERE id = @id;`, exports.GET_ANIME_EPISODES_BY_ID = `SELECT * FROM AnimeEpisodes WHERE anime_id = ?`, exports.INSERT_ANIME_DETAILS = `
 		INSERT INTO Animes(
 			id,
 			name,
@@ -32,6 +33,7 @@ exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 			thumbnail,
 			released,
 			season,
+			liked,
 			createdAt
 			)
 			VALUES(
@@ -44,6 +46,7 @@ exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 			@thumbnail,
 			@released,
 			@season,
+			@liked,
 			@createdAt
 		);
 	`, exports.INSERT_ANIME_EPISODES = `
@@ -62,7 +65,8 @@ exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 				thumbnail = @thumbnail,
 				updatedAt = @updatedAt,
 				released = @released,
-				season = @season
+				season = @season,
+				liked = @liked
 		WHERE id = @id;
 	`, exports.DELETE_ANIME_BY_ID = `
 		DELETE FROM ANIMES

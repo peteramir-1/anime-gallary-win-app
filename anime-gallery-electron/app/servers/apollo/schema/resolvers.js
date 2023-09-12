@@ -24,33 +24,8 @@ exports.resolvers = {
         anime: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () { return animesController.getAnimeById(id); }),
     },
     Mutation: {
-        createAnime: (_, { animeInput }) => __awaiter(void 0, void 0, void 0, function* () {
-            return animesController.createAnime({
-                name: animeInput.name,
-                description: animeInput.description,
-                numOfEpisodes: animeInput.numOfEpisodes,
-                thumbnail: animeInput.thumbnail,
-                status: animeInput.status,
-                type: animeInput.type,
-                released: animeInput.released,
-                season: animeInput.season,
-                episodes: animeInput.episodes,
-            });
-        }),
-        updateAnime: (_, { animeInput }) => __awaiter(void 0, void 0, void 0, function* () {
-            return animesController.updateAnimeById({
-                id: animeInput.id,
-                name: animeInput.name,
-                description: animeInput.description,
-                numOfEpisodes: animeInput.numOfEpisodes,
-                thumbnail: animeInput.thumbnail,
-                status: animeInput.status,
-                type: animeInput.type,
-                released: animeInput.released,
-                season: animeInput.season,
-                episodes: animeInput.episodes,
-            });
-        }),
+        createAnime: (_, { animeInput }) => __awaiter(void 0, void 0, void 0, function* () { return animesController.createAnime(animeInput); }),
+        updateAnime: (_, { animeInput }) => __awaiter(void 0, void 0, void 0, function* () { return animesController.updateAnimeById(animeInput); }),
         deleteAnime: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () {
             return ({
                 affectedRows: animesController.deleteAnimeById(id),

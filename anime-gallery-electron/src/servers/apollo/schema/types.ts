@@ -1,7 +1,7 @@
 export const typeDefs = `
   enum STATUS {
     complete
-    in_complete
+    incomplete
   }
 
   enum TYPE {
@@ -31,6 +31,7 @@ export const typeDefs = `
     type: TYPE!
     released: String
     season: SEASON
+    liked: Boolean
     episodes: [String]!
     createdAt: String!
     updatedAt: String
@@ -49,6 +50,7 @@ export const typeDefs = `
     status: STATUS!
     type: TYPE!
     released: String
+    liked: Boolean
     season: SEASON
     episodes: [String]
   }
@@ -62,6 +64,7 @@ export const typeDefs = `
     status: STATUS
     type: TYPE
     released: String
+    liked: Boolean
     season: SEASON
     episodes: [String]
   }

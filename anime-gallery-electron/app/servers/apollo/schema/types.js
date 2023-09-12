@@ -4,7 +4,7 @@ exports.typeDefs = void 0;
 exports.typeDefs = `
   enum STATUS {
     complete
-    in_complete
+    incomplete
   }
 
   enum TYPE {
@@ -34,6 +34,7 @@ exports.typeDefs = `
     type: TYPE!
     released: String
     season: SEASON
+    liked: Boolean
     episodes: [String]!
     createdAt: String!
     updatedAt: String
@@ -52,6 +53,7 @@ exports.typeDefs = `
     status: STATUS!
     type: TYPE!
     released: String
+    liked: Boolean
     season: SEASON
     episodes: [String]
   }
@@ -65,6 +67,7 @@ exports.typeDefs = `
     status: STATUS
     type: TYPE
     released: String
+    liked: Boolean
     season: SEASON
     episodes: [String]
   }

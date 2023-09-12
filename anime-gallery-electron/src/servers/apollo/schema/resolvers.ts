@@ -5,7 +5,7 @@ import {
 } from '../database/controllers/animes-controller';
 import { createDbConnection } from '../database/controllers/utils';
 import { Database } from 'better-sqlite3';
-import { CreateAnimeInput, UpdateAnimeInput } from './resolvers.interface';
+import { Anime } from '../database/interfaces/anime.interface';
 
 let animeDatabaseConnection: Database;
 let animesController: AnimesController;
@@ -28,36 +28,10 @@ export const resolvers = {
   Mutation: {
     createAnime: async (
       _: any,
-      { animeInput }: { animeInput: CreateAnimeInput }
-    ) =>
-      animesController.createAnime({
-        name: animeInput.name,
-        description: animeInput.description,
-        numOfEpisodes: animeInput.numOfEpisodes,
-        thumbnail: animeInput.thumbnail,
-        status: animeInput.status,
-        type: animeInput.type,
-        released: animeInput.released,
-        season: animeInput.season,
-        episodes: animeInput.episodes,
-      }),
-    updateAnime: async (
-      _: any,
-      { animeInput }: { animeInput: UpdateAnimeInput }
-    ) => {
-      return animesController.updateAnimeById({
-        id: animeInput.id,
-        name: animeInput.name,
-        description: animeInput.description,
-        numOfEpisodes: animeInput.numOfEpisodes,
-        thumbnail: animeInput.thumbnail,
-        status: animeInput.status,
-        type: animeInput.type,
-        released: animeInput.released,
-        season: animeInput.season,
-        episodes: animeInput.episodes,
-      });
-    },
+      { animeInput }: { animeInput: Omit<Anime, 'id'> }
+    ) => animesController.createAnime(animeInput),
+    updateAnime: async (_: any, { animeInput }: { animeInput: Anime }) =>
+      animesController.updateAnimeById(animeInput),
     deleteAnime: async (_: any, { id }: { id: string }) => ({
       affectedRows: animesController.deleteAnimeById(id),
     }),

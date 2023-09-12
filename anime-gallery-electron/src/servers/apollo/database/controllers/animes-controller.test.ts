@@ -1,4 +1,4 @@
-import { expect, jest, test } from '@jest/globals';
+import { expect, test } from '@jest/globals';
 import { AnimesController, AnimesDatabasePath } from './animes-controller';
 import { createDbConnection } from './utils';
 import * as path from 'path';
@@ -41,8 +41,8 @@ describe('Anime Database Controller', () => {
       name: 'test',
       description: 'test',
       numOfEpisodes: 1,
-      status: 'test',
-      type: 'test',
+      status: 'complete',
+      type: 'movie',
       thumbnail: 'test',
       episodes: [
         'video-link.mp4',
@@ -52,7 +52,8 @@ describe('Anime Database Controller', () => {
       ],
     });
 
-    expect(animeController.getAnimeById(anime.id)).toBeTruthy();
+    if (anime?.id) expect(animeController.getAnimeById(anime.id)).toBeTruthy();
+    else throw new Error('Not Created');
   });
 
   test('Create Anime', () => {
@@ -60,8 +61,8 @@ describe('Anime Database Controller', () => {
       name: 'test',
       description: 'test',
       numOfEpisodes: 1,
-      status: 'test',
-      type: 'test',
+      status: 'complete',
+      type: 'movie',
       thumbnail: 'test',
       episodes: [
         'video-link.mp4',
@@ -70,27 +71,30 @@ describe('Anime Database Controller', () => {
         'video-link.mp4',
       ],
     });
-    expect(JSON.stringify(anime)).toEqual(
-      JSON.stringify({
-        id: anime.id,
-        name: 'test',
-        description: 'test',
-        thumbnail: 'test',
-        numOfEpisodes: 1,
-        status: 'test',
-        type: 'test',
-        released: null,
-        season: null,
-        createdAt: new Date().toLocaleDateString('en-CA'),
-        updatedAt: null,
-        episodes: [
-          'video-link.mp4',
-          'video-link.mp4',
-          'video-link.mp4',
-          'video-link.mp4',
-        ],
-      })
-    );
+    if (anime?.id)
+      expect(JSON.stringify(anime)).toEqual(
+        JSON.stringify({
+          id: anime.id,
+          name: 'test',
+          description: 'test',
+          thumbnail: 'test',
+          numOfEpisodes: 1,
+          status: 'complete',
+          type: 'movie',
+          released: null,
+          season: null,
+          liked: false,
+          createdAt: new Date().toLocaleDateString('en-CA'),
+          updatedAt: null,
+          episodes: [
+            'video-link.mp4',
+            'video-link.mp4',
+            'video-link.mp4',
+            'video-link.mp4',
+          ],
+        })
+      );
+    else throw new Error('Not Created');
   });
 
   test('Update Anime', () => {
@@ -99,11 +103,12 @@ describe('Anime Database Controller', () => {
       name: 'test',
       description: 'test',
       numOfEpisodes: 1,
-      status: 'test',
-      type: 'test',
+      status: 'complete',
+      type: 'movie',
       thumbnail: 'test',
       season: 'Summer',
       released: '2005',
+      liked: false,
       episodes: [
         'video-link.mp4',
         'video-link.mp4',
@@ -111,45 +116,49 @@ describe('Anime Database Controller', () => {
         'video-link.mp4',
       ],
     });
-    animeController.updateAnimeById({
-      id: anime.id,
-      name: 'test',
-      description: 'test',
-      numOfEpisodes: 1,
-      status: 'changed',
-      type: 'test',
-      season: 'winter',
-      released: '2004',
-      thumbnail: 'test',
-      episodes: [
-        'video-link.mp4',
-        'video-link.mp4',
-        'video-link.mp4',
-        'video-link.mp4',
-      ],
-    });
-    const updatedAnime = animeController.getAnimeById(anime.id);
-    expect(JSON.stringify(updatedAnime)).toEqual(
-      JSON.stringify({
+    if (anime?.id) {
+      animeController.updateAnimeById({
         id: anime.id,
         name: 'test',
         description: 'test',
-        thumbnail: 'test',
         numOfEpisodes: 1,
-        status: 'changed',
-        type: 'test',
-        released: '2004',
+        status: 'incomplete',
+        type: 'movie',
         season: 'winter',
-        createdAt: anime.createdAt,
-        updatedAt: updatedAt,
+        released: '2004',
+        thumbnail: 'test',
+        liked: true,
         episodes: [
           'video-link.mp4',
           'video-link.mp4',
           'video-link.mp4',
           'video-link.mp4',
         ],
-      })
-    );
+      });
+      const updatedAnime = animeController.getAnimeById(anime.id);
+      expect(JSON.stringify(updatedAnime)).toEqual(
+        JSON.stringify({
+          id: anime.id,
+          name: 'test',
+          description: 'test',
+          thumbnail: 'test',
+          numOfEpisodes: 1,
+          status: 'incomplete',
+          type: 'movie',
+          released: '2004',
+          season: 'winter',
+          liked: true,
+          createdAt: anime.createdAt,
+          updatedAt: updatedAt,
+          episodes: [
+            'video-link.mp4',
+            'video-link.mp4',
+            'video-link.mp4',
+            'video-link.mp4',
+          ],
+        })
+      );
+    } else throw new Error('Not Created');
   });
 
   test('Delete Anime', () => {
@@ -157,8 +166,8 @@ describe('Anime Database Controller', () => {
       name: 'test',
       description: 'test',
       numOfEpisodes: 1,
-      status: 'test',
-      type: 'test',
+      status: 'complete',
+      type: 'movie',
       thumbnail: 'test',
       released: 'season',
       season: 'summer',
@@ -169,12 +178,13 @@ describe('Anime Database Controller', () => {
         'video-link.mp4',
       ],
     });
+    if (anime?.id) {
+      expect(animeController.getAnimeById(anime.id)).toBeTruthy();
 
-    expect(animeController.getAnimeById(anime.id)).toBeTruthy();
-
-    const affectedRows = animeController.deleteAnimeById(anime.id);
-    expect(affectedRows).toBe(1);
-    expect(animeController.getAnimeById(anime.id)).toBeFalsy();
+      const affectedRows = animeController.deleteAnimeById(anime.id);
+      expect(affectedRows).toBe(1);
+      expect(animeController.getAnimeById(anime.id)).toBeFalsy();
+    } else throw new Error('Not Created');
   });
 
   // test.skip('get Select Episodes By Id', () => {
