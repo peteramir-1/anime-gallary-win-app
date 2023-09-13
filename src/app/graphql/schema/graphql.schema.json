@@ -78,6 +78,18 @@
             "deprecationReason": null
           },
           {
+            "name": "liked",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "name",
             "description": null,
             "args": [],
@@ -230,6 +242,18 @@
                 "name": "String",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liked",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -575,7 +599,7 @@
             "deprecationReason": null
           },
           {
-            "name": "in_complete",
+            "name": "incomplete",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -667,6 +691,18 @@
                 "name": "ID",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liked",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,

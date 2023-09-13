@@ -7,6 +7,8 @@ import { map, takeUntil } from 'rxjs/operators';
 import {
   DeleteAnimeGQL,
   GetAllAnimesDocument,
+  LikeAnimeGQL,
+  UnlikeAnimeGQL,
 } from 'src/app/graphql/generated/graphql';
 
 @Component({
@@ -22,6 +24,8 @@ export class AnimeDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private deleteAnimeGQL: DeleteAnimeGQL,
+    private likeAnimeGQL: LikeAnimeGQL,
+    private unlikeAnimeGQL: UnlikeAnimeGQL,
     private clipboard: Clipboard,
     private _snackBar: MatSnackBar
   ) {}
@@ -70,6 +74,28 @@ export class AnimeDetailsComponent implements OnInit, OnDestroy {
             this._snackBar.open('Deleted Successfully');
           });
         }, 200);
+      });
+  }
+
+  likeAnime(): void {
+    this.likeAnimeGQL
+      .mutate(
+        { id: this.anime.id },
+        { refetchQueries: [{ query: GetAllAnimesDocument }] }
+      )
+      .subscribe(updatedAt => {
+        this.anime = { ...this.anime, liked: false };
+      });
+  }
+
+  unlikeAnime(): void {
+    this.unlikeAnimeGQL
+      .mutate(
+        { id: this.anime.id },
+        { refetchQueries: [{ query: GetAllAnimesDocument }] }
+      )
+      .subscribe(updatedAt => {
+        this.anime = { ...this.anime, liked: false };
       });
   }
 }

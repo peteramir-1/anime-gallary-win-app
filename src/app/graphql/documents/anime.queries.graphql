@@ -6,6 +6,7 @@ query GetAllAnimes {
     thumbnail
     name
     numOfEpisodes
+    liked
     type
     status
   }
@@ -20,6 +21,7 @@ query GetAnimeById($animeId: String!) {
     name
     numOfEpisodes
     type
+    liked
     status
     released
     season

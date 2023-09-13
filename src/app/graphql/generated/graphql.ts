@@ -23,6 +23,7 @@ export interface Anime {
   description?: Maybe<Scalars['String']['output']>;
   episodes: Array<Maybe<Scalars['String']['output']>>;
   id: Scalars['ID']['output'];
+  liked?: Maybe<Scalars['Boolean']['output']>;
   name: Scalars['String']['output'];
   numOfEpisodes?: Maybe<Scalars['Int']['output']>;
   released?: Maybe<Scalars['String']['output']>;
@@ -36,6 +37,7 @@ export interface Anime {
 export interface CreateAnimeInput {
   description?: InputMaybe<Scalars['String']['input']>;
   episodes?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  liked?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
   numOfEpisodes?: InputMaybe<Scalars['Int']['input']>;
   released?: InputMaybe<Scalars['String']['input']>;
@@ -92,7 +94,7 @@ export enum Season {
 
 export enum Status {
   Complete = 'complete',
-  InComplete = 'in_complete'
+  Incomplete = 'incomplete'
 }
 
 export enum Type {
@@ -105,6 +107,7 @@ export interface UpdateAnimeInput {
   description?: InputMaybe<Scalars['String']['input']>;
   episodes?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   id: Scalars['ID']['input'];
+  liked?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   numOfEpisodes?: InputMaybe<Scalars['Int']['input']>;
   released?: InputMaybe<Scalars['String']['input']>;
@@ -135,17 +138,31 @@ export type DeleteAnimeMutationVariables = Exact<{
 
 export type DeleteAnimeMutation = { __typename?: 'Mutation', deleteAnime?: { __typename?: 'DeleteReturn', affectedRows?: number | null } | null };
 
+export type LikeAnimeMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type LikeAnimeMutation = { __typename?: 'Mutation', updateAnime?: { __typename?: 'Anime', updatedAt?: string | null } | null };
+
+export type UnlikeAnimeMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type UnlikeAnimeMutation = { __typename?: 'Mutation', updateAnime?: { __typename?: 'Anime', updatedAt?: string | null } | null };
+
 export type GetAllAnimesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllAnimesQuery = { __typename?: 'Query', animes?: Array<{ __typename?: 'Anime', description?: string | null, episodes: Array<string | null>, id: string, thumbnail?: string | null, name: string, numOfEpisodes?: number | null, type: Type, status: Status } | null> | null };
+export type GetAllAnimesQuery = { __typename?: 'Query', animes?: Array<{ __typename?: 'Anime', description?: string | null, episodes: Array<string | null>, id: string, thumbnail?: string | null, name: string, numOfEpisodes?: number | null, liked?: boolean | null, type: Type, status: Status } | null> | null };
 
 export type GetAnimeByIdQueryVariables = Exact<{
   animeId: Scalars['String']['input'];
 }>;
 
 
-export type GetAnimeByIdQuery = { __typename?: 'Query', anime?: { __typename?: 'Anime', description?: string | null, episodes: Array<string | null>, id: string, thumbnail?: string | null, name: string, numOfEpisodes?: number | null, type: Type, status: Status, released?: string | null, season?: Season | null } | null };
+export type GetAnimeByIdQuery = { __typename?: 'Query', anime?: { __typename?: 'Anime', description?: string | null, episodes: Array<string | null>, id: string, thumbnail?: string | null, name: string, numOfEpisodes?: number | null, type: Type, liked?: boolean | null, status: Status, released?: string | null, season?: Season | null } | null };
 
 export const CreateAnimeDocument = gql`
     mutation CreateAnime($createAnimeInput: CreateAnimeInput) {
@@ -223,6 +240,42 @@ export const DeleteAnimeDocument = gql`
       super(apollo);
     }
   }
+export const LikeAnimeDocument = gql`
+    mutation likeAnime($id: ID!) {
+  updateAnime(animeInput: {id: $id, liked: true}) {
+    updatedAt
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LikeAnimeGQL extends Apollo.Mutation<LikeAnimeMutation, LikeAnimeMutationVariables> {
+    document = LikeAnimeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UnlikeAnimeDocument = gql`
+    mutation unlikeAnime($id: ID!) {
+  updateAnime(animeInput: {id: $id, liked: false}) {
+    updatedAt
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UnlikeAnimeGQL extends Apollo.Mutation<UnlikeAnimeMutation, UnlikeAnimeMutationVariables> {
+    document = UnlikeAnimeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetAllAnimesDocument = gql`
     query GetAllAnimes {
   animes {
@@ -232,6 +285,7 @@ export const GetAllAnimesDocument = gql`
     thumbnail
     name
     numOfEpisodes
+    liked
     type
     status
   }
@@ -258,6 +312,7 @@ export const GetAnimeByIdDocument = gql`
     name
     numOfEpisodes
     type
+    liked
     status
     released
     season

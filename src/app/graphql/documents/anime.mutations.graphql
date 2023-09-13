@@ -37,3 +37,15 @@ mutation DeleteAnime($id: ID!) {
     affectedRows
   }
 }
+
+mutation likeAnime($id: ID!) {
+  updateAnime(animeInput: { id: $id, liked: true }) {
+    updatedAt
+  }
+}
+
+mutation unlikeAnime($id: ID!) {
+  updateAnime(animeInput: { id: $id, liked: false }) {
+    updatedAt
+  }
+}

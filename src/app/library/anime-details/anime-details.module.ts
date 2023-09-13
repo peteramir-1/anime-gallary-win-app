@@ -14,6 +14,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { NgIconsModule } from '@ng-icons/core';
 import { heroArrowLeft } from '@ng-icons/heroicons/outline';
 import { lucideUpload } from '@ng-icons/lucide';
+import { jamHeartF, jamHeart } from '@ng-icons/jam-icons';
 
 @NgModule({
   declarations: [AnimeDetailsComponent],
@@ -23,6 +24,8 @@ import { lucideUpload } from '@ng-icons/lucide';
     NgIconsModule.withIcons({
       heroArrowLeft,
       lucideUpload,
+      jamHeart,
+      jamHeartF,
     }),
     MatTooltipModule,
     MatSnackBarModule,
