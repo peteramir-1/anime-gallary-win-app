@@ -84,7 +84,7 @@ export class AnimeDetailsComponent implements OnInit, OnDestroy {
         { refetchQueries: [{ query: GetAllAnimesDocument }] }
       )
       .subscribe(updatedAt => {
-        this.anime = { ...this.anime, liked: false };
+        this.anime = { ...this.anime, liked: true };
       });
   }
 
