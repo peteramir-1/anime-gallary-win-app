@@ -155,7 +155,7 @@ export type UnlikeAnimeMutation = { __typename?: 'Mutation', updateAnime?: { __t
 export type GetAllAnimesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllAnimesQuery = { __typename?: 'Query', animes?: Array<{ __typename?: 'Anime', description?: string | null, episodes: Array<string | null>, id: string, thumbnail?: string | null, name: string, numOfEpisodes?: number | null, liked?: boolean | null, type: Type, status: Status } | null> | null };
+export type GetAllAnimesQuery = { __typename?: 'Query', animes?: Array<{ __typename?: 'Anime', description?: string | null, episodes: Array<string | null>, id: string, thumbnail?: string | null, name: string, numOfEpisodes?: number | null, liked?: boolean | null, released?: string | null, season?: Season | null, type: Type, status: Status } | null> | null };
 
 export type GetAnimeByIdQueryVariables = Exact<{
   animeId: Scalars['String']['input'];
@@ -286,6 +286,8 @@ export const GetAllAnimesDocument = gql`
     name
     numOfEpisodes
     liked
+    released
+    season
     type
     status
   }

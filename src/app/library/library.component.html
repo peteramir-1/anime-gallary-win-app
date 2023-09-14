@@ -1,21 +1,164 @@
 <article
   class="flex h-[calc(100vh_-_4rem_-_50px)] max-w-full flex-1 flex-col items-stretch gap-7">
-  <section class="main-section flex-none divide-x">
-    <button
-      class="btn btn-secondary mr-4 self-stretch"
-      routerLink="/library/add">
-      <ng-icon name="heroPlus"></ng-icon>
-    </button>
-    <div class="flex-auto pl-4">
-      <input
-        type="text"
-        name="search"
-        class="input p-[0.75rem_!important]"
-        placeholder="Search Example: Demon Slayer"
-        [(ngModel)]="searchResult"
-        [ngModelOptions]="{ standalone: true }" />
-    </div>
-  </section>
+  <article class="main-section flex-none flex-col gap-7">
+    <section class="flex items-center divide-x">
+      <section class="px-4 pl-0">
+        <button class="btn btn-secondary" routerLink="/library/add">
+          <ng-icon name="heroPlus"></ng-icon>
+        </button>
+      </section>
+      <section class="flex-initial basis-2/3 px-4">
+        <input
+          type="text"
+          name="search"
+          class="input p-[0.75rem_!important]"
+          placeholder="Search Example: Demon Slayer"
+          [(ngModel)]="searchResult"
+          [ngModelOptions]="{ standalone: true }" />
+      </section>
+      <section class="flex flex-auto">
+        <!-- Filter By Like/Love/Favorite -->
+        <section class="basis-1/4 text-center">
+          <ng-container *ngIf="!likedFilter.getValue(); else jamHeartF">
+            <ng-icon
+              class="cursor-pointer align-text-top"
+              size="1.75rem"
+              color="#dc2626"
+              name="jamHeart"
+              matTooltip="All Anime"
+              (click)="likedFilter.next(true)"></ng-icon>
+          </ng-container>
+          <ng-template #jamHeartF>
+            <ng-icon
+              class="cursor-pointer align-text-top"
+              size="1.75rem"
+              color="#dc2626"
+              name="jamHeartF"
+              matTooltip="Liked Anime"
+              (click)="likedFilter.next(false)"></ng-icon>
+          </ng-template>
+        </section>
+
+        <!-- Filter By Status of the anime incomplete/complete/all -->
+        <section class="basis-1/4 text-center">
+          <ng-container
+            *ngIf="statusFilter.getValue() === 'incomplete'; else matCircle">
+            <ng-icon
+              class="cursor-pointer align-text-top text-teal-600 dark:text-white"
+              size="1.75rem"
+              name="matIncompleteCircle"
+              matTooltip="Incompleted Animes"
+              (click)="setStatusFilter('complete')"></ng-icon>
+          </ng-container>
+          <ng-template #matCircle>
+            <ng-container
+              *ngIf="statusFilter.getValue() === 'complete'; else NotAvailable">
+              <ng-icon
+                class="cursor-pointer align-text-top text-teal-600 dark:text-white"
+                size="1.75rem"
+                name="matCircle"
+                matTooltip="Completed Animes"
+                (click)="clearStatusFilter()"></ng-icon>
+            </ng-container>
+          </ng-template>
+          <ng-template #NotAvailable>
+            <span
+              matTooltip="Completed and Incompleted Animes"
+              class="cursor-pointer align-text-top font-mono text-base font-bold leading-7 text-teal-600 dark:text-white"
+              (click)="setStatusFilter('incomplete')">
+              N/A
+            </span>
+          </ng-template>
+        </section>
+
+        <!-- Filter By Anime Season autumn/summer/winter/spring/all -->
+        <section class="basis-1/4 text-center">
+          <ng-container
+            *ngIf="seasonFilter.getValue() === 'autumn'; else summer">
+            <ng-icon
+              class="cursor-pointer align-text-top text-teal-600 dark:text-white"
+              size="1.75rem"
+              name="lucideLeaf"
+              matTooltip="Autumn"
+              (click)="setSeasonFilter('summer')"></ng-icon>
+          </ng-container>
+          <ng-template #summer>
+            <ng-container
+              *ngIf="seasonFilter.getValue() === 'summer'; else winter">
+              <ng-icon
+                class="cursor-pointer align-text-top text-teal-600 dark:text-white"
+                size="1.75rem"
+                name="matWbSunny"
+                matTooltip="Summer"
+                (click)="setSeasonFilter('winter')"></ng-icon>
+            </ng-container>
+          </ng-template>
+          <ng-template #winter>
+            <ng-container
+              *ngIf="seasonFilter.getValue() === 'winter'; else spring">
+              <ng-icon
+                class="cursor-pointer align-text-top text-teal-600 dark:text-white"
+                size="1.75rem"
+                name="matThunderstorm"
+                matTooltip="Winter"
+                (click)="setSeasonFilter('spring')"></ng-icon>
+            </ng-container>
+          </ng-template>
+          <ng-template #spring>
+            <ng-container
+              *ngIf="seasonFilter.getValue() === 'spring'; else allSeasons">
+              <ng-icon
+                class="cursor-pointer align-text-top text-teal-600 dark:text-white"
+                size="1.75rem"
+                name="lucideFlower2"
+                matTooltip="Spring"
+                (click)="clearSeasonFilter()"></ng-icon>
+            </ng-container>
+          </ng-template>
+          <ng-template #allSeasons>
+            <span
+              matTooltip="All Seasons"
+              class="cursor-pointer align-text-top font-mono text-base font-bold leading-7 text-teal-600 dark:text-white"
+              (click)="setSeasonFilter('autumn')">
+              N/A
+            </span>
+          </ng-template>
+        </section>
+
+        <!-- Filter By Anime Release Date -->
+        <section class="basis-1/4 text-center">
+          <span
+            matTooltip="Release Date"
+            [matMenuTriggerFor]="releaseDateFilterMenu"
+            class="cursor-pointer align-text-top font-mono text-base font-bold leading-7 text-teal-600 dark:text-white">
+            {{ releaseDateFilter.getValue() ?? 'N/A' | uppercase }}
+          </span>
+          <mat-menu
+            style="height: 15rem"
+            xPosition="before"
+            yPosition="below"
+            #releaseDateFilterMenu>
+            <cdk-virtual-scroll-viewport
+              appendOnly
+              itemSize="48"
+              minBufferPx="300"
+              maxBufferPx="600"
+              style="height: 15rem; margin-left: 8px">
+              <button mat-menu-item (click)="clearReleaseDateFilter()">
+                N/A
+              </button>
+              <button
+                mat-menu-item
+                *cdkVirtualFor="let year of years"
+                (click)="setReleaseDateFilter(year)">
+                {{ year }}
+              </button>
+            </cdk-virtual-scroll-viewport>
+          </mat-menu>
+        </section>
+      </section>
+    </section>
+  </article>
   <section class="main-section max-w-full flex-auto">
     <article class="-m-4 flex flex-1 flex-wrap gap-y-9">
       <app-anime-card

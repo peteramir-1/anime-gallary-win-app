@@ -7,6 +7,8 @@ query GetAllAnimes {
     name
     numOfEpisodes
     liked
+    released
+    season
     type
     status
   }
