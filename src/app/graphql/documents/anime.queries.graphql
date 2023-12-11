@@ -29,3 +29,9 @@ query GetAnimeById($animeId: String!) {
     season
   }
 }
+
+query GetAnimeEpisdoesById($animeId: String!) {
+  anime(id: $animeId) {
+    episodes
+  }
+}
