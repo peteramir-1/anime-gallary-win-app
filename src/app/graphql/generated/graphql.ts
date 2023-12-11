@@ -164,6 +164,13 @@ export type GetAnimeByIdQueryVariables = Exact<{
 
 export type GetAnimeByIdQuery = { __typename?: 'Query', anime?: { __typename?: 'Anime', description?: string | null, episodes: Array<string | null>, id: string, thumbnail?: string | null, name: string, numOfEpisodes?: number | null, type: Type, liked?: boolean | null, status: Status, released?: string | null, season?: Season | null } | null };
 
+export type GetAnimeEpisdoesByIdQueryVariables = Exact<{
+  animeId: Scalars['String']['input'];
+}>;
+
+
+export type GetAnimeEpisdoesByIdQuery = { __typename?: 'Query', anime?: { __typename?: 'Anime', episodes: Array<string | null> } | null };
+
 export const CreateAnimeDocument = gql`
     mutation CreateAnime($createAnimeInput: CreateAnimeInput) {
   createAnime(animeInput: $createAnimeInput) {
@@ -327,6 +334,24 @@ export const GetAnimeByIdDocument = gql`
   })
   export class GetAnimeByIdGQL extends Apollo.Query<GetAnimeByIdQuery, GetAnimeByIdQueryVariables> {
     document = GetAnimeByIdDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetAnimeEpisdoesByIdDocument = gql`
+    query GetAnimeEpisdoesById($animeId: String!) {
+  anime(id: $animeId) {
+    episodes
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetAnimeEpisdoesByIdGQL extends Apollo.Query<GetAnimeEpisdoesByIdQuery, GetAnimeEpisdoesByIdQueryVariables> {
+    document = GetAnimeEpisdoesByIdDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

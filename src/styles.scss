@@ -11,7 +11,7 @@
 
 @layer base {
   * {
-    @apply font-sans #{!important}
+    @apply font-sans #{!important};
   }
 
   html,
@@ -47,7 +47,7 @@
     @apply bg-gray-700/70;
   }
 
-
+  
   a {
     @apply cursor-pointer;
   }
@@ -83,8 +83,16 @@
     @apply flex select-none items-center self-start rounded-lg px-5 py-3 text-center text-sm font-medium text-white transition-all duration-300;
   }
 
+  .btn[disabled] {
+    @apply cursor-default;
+  }
+
   .btn-primary {
     @apply bg-purple-600 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300;
+  }
+
+  .btn-primary[disabled] {
+    @apply bg-neutral-500 hover:bg-neutral-500 focus:ring-0;
   }
 
   .btn-outline-primary {
@@ -93,6 +101,10 @@
 
   .btn-secondary {
     @apply bg-teal-600 hover:bg-teal-800 focus:ring-4 focus:ring-teal-300;
+  }
+
+  .btn-secondary[disabled] {
+    @apply bg-neutral-500 hover:bg-neutral-500 focus:ring-0;
   }
 
   .btn-outline-secondary {
