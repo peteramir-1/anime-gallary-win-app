@@ -25,9 +25,18 @@
             "assets": ["src/assets"],
             "styles": [
               "src/fonts.scss",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/fluid-player/src/css/fluidplayer.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "vtt.js",
+              "es6-promise",
+              "hls.js",
+              "videojs-vtt.js",
+              "global/window",
+              "dashjs"
+            ]
           },
           "configurations": {
             "production": {
@@ -106,7 +115,8 @@
             "assets": ["src/assets"],
             "styles": [
               "src/fonts.scss",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/fluid-player/src/css/fluidplayer.css"
             ],
             "scripts": []
           }
