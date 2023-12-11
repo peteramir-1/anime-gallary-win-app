@@ -24,7 +24,6 @@
             "aot": true,
             "assets": ["src/assets"],
             "styles": [
-              "node_modules/@videogular/ngx-videogular/fonts/videogular.css",
               "src/fonts.scss",
               "src/styles.scss"
             ],
@@ -106,7 +105,6 @@
             "karmaConfig": "karma.conf.js",
             "assets": ["src/assets"],
             "styles": [
-              "node_modules/@videogular/ngx-videogular/fonts/videogular.css",
               "src/fonts.scss",
               "src/styles.scss"
             ],
