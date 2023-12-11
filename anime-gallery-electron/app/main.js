@@ -13,6 +13,7 @@ const createWindow = () => {
         frame: false,
         autoHideMenuBar: true,
         resizable: false,
+        movable: false,
         fullscreen: false,
         webPreferences: {
             sandbox: false,
@@ -20,6 +21,17 @@ const createWindow = () => {
         },
     });
     mainWindow.maximize();
+    mainWindow.setResizable(false);
+    mainWindow.setMovable(false);
+    mainWindow.addListener('will-move', (event) => {
+        event.preventDefault();
+    });
+    mainWindow.addListener('move', () => {
+        mainWindow.maximize();
+    });
+    mainWindow.addListener('moved', () => {
+        mainWindow.maximize();
+    });
     setTimeout(() => {
         mainWindow.focus();
     }, 1000);
