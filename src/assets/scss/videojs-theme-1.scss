@@ -1,0 +1,75 @@
+.custom-theme-1.video-js {
+  width: 100%;
+  height: 100%;
+  * {
+    text-shadow: none;
+    font-family: 'VideoJS' !important;
+  }
+  .vjs-big-play-button {
+    border: none;
+    font-size: 5em;
+  }
+  &:hover .vjs-big-play-button,
+  .vjs-big-play-button:focus,
+  .vjs-big-play-button {
+    background-color: transparent;
+  }
+  .vjs-control {
+    font-size: 11px;
+  }
+  .vjs-control:not(.vjs-progress-control):not(.vjs-mute-control):not(
+      .vjs-volume-control
+    ):not(.vjs-time-control) {
+    top: -7px;
+  }
+  .vjs-time-control {
+    display: block;
+    position: relative;
+    top: -8px;
+    font-size: 11px;
+  }
+  .vjs-control-bar {
+    background: rgba(0, 0, 0, 0.71);
+    box-shadow: 0 0 0px 0px rgba(0, 0, 0, 70%),
+      0 0 10rem 150px rgba(0, 0, 0, 68%),
+      0 -14rem 10rem 150px rgba(0, 0, 0, 61%);
+  }
+  .vjs-progress-control {
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    .vjs-progress-holder {
+      background: rgba(68, 68, 68, 0.5);
+      margin: 0 -1px;
+    }
+    .vjs-slider,
+    .vjs-load-progress {
+      background: rgba(68, 68, 68, 0.5);
+    }
+  }
+  .vjs-time-control *,
+  .vjs-time-tooltip,
+  .vjs-volume-tooltip {
+    font-family: monospace !important;
+  }
+  .vjs-time-divider {
+    font-size: 16px;
+    text-align: center;
+    line-height: 0;
+    min-width: 0;
+    width: 2px;
+    padding: 0px;
+    top: 11px;
+    left: -3px;
+  }
+  .vjs-picture-in-picture-control,
+  .vjs-load-progress div,
+  .vjs-remaining-time {
+    display: none;
+  }
+  .vjs-fullscreen-control {
+    margin-left: auto;
+  }
+}

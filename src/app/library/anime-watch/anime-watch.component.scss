@@ -1,0 +1,38 @@
+@import url('video.js/dist/video-js.css');
+@import url('videojs-playlist-ui/dist/videojs-playlist-ui.css');
+@import url('@videojs/themes/dist/forest/index.css');
+@import url('@videojs/themes/dist/city/index.css');
+@import url('@videojs/themes/dist/fantasy/index.css');
+@import url('@videojs/themes/dist/sea/index.css');
+@import '../../../assets/scss/videojs-theme-1.scss';
+
+#vjs-playlist-ui-container {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: none !important;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar {
+    width: 0.8rem !important;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    box-shadow: 0px 0px 0px 3px white inset;
+    background-color: #5a5a5a5e;
+  }
+}
+
+.vjs-playlist {
+  @apply bg-teal-600;
+}
+.vjs-playlist-item {
+  @apply mb-1 #{!important};
+}
+.vjs-playlist-vertical img {
+  position: relative;
+  bottom: 50%;
+}
+.vjs-playlist-thumbnail {
+  height: 7rem;
+}
