@@ -23,9 +23,19 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": ["src/assets"],
-            "styles": [
-              "src/fonts.scss",
-              "src/styles.scss"
+            "styles": ["src/fonts.scss", "src/styles.scss"],
+            "allowedCommonJsDependencies": [
+              "videojs-playlist",
+              "videojs-playlist-ui",
+              "videojs-hotkeys",
+              "@videojs/xhr",
+              "global/document",
+              "global/window",
+              "keycode",
+              "mux.js/lib/tools/parse-sidx",
+              "mux.js/lib/utils/clock",
+              "safe-json-parse/tuple",
+              "videojs-vtt.js"
             ],
             "scripts": []
           },
@@ -104,10 +114,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": ["src/assets"],
-            "styles": [
-              "src/fonts.scss",
-              "src/styles.scss"
-            ],
+            "styles": ["src/fonts.scss", "src/styles.scss"],
             "scripts": []
           }
         },
