@@ -24,7 +24,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "./images/favicon.ico",
+        "icon": "./favicon.ico",
         "out": "./build",
         "overwrite": true,
         "platform": "win32"
