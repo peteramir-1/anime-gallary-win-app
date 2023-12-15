@@ -1,5 +1,12 @@
 @import url('@angular/cdk/overlay-prebuilt.css');
 @import url('@angular/material/prebuilt-themes/purple-green.css');
+@import url('@videojs/themes/dist/forest/index.css');
+@import url('@videojs/themes/dist/city/index.css');
+@import url('@videojs/themes/dist/fantasy/index.css');
+@import url('@videojs/themes/dist/sea/index.css');
+@import url('video.js/dist/video-js.css');
+@import url('videojs-playlist-ui/dist/videojs-playlist-ui.css');
+@import 'assets/scss/videojs-theme-1.scss';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
