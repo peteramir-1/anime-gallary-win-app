@@ -32,7 +32,10 @@
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
-          "config": {}
+          "config": {
+            "loadingGif": "./setup.gif",
+            "setupIcon": "./favicon.ico"
+          }
         }
       ]
     }
