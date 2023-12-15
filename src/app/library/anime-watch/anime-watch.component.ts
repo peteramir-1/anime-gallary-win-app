@@ -1,4 +1,9 @@
-import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  ViewEncapsulation,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import 'videojs-playlist/dist/videojs-playlist.min.js';
@@ -12,7 +17,7 @@ import videojs from 'video.js';
   styleUrls: ['./anime-watch.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AnimeWatchComponent implements AfterViewInit {
+export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
   private episodeIndex: number =
     +this.activeRoute.snapshot.queryParams.episodeIndex;
   get currentEpisode() {
@@ -106,5 +111,9 @@ export class AnimeWatchComponent implements AfterViewInit {
     this.player.playlistUi({
       el: document.getElementById('vjs-playlist'),
     });
+  }
+
+  ngOnDestroy(): void {
+    this.player.dispose();
   }
 }
