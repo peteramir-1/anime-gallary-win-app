@@ -14,7 +14,22 @@ const fs = require("fs");
 const BetterSqlite3 = require("better-sqlite3");
 const path = require("path");
 const DatabaseConfigs = {
-    nativeBinding: path.join('node_modules', 'better-sqlite3', 'build', 'Release', 'better_sqlite3.node'),
+    nativeBinding: (() => {
+        var _a, _b;
+        const commonPath = [
+            'node_modules',
+            'better-sqlite3',
+            'build',
+            'Release',
+            'better_sqlite3.node',
+        ];
+        if (!!((_a = require.main) === null || _a === void 0 ? void 0 : _a.path)) {
+            return path.join(...[(_b = require.main) === null || _b === void 0 ? void 0 : _b.path, '..', ...commonPath]);
+        }
+        else {
+            return path.join(...[__dirname, '..', '..', '..', '..', '..', ...commonPath]);
+        }
+    })(),
     readonly: false,
     fileMustExist: false,
 };

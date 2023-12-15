@@ -6,13 +6,22 @@ import * as path from 'path';
  * @type BetterSqlite3.Options
  */
 const DatabaseConfigs = {
-  nativeBinding: path.join(
-    'node_modules',
-    'better-sqlite3',
-    'build',
-    'Release',
-    'better_sqlite3.node'
-  ),
+  nativeBinding: ((): string => {
+    const commonPath = [
+      'node_modules',
+      'better-sqlite3',
+      'build',
+      'Release',
+      'better_sqlite3.node',
+    ];
+    if (!!require.main?.path) {
+      return path.join(...[require.main?.path, '..', ...commonPath]);
+    } else {
+      return path.join(
+        ...[__dirname, '..', '..', '..', '..', '..', ...commonPath]
+      );
+    }
+  })(),
   readonly: false,
   fileMustExist: false,
 };
