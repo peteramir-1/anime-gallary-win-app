@@ -3,34 +3,7 @@ import 'videojs-playlist/dist/videojs-playlist.min.js';
 import 'videojs-playlist-ui/dist/videojs-playlist-ui.min.js';
 import 'videojs-hotkeys/videojs.hotkeys.min.js';
 import videojs from 'video.js';
-
-interface Episode {
-  src: string;
-  type: string;
-}
-
-interface Playlist {
-  sources: Episode[];
-  thumbnail: string;
-  name: string;
-}
-
-interface DynamicConfigurations {
-  controls?: boolean;
-  autoplay?: boolean;
-  controlBar?: {
-    remainingTimeDisplay?: { displayNegative: boolean };
-    pictureInPictureToggle?: boolean;
-  };
-  preload?: string;
-  plugins?: {
-    hotkeys?: {
-      volumeStep: number;
-      seekStep: number;
-      enableModifiersForNumbers: boolean;
-    };
-  };
-}
+import { DynamicConfigurations, Playlist } from './video-player.interface';
 
 @Injectable({
   providedIn: 'root',
