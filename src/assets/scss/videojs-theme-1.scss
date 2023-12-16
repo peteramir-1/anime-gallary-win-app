@@ -23,7 +23,7 @@
   }
   .vjs-fullscreen-control .vjs-icon-placeholder::before {
     font-size: 1.5em;
-    line-height: 1.9;
+    line-height: 2;
   }
   .vjs-fullscreen-control[title='Exit Fullscreen']
     .vjs-icon-placeholder:before {
@@ -83,6 +83,8 @@
     font-size: 11px;
   }
   .vjs-control-bar {
+    @apply mb-[-9px];
+    @apply items-center;
     background: rgba(0, 0, 0, 0.71);
     box-shadow: 0 0 0px 0px rgba(0, 0, 0, 70%),
       0 0 10rem 150px rgba(0, 0, 0, 68%),
@@ -115,7 +117,7 @@
     min-width: 0;
     width: 2px;
     padding: 0px;
-    top: 11px;
+    top: -7px;
     left: -3px;
   }
   .vjs-picture-in-picture-control,
