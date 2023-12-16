@@ -43,7 +43,7 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
       this.getAnimePlaylist(),
       this.episodeIndex
     );
-    this.videoPlayerService.videoJsPlaylistUiInit();
+    this.videoPlayerService.videoJsPlaylistUiInit('vjs-playlist');
   }
   private scrollPlaylistMenuToCurrentEpisode() {
     document

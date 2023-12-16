@@ -48,9 +48,9 @@ export class VideoPlayerService {
     this.player.playlist.autoadvance(0);
   }
 
-  videoJsPlaylistUiInit() {
+  videoJsPlaylistUiInit(playlistUiId: string) {
     this.player.playlistUi({
-      el: document.getElementById('vjs-playlist'),
+      el: document.getElementById(playlistUiId),
     });
   }
 
