@@ -24,7 +24,7 @@
         <button
           class="btn btn-secondary gap-3"
           [disabled]="currentEpisode === 0"
-          (click)="player.playlist.previous()">
+          (click)="playPrevious()">
           <ng-icon size="1.25rem" name="heroArrowSmallLeft"></ng-icon> Previous
         </button>
         <h2 class="text-neutral-590 text-base font-bold dark:text-white">
@@ -33,7 +33,7 @@
         <button
           class="btn btn-secondary gap-3"
           [disabled]="currentEpisode === anime.episodes.length - 1"
-          (click)="player.playlist.next()">
+          (click)="playNext()">
           Next <ng-icon size="1.25rem" name="heroArrowSmallRight"></ng-icon>
         </button>
       </section>
