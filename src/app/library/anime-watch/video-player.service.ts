@@ -15,17 +15,36 @@ interface Playlist {
   name: string;
 }
 
+interface DynamicConfigurations {
+  controls?: boolean;
+  autoplay?: boolean;
+  controlBar?: {
+    remainingTimeDisplay?: { displayNegative: boolean };
+    pictureInPictureToggle?: boolean;
+  };
+  preload?: string;
+  plugins?: {
+    hotkeys?: {
+      volumeStep: number;
+      seekStep: number;
+      enableModifiersForNumbers: boolean;
+    };
+  };
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class VideoPlayerService {
   player: any;
-  configurations = {
+  configurations: DynamicConfigurations = {
     controls: true,
     autoplay: false,
-    controlBar: { remainingTimeDisplay: { displayNegative: false } },
+    controlBar: {
+      remainingTimeDisplay: { displayNegative: false },
+      pictureInPictureToggle: false,
+    },
     preload: 'auto',
-    controllBar: { pictureInPictureToggle: false },
     plugins: {
       hotkeys: {
         volumeStep: 0.1,
@@ -68,7 +87,7 @@ export class VideoPlayerService {
 
   next() {
     this.player.playlist.next();
-  };
+  }
 
   previous() {
     this.player.playlist.previous();
