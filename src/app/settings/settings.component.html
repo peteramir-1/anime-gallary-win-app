@@ -1,0 +1,16 @@
+<article class="flex w-full flex-row gap-7 dark:text-white">
+  <section class="main-section h-[calc(100vh_-_4rem_-_50px)] w-full flex-auto">
+    <router-outlet></router-outlet>
+  </section>
+  <section
+    class="main-section h-[calc(100vh_-_4rem_-_50px)] flex-initial basis-1/3">
+    <ul class="flex w-full flex-col">
+      <li
+        routerLink="/settings/about"
+        routerLinkActive="!bg-neutral-300 dark:!bg-neutral-500 shadow-inner"
+        class="my-2 mb-0 flex-initial cursor-pointer overflow-hidden rounded-lg bg-neutral-100 py-3 text-center text-[0.9rem] font-semibold transition-all duration-300 ease-in-out hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-600">
+        About
+      </li>
+    </ul>
+  </section>
+</article>

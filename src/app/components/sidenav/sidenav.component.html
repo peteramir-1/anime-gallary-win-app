@@ -1,7 +1,9 @@
 <!-- Menu Button -->
 <ng-container *ngFor="let item of sidenav" tabindex="-1">
   <button
-    class="btn btn-secondary w-full flex-initial gap-2"
+    [class]="
+      'btn btn-secondary w-full flex-initial gap-2 ' + (item.buttonClass ?? '')
+    "
     [routerLink]="item.link"
     routerLinkActive="!bg-teal-900 shadow-lg"
     [routerLinkActiveOptions]="{ exact: item.link === '/' ? true : false }">
@@ -14,7 +16,7 @@
 
 <!-- Dark/Light Mode Buttons -->
 <button
-  class="btn mt-auto flex-initial gap-2 self-end bg-gray-600 align-bottom text-gray-50"
+  class="btn flex-initial gap-2 self-end bg-gray-600 align-bottom text-gray-50"
   (click)="toggleTheme()"
   tabindex="-1">
   <span

@@ -12,6 +12,11 @@ export const routes: Routes = [
       import('./library/library.module').then(m => m.LibraryModule),
   },
   {
+    path: 'settings',
+    loadChildren: () =>
+      import('./settings/settings.module').then(m => m.SettingsModule),
+  },
+  {
     path: 'error',
     loadChildren: () => import('./error/error.module').then(m => m.ErrorModule),
   },

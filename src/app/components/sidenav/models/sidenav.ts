@@ -11,9 +11,10 @@ export const sidenav: Sidenav[] = [
     icon: 'lucideLibrary',
     link: '/library',
   },
-  // {
-  //   title: 'settings',
-  //   icon: 'lucideSettings',
-  //   link: '/settings',
-  // },
+  {
+    title: 'settings',
+    buttonClass: 'mt-auto',
+    icon: 'lucideSettings',
+    link: '/settings',
+  },
 ];
