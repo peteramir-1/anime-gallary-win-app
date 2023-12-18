@@ -15,8 +15,10 @@ const BetterSqlite3 = require("better-sqlite3");
 const path = require("path");
 const DatabaseConfigs = {
     nativeBinding: (() => {
-        var _a, _b;
-        return path.join('node_modules', 'better-sqlite3', 'build', 'Release', 'better_sqlite3.node');
+        var _a, _b, _c;
+        if (((_a = process.env.mode) === null || _a === void 0 ? void 0 : _a.trim()) === 'development') {
+            return path.join('node_modules', 'better-sqlite3', 'build', 'Release', 'better_sqlite3.node');
+        }
         const commonPath = [
             'node_modules',
             'better-sqlite3',
@@ -24,8 +26,8 @@ const DatabaseConfigs = {
             'Release',
             'better_sqlite3.node',
         ];
-        if (!!((_a = require.main) === null || _a === void 0 ? void 0 : _a.path)) {
-            return path.join(...[((_b = require.main) === null || _b === void 0 ? void 0 : _b.path) || '', '..', ...commonPath]);
+        if (!!((_b = require.main) === null || _b === void 0 ? void 0 : _b.path)) {
+            return path.join(...[((_c = require.main) === null || _c === void 0 ? void 0 : _c.path) || '', '..', ...commonPath]);
         }
         else {
             return path.join(...[__dirname, '..', '..', '..', '..', '..', ...commonPath]);

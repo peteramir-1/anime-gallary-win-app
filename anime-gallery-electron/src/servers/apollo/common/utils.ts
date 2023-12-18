@@ -13,13 +13,15 @@ const DatabaseConfigs = {
      * in development mode and comment it for
      * production version.
      */
-    return path.join(
-      'node_modules',
-      'better-sqlite3',
-      'build',
-      'Release',
-      'better_sqlite3.node'
-    );
+    if (process.env.mode?.trim() === 'development') {
+      return path.join(
+        'node_modules',
+        'better-sqlite3',
+        'build',
+        'Release',
+        'better_sqlite3.node'
+      );
+    }
     // #########################
     const commonPath = [
       'node_modules',

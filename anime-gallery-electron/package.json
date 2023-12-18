@@ -14,7 +14,7 @@
     "package": "npm run compile && electron-forge package",
     "make": "npm run compile && electron-forge make",
     "publish": "npm run compile && electron-forge publish",
-    "test": "jest --watchAll"
+    "test": "SET mode=development && jest --watchAll"
   },
   "author": {
     "name": "Peter A. Labib",
