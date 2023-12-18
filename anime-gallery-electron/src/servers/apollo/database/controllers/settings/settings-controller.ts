@@ -39,7 +39,7 @@ export class SettingsController {
     if (!(res?.id === 0)) {
       const createdAt = new Date().toLocaleDateString('en-CA');
       this.DatabaseConnection.prepare(
-        'INSERT INTO Settings(id, @createdAt) VALUES(0, @createdAt);'
+        'INSERT INTO Settings(id, createdAt) VALUES(0, @createdAt);'
       ).run({ createdAt });
     }
   }
