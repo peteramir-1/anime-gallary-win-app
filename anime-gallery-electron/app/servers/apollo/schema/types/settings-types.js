@@ -8,6 +8,7 @@ exports.settingsTypeDefs = `
         volumeStep: Float
         seekStep: Int
         enableMute: Boolean
+        darkMode: Boolean
         enableVolumeScroll: Boolean
         enableHoverScroll: Boolean
         enableFullscreen: Boolean
@@ -45,6 +46,7 @@ exports.settingsTypeDefs = `
         volumeStep: Float
         seekStep: Int
         enableMute: Boolean
+        darkMode: Boolean
         enableVolumeScroll: Boolean
         enableHoverScroll: Boolean
         enableFullscreen: Boolean
