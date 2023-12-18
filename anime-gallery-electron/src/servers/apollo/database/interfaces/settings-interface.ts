@@ -18,6 +18,7 @@ export interface Settings {
   aspectRatio?: string | null;
   createdAt: string;
   updatedAt?: string | null;
+  darkMode?: string | null;
   skipButton?: boolean | null;
   audioOnlyMode?: boolean | null;
   audioPosterMode?: boolean | null;
@@ -41,6 +42,7 @@ export interface Settings {
 
 export type RequiredDBSettingsFields = 'id' | 'theme' | 'createdAt';
 export type BooleanDBSettingsFields =
+  | 'darkMode'
   | 'enableMute'
   | 'enableVolumeScroll'
   | 'enableHoverScroll'
@@ -73,6 +75,7 @@ interface RequiredDBSettingsInterface {
 }
 
 interface BooleanDBSettingsInterface {
+  darkMode: number | null;
   enableMute: number | null;
   enableVolumeScroll: number | null;
   enableHoverScroll: number | null;

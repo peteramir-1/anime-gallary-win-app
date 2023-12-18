@@ -5,6 +5,7 @@ exports.CREATE_SETTINGS_TABLE_IF_NOT_EXISTED = `
     CREATE TABLE IF NOT EXISTS Settings(
         id INTEGER PRIMARY KEY DEFAULT 0,
         theme TEXT NOT NULL DEFAULT "custom-theme-1",
+        darkMode Boolean DEFAULT 0,
         volumeStep REAL DEFAULT 0.1,
         seekStep INTEGER DEFAULT 5,
         enableMute INTEGER DEFAULT 1,
@@ -42,6 +43,7 @@ exports.GET_SETTINGS = `
 exports.UPDATE_SETTINGS = `
     UPDATE Settings SET
         theme = @theme,
+        darkMode = @darkMode,
         volumeStep = @volumeStep,
         seekStep = @seekStep,
         enableMute = @enableMute,
