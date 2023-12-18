@@ -1,4 +1,7 @@
-export const typeDefs = `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.animeTypeDefs = void 0;
+exports.animeTypeDefs = `
   enum STATUS {
     complete
     incomplete
@@ -75,3 +78,4 @@ export const typeDefs = `
     deleteAnime(id: ID!): DeleteReturn
   }
 `;
+//# sourceMappingURL=anime-types.js.map

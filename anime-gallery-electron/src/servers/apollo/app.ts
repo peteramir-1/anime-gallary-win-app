@@ -1,25 +1,55 @@
-import { ApolloServer } from '@apollo/server';
-import { typeDefs } from './schema/types';
-import { resolvers } from './schema/resolvers';
 import * as express from 'express';
 import * as http from 'http';
 import * as cors from 'cors';
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { expressMiddleware } from '@apollo/server/express4';
 
-export const PORT = 8021;
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+
+import { Database } from 'better-sqlite3';
+
+import { getResolvers } from './schema/resolvers';
+import { animeTypeDefs } from './schema/types/anime-types';
+import { settingsTypeDefs } from './schema/types/settings-types';
+
+import { createDbConnection } from '../apollo/common/utils';
+import * as DBModel from './database/models/db.model';
+import { AnimesController } from './database/controllers/animes/animes-controller';
+import { SettingsController } from './database/controllers/settings/settings-controller';
 
 const app = express();
 const httpServer = http.createServer(app);
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-});
+
+let animeDatabaseConnection: Database;
+let settingsDatabaseConnection: Database;
+let animesController: AnimesController;
+let settingsController: SettingsController;
+
+let server: any;
 
 export const startApolloServer = async (callbackFn: () => void = () => {}) => {
+  animeDatabaseConnection = await createDbConnection(
+    DBModel.appDatabaseDirectoryPath,
+    DBModel.animeDatabaseFilename
+  );
+
+  settingsDatabaseConnection = await createDbConnection(
+    DBModel.appDatabaseDirectoryPath,
+    DBModel.settingsDatabaseFilename
+  );
+
+  animesController = new AnimesController(animeDatabaseConnection);
+  settingsController = new SettingsController(settingsDatabaseConnection);
+
+  const resolvers = getResolvers(animesController, settingsController);
+  server = new ApolloServer({
+    typeDefs: [animeTypeDefs, settingsTypeDefs],
+    resolvers,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  });
+
   await server.start();
-  
+
   app.use(
     '',
     cors<cors.CorsRequest>({ origin: ['http://localhost:8020'] }),
@@ -28,16 +58,18 @@ export const startApolloServer = async (callbackFn: () => void = () => {}) => {
   );
 
   await new Promise<void>(resolve =>
-    httpServer.listen({ port: PORT }, resolve)
+    httpServer.listen({ port: DBModel.port }, resolve)
   ).then(() => {
-    console.log(`Apollo Server ready at ${PORT}`);
+    console.log(`Apollo Server ready at ${DBModel.port}`);
     callbackFn();
   });
 };
 
 export const closeApolloServer = () => {
   server.stop().then(() => {
-    console.log(`server running at http://localhost:${PORT}/ is closed`);
+    console.log(
+      `server running at http://localhost:${DBModel.port}/ is closed`
+    );
   });
 };
 

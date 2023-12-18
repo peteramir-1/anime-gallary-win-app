@@ -18,12 +18,12 @@
       <section>
         <video
           id="main-video-js"
-          class="video-js custom-theme-1 aspect-video overflow-hidden"></video>
+          class="video-js custom-theme-1 vjs-16-9 overflow-hidden text-xs"></video>
       </section>
       <section class="flex flex-row items-center justify-between">
         <button
           class="btn btn-secondary gap-3"
-          [disabled]="currentEpisode === 0"
+          [disabled]="currentEpisode === 1"
           (click)="playPrevious()">
           <ng-icon size="1.25rem" name="heroArrowSmallLeft"></ng-icon> Previous
         </button>
@@ -32,7 +32,7 @@
         </h2>
         <button
           class="btn btn-secondary gap-3"
-          [disabled]="currentEpisode === anime.episodes.length - 1"
+          [disabled]="currentEpisode === anime.episodes.length"
           (click)="playNext()">
           Next <ng-icon size="1.25rem" name="heroArrowSmallRight"></ng-icon>
         </button>

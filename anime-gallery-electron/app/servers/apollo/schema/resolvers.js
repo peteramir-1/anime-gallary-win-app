@@ -9,19 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resolvers = void 0;
-const animes_controller_1 = require("../database/controllers/animes-controller");
-const utils_1 = require("../database/controllers/utils");
-let animeDatabaseConnection;
-let animesController;
-(() => __awaiter(void 0, void 0, void 0, function* () {
-    animeDatabaseConnection = yield (0, utils_1.createDbConnection)(animes_controller_1.AnimesDatabasePath, animes_controller_1.AnimeDatabaseFilename);
-    animesController = new animes_controller_1.AnimesController(animeDatabaseConnection);
-}))();
-exports.resolvers = {
+exports.getResolvers = void 0;
+const getResolvers = (animesController, settingsController) => ({
     Query: {
         animes: () => __awaiter(void 0, void 0, void 0, function* () { return animesController.getAllAnimes(); }),
         anime: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () { return animesController.getAnimeById(id); }),
+        settings: () => __awaiter(void 0, void 0, void 0, function* () { return settingsController.getAllSettings(); }),
     },
     Mutation: {
         createAnime: (_, { animeInput }) => __awaiter(void 0, void 0, void 0, function* () { return animesController.createAnime(animeInput); }),
@@ -31,6 +24,8 @@ exports.resolvers = {
                 affectedRows: animesController.deleteAnimeById(id),
             });
         }),
+        updateSettings: (_, { settingsInput, }) => __awaiter(void 0, void 0, void 0, function* () { return settingsController.updateSettings(settingsInput); }),
     },
-};
+});
+exports.getResolvers = getResolvers;
 //# sourceMappingURL=resolvers.js.map
