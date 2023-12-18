@@ -31,7 +31,7 @@ class SettingsController {
         const res = this.DatabaseConnection.prepare('SELECT id FROM Settings WHERE id = 0').get();
         if (!((res === null || res === void 0 ? void 0 : res.id) === 0)) {
             const createdAt = new Date().toLocaleDateString('en-CA');
-            this.DatabaseConnection.prepare('INSERT INTO Settings(id, @createdAt) VALUES(0, @createdAt);').run({ createdAt });
+            this.DatabaseConnection.prepare('INSERT INTO Settings(id, createdAt) VALUES(0, @createdAt);').run({ createdAt });
         }
     }
     getAllSettings() {
