@@ -1,17 +1,13 @@
 import { Database } from 'better-sqlite3';
 import * as statusments from './animes-sql';
 import { v4 } from 'uuid';
-import * as path from 'path';
 import {
   Anime,
   DBAnime,
   DBEpisodes,
   Episode,
   Nullable,
-} from '../interfaces/anime.interface';
-
-export const AnimesDatabasePath = path.join(__dirname, '..', 'databases');
-export const AnimeDatabaseFilename = 'anime.sqlite';
+} from '../../interfaces/anime.interface';
 
 export class AnimesController {
   constructor(private DatabaseConnection: Database) {

@@ -1,19 +1,20 @@
 import { expect, test } from '@jest/globals';
-import { AnimesController, AnimesDatabasePath } from './animes-controller';
-import { createDbConnection } from './utils';
+import { createDbConnection } from '../../../common/utils';
+import { appDatabaseDirectoryPath } from '../../models/db.model';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as BetterSqlite3 from 'better-sqlite3';
+import { AnimesController } from './animes-controller';
 
 const testAnimeDatabaseFilename = 'anime.test.sqlite';
 const testAnimeDatabaseDir = path.join(
-  AnimesDatabasePath,
+  appDatabaseDirectoryPath,
   testAnimeDatabaseFilename
 );
 
 describe('Database Connection Functions', () => {
   test('create Database file and folder if not existed', async () => {
-    await createDbConnection(AnimesDatabasePath, testAnimeDatabaseFilename);
+    await createDbConnection(appDatabaseDirectoryPath, testAnimeDatabaseFilename);
     expect(fs.existsSync(testAnimeDatabaseDir)).toBe(true);
   });
 });
@@ -24,7 +25,7 @@ describe('Anime Database Controller', () => {
 
   beforeEach(async () => {
     animeDatabaseConnection = await createDbConnection(
-      AnimesDatabasePath,
+      appDatabaseDirectoryPath,
       testAnimeDatabaseFilename
     );
     expect(fs.existsSync(testAnimeDatabaseDir)).toBe(true);

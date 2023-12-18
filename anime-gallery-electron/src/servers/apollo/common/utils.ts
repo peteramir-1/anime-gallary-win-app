@@ -7,6 +7,20 @@ import * as path from 'path';
  */
 const DatabaseConfigs = {
   nativeBinding: ((): string => {
+    /**
+     * Code For Development -->
+     * Please uncomment it if you want to work
+     * in development mode and comment it for
+     * production version.
+     */
+    return path.join(
+      'node_modules',
+      'better-sqlite3',
+      'build',
+      'Release',
+      'better_sqlite3.node'
+    );
+    // #########################
     const commonPath = [
       'node_modules',
       'better-sqlite3',
@@ -15,7 +29,7 @@ const DatabaseConfigs = {
       'better_sqlite3.node',
     ];
     if (!!require.main?.path) {
-      return path.join(...[require.main?.path, '..', ...commonPath]);
+      return path.join(...[require.main?.path || '', '..', ...commonPath]);
     } else {
       return path.join(
         ...[__dirname, '..', '..', '..', '..', '..', ...commonPath]

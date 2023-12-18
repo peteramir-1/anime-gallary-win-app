@@ -1,29 +1,17 @@
-import {
-  AnimesController,
-  AnimesDatabasePath,
-  AnimeDatabaseFilename,
-} from '../database/controllers/animes-controller';
-import { createDbConnection } from '../database/controllers/utils';
-import { Database } from 'better-sqlite3';
+import { AnimesController } from '../database/controllers/animes/animes-controller';
+import { SettingsController } from '../database/controllers/settings/settings-controller';
 import { Anime } from '../database/interfaces/anime.interface';
+import { Settings } from '../database/interfaces/settings-interface';
 
-let animeDatabaseConnection: Database;
-let animesController: AnimesController;
-
-(async () => {
-  animeDatabaseConnection = await createDbConnection(
-    AnimesDatabasePath,
-    AnimeDatabaseFilename
-  );
-
-  animesController = new AnimesController(animeDatabaseConnection);
-})();
-
-export const resolvers = {
+export const getResolvers = (
+  animesController: AnimesController,
+  settingsController: SettingsController
+): any => ({
   Query: {
     animes: async () => animesController.getAllAnimes(),
     anime: async (_: any, { id }: { id: string }) =>
       animesController.getAnimeById(id),
+    settings: async () => settingsController.getAllSettings(),
   },
   Mutation: {
     createAnime: async (
@@ -35,5 +23,11 @@ export const resolvers = {
     deleteAnime: async (_: any, { id }: { id: string }) => ({
       affectedRows: animesController.deleteAnimeById(id),
     }),
+    updateSettings: async (
+      _: any,
+      {
+        settingsInput,
+      }: { settingsInput: Omit<Settings, 'id' | 'createdAt' | 'updatedAt'> }
+    ) => settingsController.updateSettings(settingsInput),
   },
-};
+});
