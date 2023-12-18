@@ -5,6 +5,7 @@ export const settingsTypeDefs = `
         volumeStep: Float
         seekStep: Int
         enableMute: Boolean
+        darkMode: Boolean
         enableVolumeScroll: Boolean
         enableHoverScroll: Boolean
         enableFullscreen: Boolean
@@ -42,6 +43,7 @@ export const settingsTypeDefs = `
         volumeStep: Float
         seekStep: Int
         enableMute: Boolean
+        darkMode: Boolean
         enableVolumeScroll: Boolean
         enableHoverScroll: Boolean
         enableFullscreen: Boolean
