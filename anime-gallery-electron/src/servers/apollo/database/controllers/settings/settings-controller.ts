@@ -7,6 +7,7 @@ import * as statements from './settings-sql';
 
 export class SettingsController {
   private booleanFields = [
+    'darkMode',
     'enableMute',
     'enableVolumeScroll',
     'enableHoverScroll',
