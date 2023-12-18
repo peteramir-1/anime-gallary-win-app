@@ -6,6 +6,7 @@ class SettingsController {
     constructor(DatabaseConnection) {
         this.DatabaseConnection = DatabaseConnection;
         this.booleanFields = [
+            'darkMode',
             'enableMute',
             'enableVolumeScroll',
             'enableHoverScroll',
