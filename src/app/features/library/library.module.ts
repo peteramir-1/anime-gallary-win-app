@@ -3,9 +3,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { LibraryComponent } from './library.component';
-import { AddAnimeComponent } from './add-anime/add-anime.component';
-import { AnimeDetailsComponent } from './anime-details/anime-details.component';
-import { AnimeWatchComponent } from './anime-watch/anime-watch.component';
+import { AddAnimeComponent } from './components/add-anime/add-anime.component';
+import { AnimeDetailsComponent } from './components/anime-details/anime-details.component';
+import { AnimeWatchComponent } from './components/anime-watch/anime-watch.component';
 
 import { LibraryRoutingModule } from './library.routing';
 import { AnimeCardModule } from 'src/app/shared/modules/anime-card/anime-card.module';
@@ -41,7 +41,7 @@ import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
 } from '@angular/material/snack-bar';
 
-import { VideoPlayerService } from './anime-watch/video-player.service';
+import { VideoPlayerService } from './services/video-player.service';
 
 @NgModule({
   declarations: [

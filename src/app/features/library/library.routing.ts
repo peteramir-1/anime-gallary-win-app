@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { LibraryComponent } from './library.component';
-import { AddAnimeComponent } from './add-anime/add-anime.component';
-import { AnimeDetailsComponent } from './anime-details/anime-details.component';
-import { AnimeWatchComponent } from './anime-watch/anime-watch.component';
+import { AddAnimeComponent } from './components/add-anime/add-anime.component';
+import { AnimeDetailsComponent } from './components/anime-details/anime-details.component';
+import { AnimeWatchComponent } from './components/anime-watch/anime-watch.component';
 
 import { AnimeExistsGuard } from './guards/anime-exists.guard';
 
