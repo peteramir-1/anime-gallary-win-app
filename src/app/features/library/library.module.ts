@@ -5,7 +5,7 @@ import { AddAnimeComponent } from './components/add-anime/add-anime.component';
 import { AnimeDetailsComponent } from './components/anime-details/anime-details.component';
 import { AnimeWatchComponent } from './components/anime-watch/anime-watch.component';
 
-import { LibraryRoutingModule } from './library.routing';
+import { LibraryRoutingModule } from './routes/library.routing';
 
 import { NgArrayPipesModule } from 'ngx-pipes';
 

@@ -8,7 +8,7 @@ import { AboutComponent } from './components/about/about.component';
 import { NgIconsModule } from '@ng-icons/core';
 import { heroQuestionMarkCircle } from '@ng-icons/heroicons/outline';
 
-import { SettingsRoutingModule } from './settings.routes';
+import { SettingsRoutingModule } from './routes/settings.routes';
 
 import { SharedModule } from 'src/app/shared/shared.module';
 
