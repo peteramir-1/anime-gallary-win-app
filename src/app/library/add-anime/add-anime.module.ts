@@ -13,9 +13,9 @@ import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
 } from '@angular/material/snack-bar';
 
-import { FilepathInputModule } from 'src/app/common/components/filepath-input/filepath-input.module';
-import { FolderInputModule } from 'src/app/common/components/folder-input/folder-input.module';
-import { NumInputModule } from 'src/app/common/components/num-input/num-input.module';
+import { FilepathInputModule } from 'src/app/shared/modules/filepath-input/filepath-input.module';
+import { FolderInputModule } from 'src/app/shared/modules/folder-input/folder-input.module';
+import { NumInputModule } from 'src/app/shared/modules/num-input/num-input.module';
 
 @NgModule({
   declarations: [AddAnimeComponent],

@@ -1,4 +1,4 @@
-import { theme } from "src/app/common/interfaces/video-player.interface";
+import { theme } from "src/app/shared/interfaces/video-player.interface";
 
 const themePrefix = 'vjs-theme-';
 

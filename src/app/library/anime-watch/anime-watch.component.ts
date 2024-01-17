@@ -11,7 +11,7 @@ import { map, tap } from 'rxjs/operators';
 import {
   Playlist,
   VideoPlayerSettings,
-} from 'src/app/common/interfaces/video-player.interface';
+} from 'src/app/shared/interfaces/video-player.interface';
 
 @Component({
   selector: 'app-anime-watch',

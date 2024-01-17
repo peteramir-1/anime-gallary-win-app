@@ -9,10 +9,10 @@ import { heroQuestionMarkCircle } from '@ng-icons/heroicons/outline';
 import { VideoPlayerRoutingModule } from './video-player.routing';
 import { VideoPlayerComponent } from './video-player.component';
 
-import { OnOffInputModule } from 'src/app/common/components/on-off-input/on-off-input.module';
-import { CheckboxInputModule } from 'src/app/common/components/checkbox-input/checkbox-input.module';
-import { NumberInputModule } from 'src/app/common/components/number-input/number-input.module';
-import { AppSnackbarModule } from 'src/app/common/features/app-snackbar/app-snackbar.module';
+import { OnOffInputModule } from 'src/app/shared/modules/on-off-input/on-off-input.module';
+import { CheckboxInputModule } from 'src/app/shared/modules/checkbox-input/checkbox-input.module';
+import { NumberInputModule } from 'src/app/shared/modules/number-input/number-input.module';
+import { AppSnackbarModule } from 'src/app/shared/modules/app-snackbar/app-snackbar.module';
 
 @NgModule({
   declarations: [VideoPlayerComponent],

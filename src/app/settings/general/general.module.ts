@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { GeneralRoutingModule } from './general.routing';
 import { GeneralComponent } from './general.component';
-import { OnOffInputModule } from 'src/app/common/components/on-off-input/on-off-input.module';
+import { OnOffInputModule } from 'src/app/shared/modules/on-off-input/on-off-input.module';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({

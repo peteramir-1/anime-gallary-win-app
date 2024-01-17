@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 
 import { GetVideoPlayerSettingsGQL } from 'src/app/core/services/graphql.service';
 
-import { VideoPlayerSettings } from 'src/app/common/interfaces/video-player.interface';
+import { VideoPlayerSettings } from 'src/app/shared/interfaces/video-player.interface';
 
 @Injectable({
   providedIn: 'root',

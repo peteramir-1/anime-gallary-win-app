@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LibraryComponent } from './library.component';
 
 import { LibraryRoutingModule } from './library.routing';
-import { AnimeCardModule } from '../common/components/anime-card/anime-card.module';
+import { AnimeCardModule } from '../shared/modules/anime-card/anime-card.module';
 import { NgArrayPipesModule } from 'ngx-pipes';
 import { NgIconsModule } from '@ng-icons/core';
 import { heroPlus } from '@ng-icons/heroicons/outline';

@@ -7,8 +7,8 @@ import {
   Playlist,
   StaticConfigurations,
   VideoPlayerConfigurations,
-} from 'src/app/common/interfaces/video-player.interface';
-import { VideoPlayerSettings } from 'src/app/common/interfaces/video-player.interface';
+} from 'src/app/shared/interfaces/video-player.interface';
+import { VideoPlayerSettings } from 'src/app/shared/interfaces/video-player.interface';
 
 @Injectable({
   providedIn: 'root',

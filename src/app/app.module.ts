@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './core/routes/app.routing';
 import { SidenavComponent } from './core/components/sidenav/sidenav.component';
 import { LayoutComponent } from './core/components/layout/layout.component';
-import { SafeHtmlPipe } from './common/pipes/safe-html.pipe';
+import { SafeHtmlPipe } from './shared/pipes/safe-html.pipe';
 import { GraphQLModule } from './core/modules/graphql.module';
 import { NgIconsModule } from '@ng-icons/core';
 import { heroHome, heroSun, heroMoon } from '@ng-icons/heroicons/outline';
