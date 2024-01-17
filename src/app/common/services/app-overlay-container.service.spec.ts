@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AppSnackbarOverlayContainer } from './custom-overlay-container.service';
+import { AppSnackbarOverlayContainer } from './app-overlay-container.service';
 
 describe('AppSnackbarOverlayContainer', () => {
   let service: AppSnackbarOverlayContainer;

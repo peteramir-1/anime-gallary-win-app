@@ -1,12 +1,11 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { NgModule } from '@angular/core';
-import { AppSnackbarOverlayContainer } from './custom-overlay-container.service';
+import { AppOverlayContainer } from '../../services/app-overlay-container.service';
 import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
   MatSnackBarConfig,
   MatSnackBarModule,
 } from '@angular/material/snack-bar';
-import { AppSnackbarOverlayOriginDirective } from './app-snackbar-origin.directive';
 
 const APP_SNACK_BAR_DEFAULT_OPTIONS: MatSnackBarConfig = {
   duration: 1500,
@@ -22,18 +21,17 @@ const APP_SNACK_BAR_DEFAULT_OPTIONS: MatSnackBarConfig = {
   ],
 };
 @NgModule({
-  declarations: [AppSnackbarOverlayOriginDirective],
   imports: [MatSnackBarModule],
   providers: [
     {
       provide: OverlayContainer,
-      useExisting: AppSnackbarOverlayContainer,
+      useExisting: AppOverlayContainer,
     },
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: APP_SNACK_BAR_DEFAULT_OPTIONS,
     },
   ],
-  exports: [AppSnackbarOverlayOriginDirective, MatSnackBarModule],
+  exports: [MatSnackBarModule],
 })
 export class AppSnackbarModule {}
