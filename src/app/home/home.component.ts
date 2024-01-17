@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { map, takeUntil, retry } from 'rxjs/operators';
-import { AnimeService } from '../common/services/anime.service';
+import { AnimeService } from '../core/services/anime.service';
 import { Subject } from 'rxjs';
 
 @Component({

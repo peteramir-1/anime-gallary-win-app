@@ -13,10 +13,10 @@ import {
   Status,
   Type,
   UpdateAnimeGQL,
-} from 'src/app/graphql/generated/graphql';
-import { ElectronService } from 'src/app/common/services/electron.service';
-import { CreateAnimeGQL } from 'src/app/graphql/generated/graphql';
-import { UtilsService } from 'src/app/common/services/utils.service';
+  CreateAnimeGQL
+} from 'src/app/core/services/graphql.service';
+import { ElectronService } from 'src/app/core/services/electron.service';
+import { UtilsService } from 'src/app/core/services/utils.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

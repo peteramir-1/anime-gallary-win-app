@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AnimeService } from 'src/app/common/services/anime.service';
+import { AnimeService } from 'src/app/core/services/anime.service';
 
 @Injectable({
   providedIn: 'root',

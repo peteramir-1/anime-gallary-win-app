@@ -1,6 +1,6 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { NgModule } from '@angular/core';
-import { AppOverlayContainer } from '../../services/app-overlay-container.service';
+import { AppOverlayContainer } from 'src/app/core/services/app-overlay-container.service';
 import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
   MatSnackBarConfig,

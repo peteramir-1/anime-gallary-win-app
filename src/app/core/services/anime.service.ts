@@ -3,7 +3,7 @@ import { catchError } from 'rxjs/operators';
 import {
   GetAllAnimesGQL,
   GetAnimeByIdGQL,
-} from 'src/app/graphql/generated/graphql';
+} from 'src/app/core/services/graphql.service';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 

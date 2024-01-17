@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { GetVideoPlayerSettingsGQL } from 'src/app/graphql/generated/graphql';
+import { GetVideoPlayerSettingsGQL } from 'src/app/core/services/graphql.service';
 
 import { VideoPlayerSettings } from 'src/app/common/interfaces/video-player.interface';
 

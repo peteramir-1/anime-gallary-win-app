@@ -4,21 +4,21 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+    loadChildren: () => import('../../home/home.module').then(m => m.HomeModule),
   },
   {
     path: 'library',
     loadChildren: () =>
-      import('./library/library.module').then(m => m.LibraryModule),
+      import('../../library/library.module').then(m => m.LibraryModule),
   },
   {
     path: 'settings',
     loadChildren: () =>
-      import('./settings/settings.module').then(m => m.SettingsModule),
+      import('../../settings/settings.module').then(m => m.SettingsModule),
   },
   {
     path: 'error',
-    loadChildren: () => import('./error/error.module').then(m => m.ErrorModule),
+    loadChildren: () => import('../../error/error.module').then(m => m.ErrorModule),
   },
   {
     path: '**',

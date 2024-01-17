@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { GetAllAnimesGQL } from 'src/app/graphql/generated/graphql';
+import { GetAllAnimesGQL } from 'src/app/core/services/graphql.service';
 
 @Injectable({
   providedIn: 'root',

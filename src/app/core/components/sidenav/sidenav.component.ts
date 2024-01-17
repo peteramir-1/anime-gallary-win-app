@@ -5,8 +5,8 @@ import {
   ViewChild,
   Component,
 } from '@angular/core';
-import { sidenav } from './models/sidenav';
-import { DarkModeService } from 'src/app/services/dark-mode.service';
+import { sidenav } from '../../models/sidenav';
+import { DarkModeService } from 'src/app/core/services/dark-mode.service';
 
 @Component({
   selector: 'app-sidenav',

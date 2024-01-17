@@ -9,7 +9,7 @@ import {
   GetAllAnimesDocument,
   LikeAnimeGQL,
   UnlikeAnimeGQL,
-} from 'src/app/graphql/generated/graphql';
+} from 'src/app/core/services/graphql.service';
 
 @Component({
   selector: 'app-anime-details',

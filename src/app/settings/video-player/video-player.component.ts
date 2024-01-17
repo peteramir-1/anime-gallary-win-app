@@ -15,11 +15,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   GetVideoPlayerSettingsDocument,
   UpdateSettingsGQL,
-} from 'src/app/graphql/generated/graphql';
+} from 'src/app/core/services/graphql.service';
 
 import { themes } from './video-player-settings.model';
 import { Subject } from 'rxjs';
-import { AppOverlayContainer } from 'src/app/common/services/app-overlay-container.service';
+import { AppOverlayContainer } from 'src/app/core/services/app-overlay-container.service';
 
 @Component({
   selector: 'app-video-player',

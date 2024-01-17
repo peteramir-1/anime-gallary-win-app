@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VideoPlayerService } from './video-player.service';
-import { GetVideoPlayerSettingsGQL } from 'src/app/graphql/generated/graphql';
+import { GetVideoPlayerSettingsGQL } from 'src/app/core/services/graphql.service';
 import { map, tap } from 'rxjs/operators';
 import {
   Playlist,

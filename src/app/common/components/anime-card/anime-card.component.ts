@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Anime } from 'src/app/graphql/generated/graphql';
+import { Anime } from 'src/app/core/services/graphql.service';
 
 @Component({
   selector: 'app-anime-card',

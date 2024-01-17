@@ -8,7 +8,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { GetAnimeByIdGQL } from 'src/app/graphql/generated/graphql';
+import { GetAnimeByIdGQL } from 'src/app/core/services/graphql.service';
 
 @Injectable({
   providedIn: 'root',
