@@ -10,9 +10,7 @@ import {
 } from 'src/app/shared/interfaces/video-player.interface';
 import { VideoPlayerSettings } from 'src/app/shared/interfaces/video-player.interface';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class VideoPlayerService {
   player: any;
   readonly configurations: StaticConfigurations = {

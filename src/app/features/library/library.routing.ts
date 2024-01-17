@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { LibraryComponent } from './library.component';
+import { AddAnimeComponent } from './add-anime/add-anime.component';
+import { AnimeDetailsComponent } from './anime-details/anime-details.component';
+import { AnimeWatchComponent } from './anime-watch/anime-watch.component';
+
 import { AnimeExistsGuard } from './guards/anime-exists.guard';
+
 import { AnimeResolver } from './resolvers/anime.resolver';
 import { AllAnimesResolver } from './resolvers/all-animes.resolver';
 
@@ -13,14 +19,11 @@ const routes: Routes = [
   },
   {
     path: 'details/:id',
+    component: AnimeDetailsComponent,
     resolve: {
       anime: AnimeResolver,
     },
     canActivate: [AnimeExistsGuard],
-    loadChildren: () =>
-      import('./anime-details/anime-details.module').then(
-        m => m.AnimeDetailsModule
-      ),
   },
   {
     path: 'watch/:id',
@@ -28,22 +31,19 @@ const routes: Routes = [
       anime: AnimeResolver,
     },
     canActivate: [AnimeExistsGuard],
-    loadChildren: () =>
-      import('./anime-watch/anime-watch.module').then(m => m.AnimeWatchModule),
+    component: AnimeWatchComponent,
   },
   {
     path: 'edit/:id',
+    component: AddAnimeComponent,
     resolve: {
       anime: AnimeResolver,
     },
     canActivate: [AnimeExistsGuard],
-    loadChildren: () =>
-      import('./add-anime/add-anime.module').then(m => m.AddAnimeModule),
   },
   {
     path: 'add',
-    loadChildren: () =>
-      import('./add-anime/add-anime.module').then(m => m.AddAnimeModule),
+    component: AddAnimeComponent,
   },
 ];
 
