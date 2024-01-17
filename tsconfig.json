@@ -11,7 +11,8 @@
     "importHelpers": true,
     "target": "es2020",
     "module": "es2020",
-    "types": ["node", "video.js"],
+    "typeRoots": ["node_modules/@types"],
+    "types": ["node", "jest", "mocha", "video.js"],
     "lib": ["es2018", "dom", "esnext.asynciterable"],
     "allowSyntheticDefaultImports": true
   },
