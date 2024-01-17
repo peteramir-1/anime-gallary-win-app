@@ -1,6 +1,12 @@
 import { RouterModule, Routes } from '@angular/router';
-import { SettingsComponent } from './settings.component';
 import { NgModule } from '@angular/core';
+
+import { SettingsComponent } from './settings.component';
+import { GeneralComponent } from './general/general.component';
+import { VideoPlayerComponent } from './video-player/video-player.component';
+
+import { VideoPlayerSettingsResolver } from './video-player/video-player-settings.resolver';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
   {
@@ -9,20 +15,18 @@ const routes: Routes = [
     children: [
       {
         path: 'general',
-        loadChildren: () =>
-          import('./general/general.module').then(m => m.GeneralModule),
+        component: GeneralComponent
       },
       {
         path: 'video-player',
-        loadChildren: () =>
-          import('./video-player/video-player.module').then(
-            m => m.VideoPlayerModule
-          ),
+        component: VideoPlayerComponent,
+        resolve: {
+          settings: VideoPlayerSettingsResolver,
+        },
       },
       {
         path: 'about',
-        loadChildren: () =>
-          import('./about/about.module').then(m => m.AboutModule),
+        component: AboutComponent,
       },
       {
         path: '**',
