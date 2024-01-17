@@ -2,11 +2,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { SettingsComponent } from './settings.component';
-import { GeneralComponent } from './general/general.component';
-import { VideoPlayerComponent } from './video-player/video-player.component';
+import { GeneralComponent } from './components/general/general.component';
+import { VideoPlayerComponent } from './components/video-player/video-player.component';
+import { AboutComponent } from './components/about/about.component';
 
-import { VideoPlayerSettingsResolver } from './video-player/video-player-settings.resolver';
-import { AboutComponent } from './about/about.component';
+import { VideoPlayerSettingsResolver } from './resolvers/video-player-settings.resolver';
 
 const routes: Routes = [
   {

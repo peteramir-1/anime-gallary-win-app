@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SettingsComponent } from './settings.component';
-import { GeneralComponent } from './general/general.component';
-import { VideoPlayerComponent } from './video-player/video-player.component';
-import { AboutComponent } from './about/about.component';
+import { GeneralComponent } from './components/general/general.component';
+import { VideoPlayerComponent } from './components/video-player/video-player.component';
+import { AboutComponent } from './components/about/about.component';
 
 import { NgIconsModule } from '@ng-icons/core';
 import { heroQuestionMarkCircle } from '@ng-icons/heroicons/outline';

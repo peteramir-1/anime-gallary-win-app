@@ -17,8 +17,9 @@ import {
   UpdateSettingsGQL,
 } from 'src/app/core/services/graphql.service';
 
-import { themes } from './video-player-settings.model';
+import { themes } from 'src/app/features/settings/models/video-player-settings.model';
 import { Subject } from 'rxjs';
+
 import { AppOverlayContainer } from 'src/app/core/services/app-overlay-container.service';
 
 @Component({
