@@ -57,6 +57,7 @@ export interface Mutation {
   createAnime?: Maybe<Anime>;
   deleteAnime?: Maybe<DeleteReturn>;
   updateAnime?: Maybe<Anime>;
+  updateSettings?: Maybe<Settings>;
 }
 
 
@@ -74,10 +75,16 @@ export interface MutationUpdateAnimeArgs {
   animeInput?: InputMaybe<UpdateAnimeInput>;
 }
 
+
+export interface MutationUpdateSettingsArgs {
+  settingsInput?: InputMaybe<UpdatedSettingsInput>;
+}
+
 export interface Query {
   __typename?: 'Query';
   anime?: Maybe<Anime>;
   animes?: Maybe<Array<Maybe<Anime>>>;
+  settings?: Maybe<Settings>;
 }
 
 
@@ -95,6 +102,42 @@ export enum Season {
 export enum Status {
   Complete = 'complete',
   Incomplete = 'incomplete'
+}
+
+export interface Settings {
+  __typename?: 'Settings';
+  alwaysCaptureHotkeys?: Maybe<Scalars['Boolean']['output']>;
+  aspectRatio?: Maybe<Scalars['String']['output']>;
+  audioOnlyMode?: Maybe<Scalars['Boolean']['output']>;
+  audioPosterMode?: Maybe<Scalars['Boolean']['output']>;
+  autoplay?: Maybe<Scalars['Boolean']['output']>;
+  controls?: Maybe<Scalars['Boolean']['output']>;
+  createdAt: Scalars['String']['output'];
+  darkMode?: Maybe<Scalars['Boolean']['output']>;
+  enableFullscreen?: Maybe<Scalars['Boolean']['output']>;
+  enableHoverScroll?: Maybe<Scalars['Boolean']['output']>;
+  enableInactiveFocus?: Maybe<Scalars['Boolean']['output']>;
+  enableModifiersForNumbers?: Maybe<Scalars['Boolean']['output']>;
+  enableMute?: Maybe<Scalars['Boolean']['output']>;
+  enableNumbers?: Maybe<Scalars['Boolean']['output']>;
+  enableVolumeScroll?: Maybe<Scalars['Boolean']['output']>;
+  hotkeys?: Maybe<Scalars['Boolean']['output']>;
+  id: Scalars['Int']['output'];
+  loop?: Maybe<Scalars['Boolean']['output']>;
+  muted?: Maybe<Scalars['Boolean']['output']>;
+  pip?: Maybe<Scalars['Boolean']['output']>;
+  poster?: Maybe<Scalars['String']['output']>;
+  preload?: Maybe<Scalars['String']['output']>;
+  remainingTimeDisplayDisplayNegative?: Maybe<Scalars['Boolean']['output']>;
+  seekStep?: Maybe<Scalars['Int']['output']>;
+  skipButton?: Maybe<Scalars['Boolean']['output']>;
+  skipButtonBackward?: Maybe<Scalars['Int']['output']>;
+  skipButtonForward?: Maybe<Scalars['Int']['output']>;
+  skipInitialFocus?: Maybe<Scalars['Boolean']['output']>;
+  src?: Maybe<Scalars['String']['output']>;
+  theme?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  volumeStep?: Maybe<Scalars['Float']['output']>;
 }
 
 export enum Type {
@@ -115,6 +158,38 @@ export interface UpdateAnimeInput {
   status?: InputMaybe<Status>;
   thumbnail?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Type>;
+}
+
+export interface UpdatedSettingsInput {
+  alwaysCaptureHotkeys?: InputMaybe<Scalars['Boolean']['input']>;
+  aspectRatio?: InputMaybe<Scalars['String']['input']>;
+  audioOnlyMode?: InputMaybe<Scalars['Boolean']['input']>;
+  audioPosterMode?: InputMaybe<Scalars['Boolean']['input']>;
+  autoplay?: InputMaybe<Scalars['Boolean']['input']>;
+  controls?: InputMaybe<Scalars['Boolean']['input']>;
+  darkMode?: InputMaybe<Scalars['Boolean']['input']>;
+  enableFullscreen?: InputMaybe<Scalars['Boolean']['input']>;
+  enableHoverScroll?: InputMaybe<Scalars['Boolean']['input']>;
+  enableInactiveFocus?: InputMaybe<Scalars['Boolean']['input']>;
+  enableModifiersForNumbers?: InputMaybe<Scalars['Boolean']['input']>;
+  enableMute?: InputMaybe<Scalars['Boolean']['input']>;
+  enableNumbers?: InputMaybe<Scalars['Boolean']['input']>;
+  enableVolumeScroll?: InputMaybe<Scalars['Boolean']['input']>;
+  hotkeys?: InputMaybe<Scalars['Boolean']['input']>;
+  loop?: InputMaybe<Scalars['Boolean']['input']>;
+  muted?: InputMaybe<Scalars['Boolean']['input']>;
+  pip?: InputMaybe<Scalars['Boolean']['input']>;
+  poster?: InputMaybe<Scalars['String']['input']>;
+  preload?: InputMaybe<Scalars['String']['input']>;
+  remainingTimeDisplayDisplayNegative?: InputMaybe<Scalars['Boolean']['input']>;
+  seekStep?: InputMaybe<Scalars['Int']['input']>;
+  skipButton?: InputMaybe<Scalars['Boolean']['input']>;
+  skipButtonBackward?: InputMaybe<Scalars['Int']['input']>;
+  skipButtonForward?: InputMaybe<Scalars['Int']['input']>;
+  skipInitialFocus?: InputMaybe<Scalars['Boolean']['input']>;
+  src?: InputMaybe<Scalars['String']['input']>;
+  theme?: InputMaybe<Scalars['String']['input']>;
+  volumeStep?: InputMaybe<Scalars['Float']['input']>;
 }
 
 export type CreateAnimeMutationVariables = Exact<{
@@ -170,6 +245,23 @@ export type GetAnimeEpisdoesByIdQueryVariables = Exact<{
 
 
 export type GetAnimeEpisdoesByIdQuery = { __typename?: 'Query', anime?: { __typename?: 'Anime', episodes: Array<string | null> } | null };
+
+export type UpdateSettingsMutationVariables = Exact<{
+  updateSettings?: InputMaybe<UpdatedSettingsInput>;
+}>;
+
+
+export type UpdateSettingsMutation = { __typename?: 'Mutation', updateSettings?: { __typename?: 'Settings', updatedAt?: string | null } | null };
+
+export type GetVideoPlayerSettingsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetVideoPlayerSettingsQuery = { __typename?: 'Query', settings?: { __typename?: 'Settings', theme?: string | null, volumeStep?: number | null, seekStep?: number | null, enableMute?: boolean | null, enableVolumeScroll?: boolean | null, enableHoverScroll?: boolean | null, enableFullscreen?: boolean | null, enableNumbers?: boolean | null, enableModifiersForNumbers?: boolean | null, alwaysCaptureHotkeys?: boolean | null, enableInactiveFocus?: boolean | null, skipInitialFocus?: boolean | null, pip?: boolean | null, controls?: boolean | null, autoplay?: boolean | null, loop?: boolean | null, muted?: boolean | null, poster?: string | null, skipButton?: boolean | null, skipButtonForward?: number | null, skipButtonBackward?: number | null, preload?: string | null, src?: string | null, aspectRatio?: string | null, audioOnlyMode?: boolean | null, audioPosterMode?: boolean | null, remainingTimeDisplayDisplayNegative?: boolean | null, hotkeys?: boolean | null } | null };
+
+export type SettingsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SettingsQuery = { __typename?: 'Query', settings?: { __typename?: 'Settings', darkMode?: boolean | null } | null };
 
 export const CreateAnimeDocument = gql`
     mutation CreateAnime($createAnimeInput: CreateAnimeInput) {
@@ -352,6 +444,87 @@ export const GetAnimeEpisdoesByIdDocument = gql`
   })
   export class GetAnimeEpisdoesByIdGQL extends Apollo.Query<GetAnimeEpisdoesByIdQuery, GetAnimeEpisdoesByIdQueryVariables> {
     document = GetAnimeEpisdoesByIdDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateSettingsDocument = gql`
+    mutation updateSettings($updateSettings: UpdatedSettingsInput) {
+  updateSettings(settingsInput: $updateSettings) {
+    updatedAt
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateSettingsGQL extends Apollo.Mutation<UpdateSettingsMutation, UpdateSettingsMutationVariables> {
+    document = UpdateSettingsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetVideoPlayerSettingsDocument = gql`
+    query getVideoPlayerSettings {
+  settings {
+    theme
+    volumeStep
+    seekStep
+    enableMute
+    enableVolumeScroll
+    enableHoverScroll
+    enableFullscreen
+    enableNumbers
+    enableModifiersForNumbers
+    alwaysCaptureHotkeys
+    enableInactiveFocus
+    skipInitialFocus
+    pip
+    controls
+    autoplay
+    loop
+    muted
+    poster
+    skipButton
+    skipButtonForward
+    skipButtonBackward
+    preload
+    src
+    aspectRatio
+    audioOnlyMode
+    audioPosterMode
+    remainingTimeDisplayDisplayNegative
+    hotkeys
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetVideoPlayerSettingsGQL extends Apollo.Query<GetVideoPlayerSettingsQuery, GetVideoPlayerSettingsQueryVariables> {
+    document = GetVideoPlayerSettingsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SettingsDocument = gql`
+    query Settings {
+  settings {
+    darkMode
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SettingsGQL extends Apollo.Query<SettingsQuery, SettingsQueryVariables> {
+    document = SettingsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

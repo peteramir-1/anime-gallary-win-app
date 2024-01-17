@@ -1,0 +1,38 @@
+query getVideoPlayerSettings {
+  settings {
+    theme
+    volumeStep
+    seekStep
+    enableMute
+    enableVolumeScroll
+    enableHoverScroll
+    enableFullscreen
+    enableNumbers
+    enableModifiersForNumbers
+    alwaysCaptureHotkeys
+    enableInactiveFocus
+    skipInitialFocus
+    pip
+    controls
+    autoplay
+    loop
+    muted
+    poster
+    skipButton
+    skipButtonForward
+    skipButtonBackward
+    preload
+    src
+    aspectRatio
+    audioOnlyMode
+    audioPosterMode
+    remainingTimeDisplayDisplayNegative
+    hotkeys
+  }
+}
+
+query Settings {
+  settings {
+    darkMode
+  }
+}

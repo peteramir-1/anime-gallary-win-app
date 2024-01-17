@@ -1,0 +1,5 @@
+mutation updateSettings($updateSettings: UpdatedSettingsInput) {
+  updateSettings(settingsInput: $updateSettings) {
+    updatedAt
+  }
+}
