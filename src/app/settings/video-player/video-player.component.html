@@ -1,0 +1,205 @@
+<article class="relative flex w-full flex-col gap-10" #pageContainer>
+  <header
+    class="flex flex-row items-center bg-neutral-50 py-3 dark:bg-neutral-800">
+    <h2 class="select-none text-xl font-extrabold">Video Player</h2>
+    <button
+      [disabled]="isSaveButtonDisabled"
+      type="submit"
+      class="btn btn-secondary ml-auto py-2"
+      (click)="save()">
+      {{ 'save' | titlecase }}
+    </button>
+  </header>
+  <form
+    class="flex flex-col gap-10 overflow-y-scroll"
+    [formGroup]="optionsForm">
+    <article formGroupName="general" [class]="formStyles.group">
+      <header [class]="formStyles.groupHeader">
+        {{ 'general' | titlecase }}
+      </header>
+      <section [class]="formStyles.field">
+        <label [class]="formStyles.label" tabindex="-1" for="theme">
+          {{ 'theme' | titlecase }}
+        </label>
+        <app-checkbox-input class="ml-4" formControlName="theme">
+          <div
+            app-option
+            *ngFor="let theme of themes; trackBy: themeTrackByFn"
+            [value]="theme.value">
+            {{ theme.name | titlecase }}
+          </div>
+        </app-checkbox-input>
+      </section>
+      <section [class]="formStyles.field">
+        <label [class]="formStyles.label" tabindex="-1" for="autoplay">
+          {{ 'autoplay' | titlecase }}
+        </label>
+        <on-off-input class="ml-4" formControlName="autoplay"></on-off-input>
+      </section>
+      <section [class]="formStyles.field">
+        <label [class]="formStyles.label" tabindex="-1" for="loop">
+          <span>{{ 'loop' | titlecase }}</span>
+          <ng-icon
+            class="ml-1 cursor-pointer"
+            matTooltipPosition="left"
+            matTooltipClass="text-xs"
+            matTooltip="Causes the video to start over as soon as it ends."
+            name="heroQuestionMarkCircle"></ng-icon>
+        </label>
+        <on-off-input class="ml-4" formControlName="loop"></on-off-input>
+      </section>
+      <section [class]="formStyles.field">
+        <label [class]="formStyles.label" tabindex="-1" for="muted">
+          <span>{{ 'muted' | titlecase }}</span>
+          <ng-icon
+            class="ml-1 cursor-pointer"
+            matTooltipPosition="left"
+            matTooltipClass="text-xs"
+            matTooltip="Will silence any audio by default."
+            name="heroQuestionMarkCircle"></ng-icon>
+        </label>
+        <on-off-input class="ml-4" formControlName="muted"></on-off-input>
+      </section>
+      <section [class]="formStyles.field">
+        <label [class]="formStyles.label" tabindex="-1" for="pip">
+          {{ 'picture in picture' | titlecase }}
+        </label>
+        <on-off-input class="ml-4" formControlName="pip"></on-off-input>
+      </section>
+      <section [class]="formStyles.field">
+        <label [class]="formStyles.label" tabindex="-1" for="controls">
+          {{ 'enable controls' | titlecase }}
+        </label>
+        <on-off-input class="ml-4" formControlName="controls"></on-off-input>
+      </section>
+    </article>
+
+    <!-- HotKeys Form Group -->
+    <article formGroupName="hotkeys" for="hotkeys" [class]="formStyles.group">
+      <header [class]="formStyles.groupHeader + ' flex flex-row items-center'">
+        <span>
+          {{ 'hotkeys' | titlecase }}
+        </span>
+        <ng-icon
+          class="ml-1 cursor-pointer"
+          matTooltipPosition="left"
+          matTooltipClass="text-xs"
+          matTooltip="Controls how player-wide hotkeys operate."
+          name="heroQuestionMarkCircle"></ng-icon>
+        <on-off-input
+          class="ml-4"
+          (ngModelChange)="toggleDisableForHotkeyControls($event)"
+          formControlName="hotkeys"></on-off-input>
+      </header>
+      <section [class]="formStyles.field">
+        <label [class]="formStyles.label" tabindex="-1" for="enableNumbers">
+          <span>{{ 'number control' | titlecase }}</span>
+          <ng-icon
+            class="ml-1 cursor-pointer"
+            matTooltipPosition="left"
+            matTooltipClass="text-xs"
+            matTooltip="Enables seeking the video by pressing the number keys."
+            name="heroQuestionMarkCircle"></ng-icon>
+        </label>
+        <on-off-input
+          class="ml-4"
+          formControlName="enableNumbers"></on-off-input>
+      </section>
+      <section [class]="formStyles.field">
+        <label
+          [class]="formStyles.label"
+          tabindex="-1"
+          for="enableVolumeScroll">
+          <span>{{ 'volume scroll' | titlecase }}</span>
+          <ng-icon
+            class="ml-1 cursor-pointer"
+            matTooltipPosition="left"
+            matTooltipClass="text-xs"
+            matTooltip="Enables increasing/decreasing the volume by scrolling the mouse wheel."
+            name="heroQuestionMarkCircle"></ng-icon>
+        </label>
+        <on-off-input
+          class="ml-4"
+          formControlName="enableVolumeScroll"></on-off-input>
+      </section>
+      <section [class]="formStyles.field">
+        <label [class]="formStyles.label" tabindex="-1" for="enableFullscreen">
+          <span>{{ 'fullscreen' | titlecase }}</span>
+          <ng-icon
+            class="ml-1 cursor-pointer"
+            matTooltipPosition="left"
+            matTooltipClass="text-xs"
+            matTooltip="Enables toggling the video fullscreen by pressing the F key."
+            name="heroQuestionMarkCircle"></ng-icon>
+        </label>
+        <on-off-input
+          class="ml-4"
+          formControlName="enableFullscreen"></on-off-input>
+      </section>
+      <section [class]="formStyles.field">
+        <label
+          [class]="formStyles.label"
+          tabindex="-1"
+          for="enableModifiersForNumbers">
+          <span>{{ 'enable modifiers for numbers' | titlecase }}</span>
+          <ng-icon
+            class="ml-1 cursor-pointer"
+            matTooltipPosition="left"
+            matTooltipClass="text-xs"
+            matTooltip="Enables the use of Ctrl/Alt/Cmd + Number keys for skipping around in the video."
+            name="heroQuestionMarkCircle"></ng-icon>
+        </label>
+        <on-off-input
+          class="ml-4"
+          formControlName="enableModifiersForNumbers"></on-off-input>
+      </section>
+      <section [class]="formStyles.field">
+        <label [class]="formStyles.label" tabindex="-1" for="enableMute">
+          <span>{{ 'enable mute' | titlecase }}</span>
+          <ng-icon
+            class="ml-1 cursor-pointer"
+            matTooltipPosition="left"
+            matTooltipClass="text-xs"
+            matTooltip="Enables the volume mute to be toggle by pressing the M key."
+            name="heroQuestionMarkCircle"></ng-icon>
+        </label>
+        <on-off-input class="ml-4" formControlName="enableMute"></on-off-input>
+      </section>
+      <section [class]="formStyles.field">
+        <label [class]="formStyles.label" tabindex="-1" for="seekStep">
+          <span>{{ 'seek step' | titlecase }}</span>
+          <ng-icon
+            class="ml-1 cursor-pointer"
+            matTooltipPosition="left"
+            matTooltipClass="text-xs"
+            matTooltip="The number of seconds to seek forward and backwards when using the Right and Left Arrow keys."
+            name="heroQuestionMarkCircle"></ng-icon>
+        </label>
+        <app-number-input
+          class="ml-4"
+          min="1"
+          max="15"
+          formControlName="seekStep"></app-number-input>
+      </section>
+      <section [class]="formStyles.field">
+        <label [class]="formStyles.label" for="volumeStep">
+          <span>{{ 'volume step' | titlecase }}</span>
+          <ng-icon
+            class="ml-1 cursor-pointer"
+            matTooltipPosition="left"
+            matTooltipClass="text-xs"
+            matTooltip="The percentage to increase/decrease the volume level when using the Up and Down Arrow keys."
+            name="heroQuestionMarkCircle"></ng-icon>
+        </label>
+        <app-number-input
+          class="ml-4"
+          min="0.1"
+          max="1"
+          notManuallyEditable
+          decimal="1"
+          #volumeStep
+          formControlName="volumeStep"></app-number-input>
+      </section>
+    </article>
+  </form>
+</article>

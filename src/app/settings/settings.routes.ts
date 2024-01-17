@@ -11,13 +11,18 @@ const routes: Routes = [
         path: 'general',
         loadChildren: () =>
           import('./general/general.module').then(m => m.GeneralModule),
-      },      
+      },
+      {
+        path: 'video-player',
+        loadChildren: () =>
+          import('./video-player/video-player.module').then(
+            m => m.VideoPlayerModule
+          ),
+      },
       {
         path: 'about',
         loadChildren: () =>
-          import('./about/about.module').then(
-            m => m.AboutModule
-          ),
+          import('./about/about.module').then(m => m.AboutModule),
       },
       {
         path: '**',
