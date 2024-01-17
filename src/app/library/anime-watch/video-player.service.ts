@@ -3,44 +3,75 @@ import 'videojs-playlist/dist/videojs-playlist.min.js';
 import 'videojs-playlist-ui/dist/videojs-playlist-ui.min.js';
 import 'videojs-hotkeys/videojs.hotkeys.min.js';
 import videojs from 'video.js';
-import { DynamicConfigurations, Playlist } from './video-player.interface';
+import {
+  Playlist,
+  StaticConfigurations,
+  VideoPlayerConfigurations,
+} from 'src/app/common/interfaces/video-player.interface';
+import { VideoPlayerSettings } from 'src/app/common/interfaces/video-player.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VideoPlayerService {
   player: any;
-  configurations: DynamicConfigurations = {
-    controls: true,
-    autoplay: false,
+  readonly configurations: StaticConfigurations = {
     controlBar: {
       remainingTimeDisplay: { displayNegative: false },
-      pictureInPictureToggle: false,
     },
     preload: 'auto',
-    plugins: {
-      hotkeys: {
-        volumeStep: 0.1,
-        seekStep: 5,
-        enableModifiersForNumbers: false,
-        enableVolumeScroll: false
-      },
-    },
   };
   constructor() {}
 
-  videoJsInit(element: string | HTMLVideoElement, configs: { poster: string }) {
-    this.removeSynamicVjsStyles();
-    this.setupVjsPlayer(element, this.getConfigurations(configs.poster));
+  videoJsInit(
+    element: string | HTMLVideoElement,
+    poster: string,
+    configs: VideoPlayerSettings
+  ) {
+    this.removeDynamicVjsStyles();
+    // Initiate Video Player Instance
+    this.player = videojs(element, this.getConfigurations(configs, poster));
   }
-  private removeSynamicVjsStyles() {
+
+  private removeDynamicVjsStyles() {
     (window as any).VIDEOJS_NO_DYNAMIC_STYLE = true;
   }
-  private setupVjsPlayer(element: string | HTMLVideoElement, configs: any) {
-    this.player = videojs(element, configs);
-  }
-  private getConfigurations(poster: string) {
-    return { ...this.configurations, poster };
+
+  /**
+   *
+   * @param configs Video Player settings Saved in the Database
+   * @param poster A URL to an image that displays before the video begins playing
+   * @returns VideoJS Configurations and its plugins as an object
+   */
+  private getConfigurations(
+    configs: VideoPlayerSettings,
+    poster: string
+  ): VideoPlayerConfigurations {
+    return {
+      ...this.configurations,
+      poster,
+      controlBar: {
+        ...this.configurations.controlBar,
+        pictureInPictureToggle: configs.pip,
+      },
+      controls: configs.controls,
+      autoplay: configs.autoplay,
+      loop: configs.loop,
+      muted: configs.muted,
+      plugins: configs.hotkeys
+        ? {
+          hotkeys: {
+              volumeStep: configs.volumeStep,
+              seekStep: configs.seekStep,
+              enableMute: configs.enableMute,
+              enableNumbers: configs.enableNumbers,
+              enableModifiersForNumbers: configs.enableModifiersForNumbers,
+              enableVolumeScroll: configs.enableVolumeScroll,
+              enableFullscreen: configs.enableFullscreen,
+            },
+          }
+        : undefined,
+    };
   }
 
   videoJsPlaylistInit(playlist: Playlist, episodeIndex: number) {
