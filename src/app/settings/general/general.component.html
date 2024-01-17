@@ -2,27 +2,8 @@
   <h2 class="select-none text-xl font-bold">Theme</h2>
   <section class="flex flex-row items-center gap-4">
     <h4 class="select-none font-semibold">Dark Mode</h4>
-    <div
-      class="flex flex-row bg-neutral-200 dark:bg-neutral-700 dark:text-neutral-100">
-      <div
-        (click)="darkModeService.switchToDarkTheme()"
-        class="cursor-pointer px-4 py-1 text-sm hover:bg-neutral-300 dark:hover:bg-neutral-900"
-        [ngClass]="{
-          'dark: bg-neutral-400/50 shadow-inner dark:bg-black/50':
-            (darkMode | async)
-        }">
-        ON
-      </div>
-      <div
-        (click)="darkModeService.switchToLightTheme()"
-        class="cursor-pointer px-4 py-1 text-sm hover:bg-neutral-300 dark:hover:bg-neutral-900"
-        [ngClass]="{
-          'dark: bg-neutral-400/50 shadow-inner dark:bg-black/50': !(
-            darkMode | async
-          )
-        }">
-        OFF
-      </div>
-    </div>
+    <on-off-input
+      [ngModel]="darkMode"
+      (ngModelChange)="toggleTheme()"></on-off-input>
   </section>
 </article>
