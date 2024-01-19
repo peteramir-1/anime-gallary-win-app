@@ -61,3 +61,7 @@ export const createDbConnection = async (
   // a database controller requires
   return new BetterSqlite3(path.join(dbDir, dbFilename), DatabaseConfigs);
 };
+
+export const getAppDataPath = (): string => {
+  return process.env.APPDATA || '';
+}

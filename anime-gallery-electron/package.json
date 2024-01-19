@@ -9,8 +9,6 @@
     "start:electron": "nodemon --watch ./src/**/* -e ts,tsx --ignore node_modules --ignore src/**/*.sqlite --exec \"SET mode=development && npm run compile && electron-forge start\"",
     "start:apollo": "nodemon --watch ./src/**/* -e ts,tsx --ignore node_modules --ignore src/**/*.sqlite --ignore src/**/*.test.ts --exec \"npm run compile && SET mode=development && SET NODE_APP=apollo && node app/servers/apollo/app.js\"",
     "start:frontend": "nodemon --watch ./src/**/* -e ts,tsx  --ignore node_modules --ignore src/**/*.sqlite --ignore src/**/*.test.ts --exec \"npm run compile && SET mode=development && SET NODE_APP=frontend && node app/servers/frontend/app.js\"",
-    "remove:prod-databases": "rmdir /S .\\app\\servers\\apollo\\database\\databases",
-    "remove:dev-databases": "rmdir /S .\\src\\servers\\apollo\\database\\databases",
     "package": "npm run compile && electron-forge package",
     "make": "npm run compile && electron-forge make",
     "publish": "npm run compile && electron-forge publish",

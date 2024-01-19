@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createDbConnection = void 0;
+exports.getAppDataPath = exports.createDbConnection = void 0;
 const fs = require("fs");
 const BetterSqlite3 = require("better-sqlite3");
 const path = require("path");
@@ -42,4 +42,8 @@ const createDbConnection = (dbDir, dbFilename) => __awaiter(void 0, void 0, void
     return new BetterSqlite3(path.join(dbDir, dbFilename), DatabaseConfigs);
 });
 exports.createDbConnection = createDbConnection;
+const getAppDataPath = () => {
+    return process.env.APPDATA || '';
+};
+exports.getAppDataPath = getAppDataPath;
 //# sourceMappingURL=utils.js.map
