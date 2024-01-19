@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@apollo/server": "^4.7.5",
-    "better-sqlite3": "^8.4.0",
+    "better-sqlite3": "^9.3.0",
     "body-parser": "^1.20.2",
     "custom-electron-titlebar": "^4.2.3",
     "electron-squirrel-startup": "^1.0.0",
