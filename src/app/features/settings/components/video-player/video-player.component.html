@@ -22,12 +22,11 @@
           {{ 'theme' | titlecase }}
         </label>
         <app-checkbox-input class="ml-4" formControlName="theme">
-          <div
-            app-option
-            *ngFor="let theme of themes; trackBy: themeTrackByFn"
-            [value]="theme.value">
+          @for (theme of themes; track themeTrackByFn($index, theme)) {
+          <div app-option [value]="theme.value">
             {{ theme.name | titlecase }}
           </div>
+          }
         </app-checkbox-input>
       </section>
       <section [class]="formStyles.field">

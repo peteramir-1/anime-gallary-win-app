@@ -1,18 +1,20 @@
 <!-- Menu Button -->
-<ng-container *ngFor="let item of sidenav" tabindex="-1">
-  <button
+@for (item of sidenav; track item) {
+  <ng-container tabindex="-1">
+    <button
     [class]="
       'btn btn-secondary w-full flex-initial gap-2 ' + (item.buttonClass ?? '')
     "
-    [routerLink]="item.link"
-    routerLinkActive="!bg-teal-900 shadow-lg"
-    [routerLinkActiveOptions]="{ exact: item.link === '/' ? true : false }">
-    <ng-icon [name]="item.icon"></ng-icon>
-    <span class="text-bold inline align-middle">
-      {{ item.title | titlecase }}
-    </span>
-  </button>
-</ng-container>
+      [routerLink]="item.link"
+      routerLinkActive="!bg-teal-900 shadow-lg"
+      [routerLinkActiveOptions]="{ exact: item.link === '/' ? true : false }">
+      <ng-icon [name]="item.icon"></ng-icon>
+      <span class="text-bold inline align-middle">
+        {{ item.title | titlecase }}
+      </span>
+    </button>
+  </ng-container>
+}
 
 <!-- Dark/Light Mode Buttons -->
 <button
