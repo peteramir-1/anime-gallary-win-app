@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot,
-} from '@angular/router';
+import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AnimeService } from 'src/app/core/services/anime.service';
@@ -11,7 +7,7 @@ import { AnimeService } from 'src/app/core/services/anime.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AnimeResolver implements Resolve<any> {
+export class AnimeResolver  {
   constructor(private animeService: AnimeService) {}
 
   resolve(

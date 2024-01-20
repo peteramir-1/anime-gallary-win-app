@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot,
-} from '@angular/router';
+import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GetAllAnimesGQL } from 'src/app/core/services/graphql.service';
@@ -11,7 +7,7 @@ import { GetAllAnimesGQL } from 'src/app/core/services/graphql.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AllAnimesResolver implements Resolve<any> {
+export class AllAnimesResolver  {
   constructor(private getAllAnimesGql: GetAllAnimesGQL) {}
 
   resolve(

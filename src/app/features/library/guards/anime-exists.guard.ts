@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GetAnimeByIdGQL } from 'src/app/core/services/graphql.service';
@@ -13,7 +7,7 @@ import { GetAnimeByIdGQL } from 'src/app/core/services/graphql.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AnimeExistsGuard implements CanActivate {
+export class AnimeExistsGuard  {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

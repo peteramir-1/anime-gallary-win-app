@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot,
-} from '@angular/router';
+import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,7 +11,7 @@ import { VideoPlayerSettings } from 'src/app/shared/interfaces/video-player.inte
 @Injectable({
   providedIn: 'root',
 })
-export class VideoPlayerSettingsResolver implements Resolve<VideoPlayerSettings> {
+export class VideoPlayerSettingsResolver  {
   constructor(private getVideoPlayerSettingGQL: GetVideoPlayerSettingsGQL) {}
 
   resolve(
