@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ElectronService } from '../../services/electron.service';
+import { ElectronService } from 'src/app/core/services/electron.service';
 
 @Component({
   selector: 'app-folderpath-input',

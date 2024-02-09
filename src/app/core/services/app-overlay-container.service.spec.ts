@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AppSnackbarOverlayContainer } from './app-overlay-container.service';
+import { AppOverlayContainer } from './app-overlay-container.service';
 
-describe('AppSnackbarOverlayContainer', () => {
-  let service: AppSnackbarOverlayContainer;
+describe('AppOverlayContainer', () => {
+  let service: AppOverlayContainer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AppSnackbarOverlayContainer);
+    service = TestBed.inject(AppOverlayContainer);
   });
 
   it('should be created', () => {
