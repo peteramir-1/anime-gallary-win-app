@@ -37,7 +37,7 @@
               "safe-json-parse/tuple",
               "videojs-vtt.js"
             ],
-            "scripts": []
+            "scripts": ["src/assets/js/electron-titlebar-renderer.js"]
           },
           "configurations": {
             "production": {
@@ -114,11 +114,8 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": ["src/assets"],
-            "styles": [
-              "src/fonts.scss",
-              "src/styles.scss"
-            ],
-            "scripts": []
+            "styles": ["src/fonts.scss", "src/styles.scss"],
+            "scripts": ["src/assets/js/electron-titlebar-renderer.js"]
           }
         },
         "lint": {
