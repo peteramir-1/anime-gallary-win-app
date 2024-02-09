@@ -23,7 +23,8 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": ["src/assets"],
-            "styles": ["src/fonts.scss", "src/styles.scss"],
+            "styles": ["src/fonts/fonts.scss", "src/styles.scss"],
+            "scripts": ["src/assets/js/electron-titlebar-renderer.js"],
             "allowedCommonJsDependencies": [
               "videojs-playlist",
               "videojs-playlist-ui",
@@ -36,8 +37,7 @@
               "mux.js/lib/utils/clock",
               "safe-json-parse/tuple",
               "videojs-vtt.js"
-            ],
-            "scripts": ["src/assets/js/electron-titlebar-renderer.js"]
+            ]
           },
           "configurations": {
             "production": {
@@ -114,7 +114,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": ["src/assets"],
-            "styles": ["src/fonts.scss", "src/styles.scss"],
+            "styles": ["src/fonts/fonts.scss", "src/styles.scss"],
             "scripts": ["src/assets/js/electron-titlebar-renderer.js"]
           }
         },
