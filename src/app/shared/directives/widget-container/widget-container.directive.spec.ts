@@ -49,8 +49,8 @@ describe('WidgetContainerDirective', () => {
   it('should only satisfy input types correctly and error other than that', () => {
     fixture.detectChanges();
 
-    if (component.directive.padding) {
-      expect(component.directive.padding).toEqual(jasmine.any(Number));
+    if (component.directive.paddingY) {
+      expect(component.directive.paddingY).toEqual(jasmine.any(Number));
     }
     expect(component.directive.width).toEqual(jasmine.any(String));
     expect(component.directive.height).toEqual(jasmine.any(String));
@@ -59,21 +59,21 @@ describe('WidgetContainerDirective', () => {
   describe('padding class', () => {
     it('should be p-8 by default', () => {
       fixture.detectChanges();
-      const isPadding8ClassExists = element.classes['p-8'];
+      const isPadding8ClassExists = element.classes['py-8'];
       expect(isPadding8ClassExists).toBe(true);
     });
 
     it('should be p-20 then change it to p-12', () => {
-      component.directive.padding = 20;
+      component.directive.paddingY = 20;
       fixture.detectChanges();
 
-      const isPadding20ClassExists = element.classes['p-20'];
+      const isPadding20ClassExists = element.classes['py-20'];
       expect(isPadding20ClassExists).toBe(true);
       
-      component.directive.padding = 12;
+      component.directive.paddingY = 12;
       fixture.detectChanges();
   
-      const isPadding12ClassExists = element.classes['p-12'];
+      const isPadding12ClassExists = element.classes['py-12'];
       expect(isPadding12ClassExists).toBe(true);
     });
   });

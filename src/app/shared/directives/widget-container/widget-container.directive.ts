@@ -7,7 +7,7 @@ type height = 'auto' | 'fit' | 'full' | 'screen';
   selector: '[appWidgetContainer]',
 })
 export class WidgetContainerDirective {
-  @Input() padding?: number;
+  @Input('padding') paddingY?: number;
   @Input() width: width = 'auto';
   @Input() height: height = 'auto';
 
@@ -45,7 +45,7 @@ export class WidgetContainerDirective {
   get heightFit() {
     return this.height === 'fit';
   }
- 
+
   @HostBinding('class.h-screen')
   get heightScreen() {
     return this.height === 'screen';
@@ -53,12 +53,12 @@ export class WidgetContainerDirective {
 
   @HostBinding('class')
   get widgetClass() {
-    let widgetClasses = `animate-fade overflow-y-auto overflow-x-hidden rounded-md bg-neutral-50 shadow-md animate-duration-[1s] animate-once dark:bg-neutral-800 relative`;
+    let widgetClasses = `animate-fade rounded-md relative bg-neutral-50 shadow-md animate-duration-[1s] animate-once dark:bg-neutral-800`;
 
     // Padding class addition
-    if (this.padding === undefined) widgetClasses += ` p-8`;
-    else widgetClasses += ` p-${this.padding}`;
-    
+    if (this.paddingY === undefined) widgetClasses += ` py-8`;
+    else widgetClasses += ` py-${this.paddingY}`;
+
     return widgetClasses.trim();
   }
 
