@@ -1,6 +1,5 @@
-<article
-  class="flex h-[calc(100vh_-_4rem_-_50px)] max-w-full flex-1 flex-col items-stretch gap-7">
-  <article class="main-section flex-none flex-col gap-7">
+<article class="flex max-w-full flex-1 flex-col items-stretch gap-7">
+  <article class="flex-none flex-col gap-7" appWidgetContainer>
     <section class="flex items-center divide-x">
       <section class="px-4 pl-0">
         <button class="btn btn-secondary" routerLink="/library/add">
@@ -236,7 +235,7 @@
       </section>
     </section>
   </article>
-  <section class="main-section max-w-full flex-auto">
+  <section class="flex-auto" appWidgetContainer>
     <article class="-m-4 flex flex-1 flex-wrap gap-y-9">
       @for ( anime of animes | async | filterBy : ['name'] : searchResult ;
       track anime) {

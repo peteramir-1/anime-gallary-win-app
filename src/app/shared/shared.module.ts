@@ -12,10 +12,14 @@ import { FolderInputModule } from 'src/app/shared/modules/folder-input/folder-in
 import { NumInputModule } from 'src/app/shared/modules/num-input/num-input.module';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBarModule,
+} from '@angular/material/snack-bar';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { AppOverlayContainer } from '../core/services/app-overlay-container.service';
 import { APP_SNACK_BAR_DEFAULT_OPTIONS } from './models/app-snackbar.model';
+import { WidgetContainerModule } from './directives/widget-container/widget-container.module';
 
 @NgModule({
   declarations: [],
@@ -34,8 +38,12 @@ import { APP_SNACK_BAR_DEFAULT_OPTIONS } from './models/app-snackbar.model';
     FilepathInputModule,
     FolderInputModule,
     NumInputModule,
+
+    WidgetContainerModule,
   ],
   exports: [
+    WidgetContainerModule,
+
     CommonModule,
     ReactiveFormsModule,
 
