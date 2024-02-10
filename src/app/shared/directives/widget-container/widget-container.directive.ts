@@ -53,13 +53,15 @@ export class WidgetContainerDirective {
 
   @HostBinding('class')
   get widgetClass() {
-    let widgetClasses = `animate-fade rounded-md relative bg-neutral-50 shadow-md animate-duration-[1s] animate-once dark:bg-neutral-800`;
+    let layout = `rounded-md relative shadow-md`;
+    const colors = 'bg-neutral-50 dark:bg-neutral-800';
+    const animations = 'animate-fade animate-duration-[1s] animate-once';
 
     // Padding class addition
-    if (this.paddingY === undefined) widgetClasses += ` py-7`;
-    else widgetClasses += ` py-${this.paddingY - 1}`;
+    if (this.paddingY === undefined) layout += ` py-7`;
+    else layout += ` py-${this.paddingY - 1}`;
 
-    return widgetClasses.trim();
+    return `${animations} ${colors} ${layout.trim()}`;
   }
 
   constructor() {}
