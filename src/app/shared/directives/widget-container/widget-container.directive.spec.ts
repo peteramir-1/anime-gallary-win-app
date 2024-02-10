@@ -57,23 +57,23 @@ describe('WidgetContainerDirective', () => {
   });
 
   describe('padding class', () => {
-    it('should be p-8 by default', () => {
+    it('should be py-7 by default', () => {
       fixture.detectChanges();
-      const isPadding8ClassExists = element.classes['py-8'];
+      const isPadding8ClassExists = element.classes['py-7'];
       expect(isPadding8ClassExists).toBe(true);
     });
 
-    it('should be p-20 then change it to p-12', () => {
+    it('should be py-19 then change it to py-11', () => {
       component.directive.paddingY = 20;
       fixture.detectChanges();
 
-      const isPadding20ClassExists = element.classes['py-20'];
+      const isPadding20ClassExists = element.classes['py-19'];
       expect(isPadding20ClassExists).toBe(true);
       
       component.directive.paddingY = 12;
       fixture.detectChanges();
   
-      const isPadding12ClassExists = element.classes['py-12'];
+      const isPadding12ClassExists = element.classes['py-11'];
       expect(isPadding12ClassExists).toBe(true);
     });
   });

@@ -56,8 +56,8 @@ export class WidgetContainerDirective {
     let widgetClasses = `animate-fade rounded-md relative bg-neutral-50 shadow-md animate-duration-[1s] animate-once dark:bg-neutral-800`;
 
     // Padding class addition
-    if (this.paddingY === undefined) widgetClasses += ` py-8`;
-    else widgetClasses += ` py-${this.paddingY}`;
+    if (this.paddingY === undefined) widgetClasses += ` py-7`;
+    else widgetClasses += ` py-${this.paddingY - 1}`;
 
     return widgetClasses.trim();
   }

@@ -12,6 +12,7 @@ import { NgIconsModule } from '@ng-icons/core';
 import { heroHome, heroSun, heroMoon } from '@ng-icons/heroicons/outline';
 import { lucideLibrary, lucideSettings } from '@ng-icons/lucide';
 import { WidgetContainerModule } from './shared/directives/widget-container/widget-container.module';
+import { ScrollableModule } from './shared/directives/scrollable/scrollable.module';
 
 @NgModule({
   declarations: [AppComponent, SidenavComponent, LayoutComponent],
@@ -28,6 +29,7 @@ import { WidgetContainerModule } from './shared/directives/widget-container/widg
     AppRoutingModule,
     HttpClientModule,
     GraphQLModule,
+    ScrollableModule,
     WidgetContainerModule,
   ],
   providers: [],

@@ -1,10 +1,12 @@
-<!-- Menu Button -->
-@for (item of sidenav; track item) {
+<div class="flex flex-col gap-5" appScrollable>
+  <!-- Menu Button -->
+  @for (item of sidenav; track item) {
   <ng-container tabindex="-1">
     <button
-    [class]="
-      'btn btn-secondary w-full flex-initial gap-2 ' + (item.buttonClass ?? '')
-    "
+      [class]="
+        'btn btn-secondary w-full flex-initial gap-2 ' +
+        (item.buttonClass ?? '')
+      "
       [routerLink]="item.link"
       routerLinkActive="!bg-teal-900 shadow-lg"
       [routerLinkActiveOptions]="{ exact: item.link === '/' ? true : false }">
@@ -14,27 +16,28 @@
       </span>
     </button>
   </ng-container>
-}
+  }
 
-<!-- Dark/Light Mode Buttons -->
-<button
-  class="btn flex-initial gap-2 self-end bg-gray-600 align-bottom text-gray-50"
-  (click)="darkModeService.toggleTheme()"
-  tabindex="-1">
-  <span
-    class="flex animate-rotate-y items-center gap-2 animate-duration-500 animate-once"
-    #lightModeBtn>
-    <ng-icon name="heroMoon"></ng-icon>
-    <span class="text-bold inline align-middle">
-      {{ 'Dark Mode' | titlecase }}
+  <!-- Dark/Light Mode Buttons -->
+  <button
+    class="btn flex-initial gap-2 self-end bg-gray-600 align-bottom text-gray-50"
+    (click)="darkModeService.toggleTheme()"
+    tabindex="-1">
+    <span
+      class="flex animate-rotate-y items-center gap-2 animate-duration-500 animate-once"
+      #lightModeBtn>
+      <ng-icon name="heroMoon"></ng-icon>
+      <span class="text-bold inline align-middle">
+        {{ 'Dark Mode' | titlecase }}
+      </span>
     </span>
-  </span>
-  <span
-    class="flex animate-rotate-y items-center gap-2 animate-duration-500 animate-once"
-    #darkModeBtn>
-    <ng-icon name="heroSun"></ng-icon>
-    <span class="text-bold inline align-middle">
-      {{ 'Light Mode' | titlecase }}
+    <span
+      class="flex animate-rotate-y items-center gap-2 animate-duration-500 animate-once"
+      #darkModeBtn>
+      <ng-icon name="heroSun"></ng-icon>
+      <span class="text-bold inline align-middle">
+        {{ 'Light Mode' | titlecase }}
+      </span>
     </span>
-  </span>
-</button>
+  </button>
+</div>

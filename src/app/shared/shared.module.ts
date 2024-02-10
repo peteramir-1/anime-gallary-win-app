@@ -20,6 +20,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { AppOverlayContainer } from '../core/services/app-overlay-container.service';
 import { APP_SNACK_BAR_DEFAULT_OPTIONS } from './models/app-snackbar.model';
 import { WidgetContainerModule } from './directives/widget-container/widget-container.module';
+import { ScrollableModule } from './directives/scrollable/scrollable.module';
 
 @NgModule({
   declarations: [],
@@ -40,10 +41,9 @@ import { WidgetContainerModule } from './directives/widget-container/widget-cont
     NumInputModule,
 
     WidgetContainerModule,
+    ScrollableModule
   ],
   exports: [
-    WidgetContainerModule,
-
     CommonModule,
     ReactiveFormsModule,
 
@@ -58,6 +58,9 @@ import { WidgetContainerModule } from './directives/widget-container/widget-cont
     FolderInputModule,
     NumInputModule,
     FormsModule,
+
+    WidgetContainerModule,
+    ScrollableModule,
   ],
   providers: [
     {
