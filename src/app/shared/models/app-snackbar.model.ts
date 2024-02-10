@@ -6,9 +6,7 @@ export const APP_SNACK_BAR_DEFAULT_OPTIONS: MatSnackBarConfig = {
   verticalPosition: 'bottom',
   panelClass: [
     'bg-gray-100',
-    'text-neutral-950',
-    'font-bold',
-    'tracking-wide',
+    '!mb-12',
     'dark:text-white',
     'dark:bg-neutral-700',
   ],
