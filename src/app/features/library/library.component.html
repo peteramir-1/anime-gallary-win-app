@@ -1,12 +1,14 @@
-<article class="flex max-w-full flex-1 flex-col items-stretch gap-7">
-  <article class="flex-none flex-col gap-7 px-8" appWidgetContainer>
-    <section class="flex items-center divide-x">
-      <section class="px-4 pl-0">
+<div
+  class="grid h-full w-full grid-cols-1 grid-rows-[min-content,_repeat(6,_minmax(0,_1fr))] gap-4">
+  <div appWidgetContainer>
+    <article class="flex content-stretch items-center" appScrollable>
+      <section class="flex-initial">
         <button class="btn btn-secondary" routerLink="/library/add">
           <ng-icon name="heroPlus"></ng-icon>
         </button>
       </section>
-      <section class="flex-initial basis-2/3 px-4">
+      <div class="flex-auto"></div>
+      <section class="min-w-[60%] flex-initial">
         <input
           type="text"
           name="search"
@@ -15,9 +17,10 @@
           [(ngModel)]="searchResult"
           [ngModelOptions]="{ standalone: true }" />
       </section>
-      <section class="flex flex-auto">
+      <div class="flex-auto"></div>
+      <section class="flex min-w-[25%] flex-initial justify-between">
         <!-- Filter By Like/Love/Favorite -->
-        <section class="basis-1/4 text-center">
+        <section class="flex-initial">
           @if (!likedFilter.getValue()) {
           <ng-icon
             class="cursor-pointer align-text-top"
@@ -47,7 +50,7 @@
         </section>
 
         <!-- Filter By Status of the anime incomplete/complete/all -->
-        <section class="basis-1/4 text-center">
+        <section class="flex-initial">
           @if (statusFilter.getValue() === 'incomplete') {
           <ng-icon
             class="cursor-pointer align-text-top text-teal-600 dark:text-white"
@@ -90,7 +93,7 @@
         </section>
 
         <!-- Filter By Anime Season autumn/summer/winter/spring/all -->
-        <section class="basis-1/4 text-center">
+        <section class="flex-initial">
           @if (seasonFilter.getValue() === 'autumn') {
           <ng-icon
             class="cursor-pointer align-text-top text-teal-600 dark:text-white"
@@ -202,7 +205,7 @@
         </section>
 
         <!-- Filter By Anime Release Date -->
-        <section class="basis-1/4 text-center">
+        <section class="flex-initial">
           <span
             matTooltip="Release Date"
             [matMenuTriggerFor]="releaseDateFilterMenu"
@@ -233,10 +236,11 @@
           </mat-menu>
         </section>
       </section>
-    </section>
-  </article>
-  <div appWidgetContainer height="full">
-    <section class="flex-auto" appScrollable>
+    </article>
+  </div>
+
+  <div class="row-span-6" appWidgetContainer>
+    <section appScrollable>
       <article class="-m-4 flex flex-1 flex-wrap gap-y-9">
         @for ( anime of animes | async | filterBy : ['name'] : searchResult ;
         track anime) {
@@ -251,4 +255,4 @@
       </article>
     </section>
   </div>
-</article>
+</div>

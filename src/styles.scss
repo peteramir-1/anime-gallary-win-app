@@ -73,11 +73,6 @@
     margin: 0;
   }
 
-  router-outlet + * {
-    @apply flex;
-    flex: 1;
-  }
-
   // Videojs Styles
   @import 'assets/scss/videojs-theme-1.scss';
   @import url('video.js/dist/video-js.css');

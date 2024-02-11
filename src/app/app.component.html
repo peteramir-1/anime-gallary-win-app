@@ -1,3 +1,6 @@
 <app-layout>
-  <router-outlet></router-outlet>
+  <div
+    class="h-full w-full [&_>_:not(router-outlet)]:block [&_>_:not(router-outlet)]:h-full [&_>_:not(router-outlet)]:w-full">
+    <router-outlet></router-outlet>
+  </div>
 </app-layout>
