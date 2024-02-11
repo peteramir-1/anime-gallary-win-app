@@ -82,7 +82,7 @@ describe('WidgetContainerDirective', () => {
     it('should be auto by default', () => {
       fixture.detectChanges();
 
-      const isWidthAutoClassExists = element.classes['w-auto'];
+      const isWidthAutoClassExists = element.classes['w-full'];
       expect(isWidthAutoClassExists).toBe(true);
     });
 
@@ -116,7 +116,7 @@ describe('WidgetContainerDirective', () => {
     it('should be auto by default', () => {
       fixture.detectChanges();
 
-      const isHeightAutoClassExists = element.classes['h-auto'];
+      const isHeightAutoClassExists = element.classes['h-full'];
       expect(isHeightAutoClassExists).toBe(true);
     });
 

@@ -8,8 +8,8 @@ type height = 'auto' | 'fit' | 'full' | 'screen';
 })
 export class WidgetContainerDirective {
   @Input('padding') paddingY?: number;
-  @Input() width: width = 'auto';
-  @Input() height: height = 'auto';
+  @Input() width: width = 'full';
+  @Input() height: height = 'full';
 
   @HostBinding('class.w-full')
   get widthFull() {
