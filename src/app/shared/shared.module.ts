@@ -12,13 +12,6 @@ import { FolderInputModule } from 'src/app/shared/modules/folder-input/folder-in
 import { NumInputModule } from 'src/app/shared/modules/num-input/num-input.module';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {
-  MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatSnackBarModule,
-} from '@angular/material/snack-bar';
-import { OverlayContainer } from '@angular/cdk/overlay';
-import { AppOverlayContainer } from '../core/services/app-overlay-container.service';
-import { APP_SNACK_BAR_DEFAULT_OPTIONS } from './models/app-snackbar.model';
 import { WidgetContainerModule } from './directives/widget-container/widget-container.module';
 import { ScrollableModule } from './directives/scrollable/scrollable.module';
 
@@ -30,7 +23,6 @@ import { ScrollableModule } from './directives/scrollable/scrollable.module';
     ReactiveFormsModule,
 
     MatTooltipModule,
-    MatSnackBarModule,
 
     AnimeCardModule,
     OnOffInputModule,
@@ -48,7 +40,6 @@ import { ScrollableModule } from './directives/scrollable/scrollable.module';
     ReactiveFormsModule,
 
     MatTooltipModule,
-    MatSnackBarModule,
 
     AnimeCardModule,
     OnOffInputModule,
@@ -61,16 +52,6 @@ import { ScrollableModule } from './directives/scrollable/scrollable.module';
 
     WidgetContainerModule,
     ScrollableModule,
-  ],
-  providers: [
-    {
-      provide: OverlayContainer,
-      useExisting: AppOverlayContainer,
-    },
-    {
-      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-      useValue: APP_SNACK_BAR_DEFAULT_OPTIONS,
-    },
   ],
 })
 export class SharedModule {}

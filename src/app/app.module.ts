@@ -13,6 +13,10 @@ import { heroHome, heroSun, heroMoon } from '@ng-icons/heroicons/outline';
 import { lucideLibrary, lucideSettings } from '@ng-icons/lucide';
 import { WidgetContainerModule } from './shared/directives/widget-container/widget-container.module';
 import { ScrollableModule } from './shared/directives/scrollable/scrollable.module';
+import { AppOverlayContainer } from './core/services/app-overlay-container.service';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { APP_SNACK_BAR_DEFAULT_OPTIONS } from './shared/models/app-snackbar.model';
 
 @NgModule({
   declarations: [AppComponent, SidenavComponent, LayoutComponent],
@@ -32,7 +36,16 @@ import { ScrollableModule } from './shared/directives/scrollable/scrollable.modu
     ScrollableModule,
     WidgetContainerModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: OverlayContainer,
+      useExisting: AppOverlayContainer,
+    },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: APP_SNACK_BAR_DEFAULT_OPTIONS,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
