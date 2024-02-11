@@ -10,8 +10,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { filter, takeUntil, tap } from 'rxjs/operators';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
-
 import {
   GetVideoPlayerSettingsDocument,
   UpdateSettingsGQL,
@@ -21,6 +19,7 @@ import { themes } from 'src/app/features/settings/models/video-player-settings.m
 import { Subject } from 'rxjs';
 
 import { AppOverlayContainer } from 'src/app/core/services/app-overlay-container.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-video-player',
@@ -28,7 +27,6 @@ import { AppOverlayContainer } from 'src/app/core/services/app-overlay-container
   styleUrls: ['./video-player.component.scss'],
 })
 export class VideoPlayerComponent implements OnInit, OnDestroy {
-  @ViewChild('pageContainer') pageContainer: ElementRef;
   private readonly body = document.querySelector('body');
   private readonly destroyed$ = new Subject<void>();
   private savedSettings = this.activeRoute.snapshot.data.settings;
@@ -92,7 +90,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private activeRoute: ActivatedRoute,
-    private matSnackbar: MatSnackBar,
+    private snackbar: SnackbarService,
     private updateSettingsGQL: UpdateSettingsGQL,
     private overlayContainerService: AppOverlayContainer
   ) {
@@ -155,16 +153,8 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
           this.optionsForm.markAsUntouched();
           this.optionsForm.markAsPristine();
           this.optionsForm.updateValueAndValidity();
-          this.overlayContainerService.createContainerElement(
-            this.pageContainer.nativeElement
-          );
-          this.matSnackbar
-            .open('Updated!', 'dismiss', { duration: 8000 })
-            .afterDismissed()
-            .subscribe(() => {
-              this.overlayContainerService.removeContainerElement();
-              this.overlayContainerService.createContainerElement(this.body);
-            });
+          const element = document.querySelector('app-video-player');
+          this.snackbar.open('Updated!', element.lastElementChild, 'dismiss');
           this.savedSettings = this.optionsForm.value;
         })
       )

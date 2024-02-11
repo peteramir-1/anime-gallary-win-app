@@ -1,6 +1,5 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -10,6 +9,7 @@ import {
   LikeAnimeGQL,
   UnlikeAnimeGQL,
 } from 'src/app/core/services/graphql.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-anime-details',
@@ -27,7 +27,7 @@ export class AnimeDetailsComponent implements OnInit, OnDestroy {
     private likeAnimeGQL: LikeAnimeGQL,
     private unlikeAnimeGQL: UnlikeAnimeGQL,
     private clipboard: Clipboard,
-    private _snackBar: MatSnackBar
+    private snackBar: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -55,10 +55,11 @@ export class AnimeDetailsComponent implements OnInit, OnDestroy {
 
   copyAnimeName() {
     const operationSuccessfull = this.clipboard.copy(this.anime.name);
+    const element = document.querySelector('app-anime-details');
     if (operationSuccessfull) {
-      this._snackBar.open('Copied To Clipboard!');
+      this.snackBar.open('Copied To Clipboard!', element.lastElementChild);
     } else {
-      this._snackBar.open('Error Occured please try again');
+      this.snackBar.open('Error Occured please try again', element.lastElementChild);
     }
   }
 
@@ -71,7 +72,8 @@ export class AnimeDetailsComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         setTimeout(() => {
           this.router.navigate(['/library']).then(() => {
-            this._snackBar.open('Deleted Successfully');
+            const element = document.querySelector('app-library').querySelectorAll('[appWidgetContainer]')[1]
+            this.snackBar.open('Deleted Successfully', element);
           });
         }, 200);
       });

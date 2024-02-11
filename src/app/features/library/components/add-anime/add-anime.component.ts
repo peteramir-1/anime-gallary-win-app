@@ -261,7 +261,8 @@ export class AddAnimeComponent implements OnInit {
         this.router
           .navigate(['/library', 'details', res.data.createAnime.id])
           .then(() => {
-            this.snackbar.open('Created Successfully');
+            const element = document.querySelector('app-anime-details');
+            this.snackbar.open('Created Successfully', element.lastElementChild);
           });
       });
   }
@@ -291,7 +292,8 @@ export class AddAnimeComponent implements OnInit {
       )
       .subscribe(() => {
         this.router.navigate(['/library', 'details', id]).then(() => {
-          this.snackbar.open('Updated Successfully');
+          const element = document.querySelector('app-anime-details');
+          this.snackbar.open('Updated Successfully', element.lastElementChild);
         });
       });
   }
