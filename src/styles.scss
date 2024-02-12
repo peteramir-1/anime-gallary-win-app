@@ -189,7 +189,3 @@
 .matTooltipClass {
   @apply overflow-hidden rounded-md bg-neutral-700 px-4 py-2 text-xs font-medium tracking-wide shadow-lg #{!important};
 }
-
-.matSnackbarClass {
-  @apply mb-20 mr-16 overflow-hidden rounded-md bg-neutral-700 px-8 text-xs font-medium tracking-wide text-white drop-shadow-lg #{!important};
-}
