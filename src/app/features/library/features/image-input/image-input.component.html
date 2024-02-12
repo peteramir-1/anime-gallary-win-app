@@ -1,0 +1,23 @@
+<label
+  class="h-full w-full cursor-pointer justify-center rounded-lg bg-gray-50 bg-cover align-middle outline-dashed outline-2 outline-gray-300 hover:bg-gray-100 focus:outline-teal-500 dark:bg-gray-700 dark:outline-gray-600 dark:hover:bg-gray-800 dark:hover:outline-gray-500 dark:focus:outline-teal-500"
+  [ngClass]="{
+    'outline-dashed': !value(),
+    'focus:outline-dashed': !value(),
+    'outline-0': value(),
+    'shadow-inner': value(),
+    'focus:outline-4': value(),
+    'focus:outline': value(),
+  }"
+  [style]="background()"
+  (click)="selectPictureFromDialog($event)"
+  (keyup.enter)="selectPictureFromDialog($event)"
+  (drop)="selectPictureFromDragAndDrop($event)"
+  (dragover)="$event.preventDefault(); $event.stopPropagation()"
+  [attr.aria-describedby]="id + '-placeholder'"
+  [for]="id"
+  tabindex="0">
+  <image-input-placeholder
+    [ngClass]="{ hidden: value() }"
+    [id]="id + '-placeholder'"></image-input-placeholder>
+  <input [id]="id" class="hidden" type="text" [value]="value()" />
+</label>

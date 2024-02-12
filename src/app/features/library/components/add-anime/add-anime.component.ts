@@ -17,7 +17,7 @@ import {
 } from 'src/app/core/services/graphql.service';
 import { ElectronService } from 'src/app/core/services/electron.service';
 import { UtilsService } from 'src/app/core/services/utils.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-add-anime',
@@ -25,12 +25,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./add-anime.component.scss'],
 })
 export class AddAnimeComponent implements OnInit {
+  private readonly thumbnailDefault = 'assets/pictures/no-image.webp';
+  private readonly allowedVideoTypes = ['mp4', 'mkv', 'flv', 'mwv'];
   anime = this.activeRoute.snapshot.data.anime;
   _animeForm = this.fb.group({
     uuid: this.fb.control<string | null>(null),
     name: this.fb.control<string>('', Validators.required),
     story: this.fb.control<string | null>(null),
-    thumbnail: this.fb.control<string>('assets/pictures/no-image.webp'),
+    thumbnail: this.fb.control<string | undefined>(undefined),
     numOfEpisodes: this.fb.control<number>(1, [
       Validators.required,
       Validators.min(1),
@@ -42,24 +44,10 @@ export class AddAnimeComponent implements OnInit {
     type: this.fb.control<Type>(Type.Serie, Validators.required),
     addFromFileOrFolder: this.fb.control<'file' | 'folder'>('file'),
   });
-  isThumbnailDefault = true;
   years = Array.from(
     { length: new Date().getFullYear() - 1917 },
     (_, index) => new Date().getFullYear() - (index + 1)
   ).map(val => val.toString());
-  private readonly allowedPictureTypes = [
-    'image/jpeg',
-    'image/jpg',
-    'image/png',
-    'image/gif',
-    'image/x-png',
-    'bmp',
-    'png',
-    'jpg',
-    'gif',
-    'jpeg',
-  ];
-  private readonly allowedVideoTypes = ['mp4', 'mkv', 'flv', 'mwv'];
   private _episodes = this._animeForm.get('episodes') as FormArray;
   enableScroll: () => void;
 
@@ -71,7 +59,7 @@ export class AddAnimeComponent implements OnInit {
     private createAnimeGql: CreateAnimeGQL,
     private updateAnimeGql: UpdateAnimeGQL,
     private renderer: Renderer2,
-    private snackbar: MatSnackBar,
+    private snackbar: SnackbarService,
     public utilService: UtilsService
   ) {}
 
@@ -107,12 +95,6 @@ export class AddAnimeComponent implements OnInit {
     for (const [index, control] of this._episodes.controls.entries()) {
       control.setValue(anime.episodes[index]);
     }
-    this.setIsThumbnailDefault();
-  }
-  private setIsThumbnailDefault() {
-    this.isThumbnailDefault =
-      this._animeForm.controls.thumbnail.value ===
-      'assets/pictures/no-image.webp';
   }
 
   updateEpisodesArray(currentNum: number) {
@@ -153,34 +135,6 @@ export class AddAnimeComponent implements OnInit {
 
   getEpisodesLength() {
     return Array(this._episodes.length);
-  }
-
-  selectAnimePicture(dropEvent?: any) {
-    if (dropEvent === undefined) {
-      this.selectPictureFromDialog();
-    } else {
-      this.selectPictureFromDragAndDrop(dropEvent);
-    }
-  }
-  private selectPictureFromDialog() {
-    this.electronService
-      .selectFile(this.allowedPictureTypes)
-      .then(path => this.savePicture(path));
-  }
-  private selectPictureFromDragAndDrop(dropEvent: any) {
-    dropEvent.preventDefault();
-    dropEvent.stopPropagation();
-    const file = dropEvent.dataTransfer.files[0];
-    if (this.allowedPictureTypes.includes(file.type)) {
-      this.savePicture(file.path);
-    }
-  }
-  private savePicture(path?: string | false): void {
-    if (path) {
-      const validPath = this.utilService.convertPathToValidPath(path);
-      this._animeForm.controls.thumbnail.setValue(validPath);
-      this.isThumbnailDefault = false;
-    }
   }
 
   selectEpisodesFromFolder() {
@@ -246,7 +200,7 @@ export class AddAnimeComponent implements OnInit {
             type: this._animeForm.controls.type.value,
             status: this._animeForm.controls.status.value,
             numOfEpisodes: this._animeForm.controls.numOfEpisodes.value,
-            thumbnail: this._animeForm.controls.thumbnail.value,
+            thumbnail: this._animeForm.controls.thumbnail.value ?? this.thumbnailDefault,
             description: this._animeForm.controls.story.value,
             season: this._animeForm.controls.season.value,
             released: this._animeForm.controls.released.value,
@@ -277,7 +231,7 @@ export class AddAnimeComponent implements OnInit {
             type: this._animeForm.controls.type.value,
             status: this._animeForm.controls.status.value,
             numOfEpisodes: this._animeForm.controls.numOfEpisodes.value,
-            thumbnail: this._animeForm.controls.thumbnail.value,
+            thumbnail: this._animeForm.controls.thumbnail.value ?? this.thumbnailDefault,
             released: this._animeForm.controls.released.value,
             season: this._animeForm.controls.season.value,
             description: this._animeForm.controls.story.value,

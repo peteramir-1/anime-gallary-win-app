@@ -16,7 +16,7 @@ import {
   matWbSunny,
   matThunderstorm,
 } from '@ng-icons/material-icons/baseline';
-import { lucideLeaf, lucideFlower2, lucideUpload } from '@ng-icons/lucide';
+import { lucideLeaf, lucideFlower2 } from '@ng-icons/lucide';
 import {
   heroPlus,
   heroArrowLeft,
@@ -32,6 +32,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { VideoPlayerService } from './services/video-player.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ImageInputModule } from './features/image-input/image-input.module';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
       matThunderstorm, // Winter
       lucideLeaf, // Fall/Autumn
       lucideFlower2, // Spring
-      lucideUpload,
     }),
 
     // CDK and Material Modules
@@ -65,6 +65,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MatMenuModule,
     ClipboardModule,
     A11yModule,
+
+    // Library Features
+    ImageInputModule,
 
     // NG Pipes Modules
     NgArrayPipesModule,
