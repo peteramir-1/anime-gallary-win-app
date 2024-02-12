@@ -50,6 +50,7 @@
                   formControlName="name"
                   type="text"
                   id="name"
+                  name="name"
                   required
                   class="input" />
               </section>
@@ -70,7 +71,7 @@
               <!-- Released Date Form Control -->
               <section class="flex flex-auto flex-col">
                 <label
-                  for="name"
+                  for="released"
                   class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Released
                   <!-- <span
@@ -82,6 +83,7 @@
                   formControlName="released"
                   type="text"
                   id="released"
+                  name="released"
                   class="input w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
                   <option [value]="null">N/A</option>
                   @for (year of years; track year) {
@@ -95,7 +97,7 @@
               <!-- Season Form Control -->
               <section class="flex flex-auto flex-col">
                 <label
-                  for="name"
+                  for="season"
                   class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Season
                   <!-- <span
@@ -107,6 +109,7 @@
                   formControlName="season"
                   type="text"
                   id="season"
+                  name="season"
                   class="input w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
                   <option [value]="null">N/A</option>
                   <option value="winter">Winter</option>
