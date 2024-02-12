@@ -296,12 +296,15 @@
             MP4, MKV, FLV or MWV.
           </span>
         </h1>
-        <fieldset class="mb-6 flex flex-initial flex-row items-center gap-5">
+        <fieldset
+          id="addFromFileOrFolder"
+          class="mb-6 flex flex-initial flex-row items-center gap-5">
           <div class="flex items-center">
             <input
               id="select-from-file"
               type="radio"
               value="file"
+              name="addFromFileOrFolder"
               class="input"
               formControlName="addFromFileOrFolder" />
             <label
@@ -316,6 +319,7 @@
               class="input"
               type="radio"
               value="folder"
+              name="addFromFileOrFolder"
               formControlName="addFromFileOrFolder" />
             <label
               for="select-from-folder"
