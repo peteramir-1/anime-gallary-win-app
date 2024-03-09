@@ -1,5 +1,3 @@
-@import url('@angular/cdk/overlay-prebuilt.css');
-@import url('@angular/material/prebuilt-themes/purple-green.css');
 @import url('videojs-playlist-ui/dist/videojs-playlist-ui.css');
 
 @tailwind base;
@@ -12,10 +10,6 @@
 }
 
 @layer base {
-  * {
-    @apply font-sans;
-  }
-
   html,
   body {
     margin: 0;
@@ -24,6 +18,8 @@
     height: 100%;
     overflow-x: hidden;
   }
+
+  body { font-family: theme('fontFamily.sans') }
 
   *:focus-visible {
     outline: none;
