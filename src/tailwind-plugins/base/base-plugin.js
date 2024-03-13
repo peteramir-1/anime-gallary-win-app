@@ -20,21 +20,27 @@ module.exports = plugin(({ addBase, theme }) => {
     },
     h1: {
       'font-size': theme('fontSize.6xl'),
+      'font-weight': theme('fontWeight.bold'),
     },
     h2: {
       'font-size': theme('fontSize.4xl'),
+      'font-weight': theme('fontWeight.bold'),
     },
     h3: {
       'font-size': theme('fontSize.2xl'),
+      'font-weight': theme('fontWeight.semibold'),
     },
     h4: {
       'font-size': theme('fontSize.lg'),
+      'font-weight': theme('fontWeight.medium'),
     },
     h5: {
       'font-size': theme('fontSize.base'),
+      'font-weight': theme('fontWeight.medium'),
     },
     h6: {
       'font-size': theme('fontSize.sm'),
+      'font-weight': theme('fontWeight.medium'),
     },
     '*:focus-visible': {
       outline: 'none',
