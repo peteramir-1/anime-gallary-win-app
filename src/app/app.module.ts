@@ -17,6 +17,7 @@ import { AppOverlayContainer } from './core/services/app-overlay-container.servi
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { APP_SNACK_BAR_DEFAULT_OPTIONS } from './shared/models/app-snackbar.model';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [AppComponent, SidenavComponent, LayoutComponent],
@@ -45,6 +46,7 @@ import { APP_SNACK_BAR_DEFAULT_OPTIONS } from './shared/models/app-snackbar.mode
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: APP_SNACK_BAR_DEFAULT_OPTIONS,
     },
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent],
 })
