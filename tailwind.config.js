@@ -1,11 +1,16 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   content: ['./src/**/*.{html,ts}'],
   theme: {
     extend: {
+      colors: {
+        scrollbar: '55 65 81',
+      },
       boxShadow: {
         'inner-lg': 'inset 0 0px 15px 2px rgb(0 0 0 / 0.3)',
-        'inner-md': 'inset 0 0px 15px 2px rgb(0 0 0 / 0.1)'
+        'inner-md': 'inset 0 0px 15px 2px rgb(0 0 0 / 0.1)',
       },
       keyframes: {
         expand: {
@@ -76,8 +81,9 @@ module.exports = {
   plugins: [
     require('postcss-import'),
     require('@tailwindcss/typography'),
-    // require('@tailwindcss/forms'),
-    // require('@tailwindcss/aspect-ratio'),
     require('tailwindcss-animated'),
+    require('./src/tailwind-plugins/base/base-plugin'),
+    require('./src/tailwind-plugins/base/scrollbar-plugin'),
+    require('./src/tailwind-plugins/base/electron-plugin'),
   ],
 };
