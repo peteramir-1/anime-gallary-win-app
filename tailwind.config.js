@@ -66,7 +66,9 @@ module.exports = {
         shrink: 'shrink 500ms ease-in-out forwards',
       },
       fontFamily: {
-        moirai: ['MoiraiOne', 'cursive'],
+        moirai: ['MoiraiOne', 'cursive', ...defaultTheme.fontFamily.sans],
+        roboto: ['Roboto', ...defaultTheme.fontFamily.sans],
+        kanit: ['Kanit', ...defaultTheme.fontFamily.sans]
       },
     },
   },
