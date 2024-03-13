@@ -77,8 +77,3 @@
     @apply h-full w-full resize-none rounded-lg border-0 bg-gray-50 p-2 text-xs text-gray-900 ring-1 ring-gray-300 focus:ring-2 focus:ring-teal-500 focus-visible:outline-none dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:ring-gray-500 dark:focus:ring-2 dark:focus:ring-teal-500 dark:focus-visible:outline-none;
   }
 }
-
-// Material Styles
-.matTooltipClass {
-  @apply overflow-hidden rounded-md bg-neutral-700 px-4 py-2 text-xs font-medium tracking-wide shadow-lg #{!important};
-}
