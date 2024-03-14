@@ -33,7 +33,7 @@ $anime-gallery-frontend-theme: mat.define-light-theme(
     ),
     typography:
       mat.define-typography-config(
-        $font-family: theme('fontFamily.sans'),
+        $font-family: theme('fontFamily.roboto'),
       ),
     density: 0,
   )
