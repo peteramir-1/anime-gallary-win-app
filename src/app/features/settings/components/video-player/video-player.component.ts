@@ -1,9 +1,8 @@
 import {
   Component,
-  ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -17,9 +16,7 @@ import {
 
 import { themes } from 'src/app/features/settings/models/video-player-settings.model';
 import { Subject } from 'rxjs';
-
-import { AppOverlayContainer } from 'src/app/core/services/app-overlay-container.service';
-import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-video-player',
@@ -27,7 +24,6 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
   styleUrls: ['./video-player.component.scss'],
 })
 export class VideoPlayerComponent implements OnInit, OnDestroy {
-  private readonly body = document.querySelector('body');
   private readonly destroyed$ = new Subject<void>();
   private savedSettings = this.activeRoute.snapshot.data.settings;
   readonly optionsForm = this.fb.group({
@@ -87,15 +83,13 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
       'flex flex-row items-center basis-32 select-none text-sm font-semibold',
   };
 
+  private readonly snackbar = inject(MatSnackBar);
+
   constructor(
     private fb: FormBuilder,
     private activeRoute: ActivatedRoute,
-    private snackbar: SnackbarService,
-    private updateSettingsGQL: UpdateSettingsGQL,
-    private overlayContainerService: AppOverlayContainer
-  ) {
-    this.overlayContainerService.createContainerElement(this.body);
-  }
+    private updateSettingsGQL: UpdateSettingsGQL
+  ) {}
 
   ngOnInit(): void {
     this.savedSettings = this.optionsForm.getRawValue();
@@ -153,8 +147,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
           this.optionsForm.markAsUntouched();
           this.optionsForm.markAsPristine();
           this.optionsForm.updateValueAndValidity();
-          const element = document.querySelector('app-video-player');
-          this.snackbar.open('Updated!', element.lastElementChild, 'dismiss');
+          this.snackbar.open('Updated!', 'dismiss');
           this.savedSettings = this.optionsForm.value;
         })
       )

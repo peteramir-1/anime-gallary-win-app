@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, inject } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -17,7 +17,7 @@ import {
 } from 'src/app/core/services/graphql.service';
 import { ElectronService } from 'src/app/core/services/electron.service';
 import { UtilsService } from 'src/app/core/services/utils.service';
-import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-anime',
@@ -51,6 +51,8 @@ export class AddAnimeComponent implements OnInit {
   private _episodes = this._animeForm.get('episodes') as FormArray;
   enableScroll: () => void;
 
+  private readonly snackbar = inject(MatSnackBar);
+
   constructor(
     private fb: FormBuilder,
     private electronService: ElectronService,
@@ -59,7 +61,6 @@ export class AddAnimeComponent implements OnInit {
     private createAnimeGql: CreateAnimeGQL,
     private updateAnimeGql: UpdateAnimeGQL,
     private renderer: Renderer2,
-    private snackbar: SnackbarService,
     public utilService: UtilsService
   ) {}
 
@@ -215,8 +216,7 @@ export class AddAnimeComponent implements OnInit {
         this.router
           .navigate(['/library', 'details', res.data.createAnime.id])
           .then(() => {
-            const element = document.querySelector('app-anime-details');
-            this.snackbar.open('Created Successfully', element.lastElementChild);
+            this.snackbar.open('Created Successfully');
           });
       });
   }
@@ -246,8 +246,7 @@ export class AddAnimeComponent implements OnInit {
       )
       .subscribe(() => {
         this.router.navigate(['/library', 'details', id]).then(() => {
-          const element = document.querySelector('app-anime-details');
-          this.snackbar.open('Updated Successfully', element.lastElementChild);
+          this.snackbar.open('Updated Successfully');
         });
       });
   }

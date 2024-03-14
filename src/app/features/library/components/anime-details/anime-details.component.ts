@@ -1,5 +1,6 @@
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -9,7 +10,6 @@ import {
   LikeAnimeGQL,
   UnlikeAnimeGQL,
 } from 'src/app/core/services/graphql.service';
-import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-anime-details',
@@ -19,6 +19,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
 export class AnimeDetailsComponent implements OnInit, OnDestroy {
   anime: any;
   private destroy$ = new Subject();
+  private readonly snackbar = inject(MatSnackBar);
 
   constructor(
     private router: Router,
@@ -26,8 +27,7 @@ export class AnimeDetailsComponent implements OnInit, OnDestroy {
     private deleteAnimeGQL: DeleteAnimeGQL,
     private likeAnimeGQL: LikeAnimeGQL,
     private unlikeAnimeGQL: UnlikeAnimeGQL,
-    private clipboard: Clipboard,
-    private snackBar: SnackbarService
+    private clipboard: Clipboard
   ) {}
 
   ngOnInit(): void {
@@ -55,11 +55,10 @@ export class AnimeDetailsComponent implements OnInit, OnDestroy {
 
   copyAnimeName() {
     const operationSuccessfull = this.clipboard.copy(this.anime.name);
-    const element = document.querySelector('app-anime-details');
     if (operationSuccessfull) {
-      this.snackBar.open('Copied To Clipboard!', element.lastElementChild);
+      this.snackbar.open('Copied To Clipboard!');
     } else {
-      this.snackBar.open('Error Occured please try again', element.lastElementChild);
+      this.snackbar.open('Error Occured please try again');
     }
   }
 
@@ -72,8 +71,7 @@ export class AnimeDetailsComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         setTimeout(() => {
           this.router.navigate(['/library']).then(() => {
-            const element = document.querySelector('app-library').querySelectorAll('[appWidgetContainer]')[1]
-            this.snackBar.open('Deleted Successfully', element);
+            this.snackbar.open('Deleted Successfully');
           });
         }, 200);
       });

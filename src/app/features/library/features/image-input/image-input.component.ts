@@ -3,11 +3,12 @@ import {
   Component,
   HostBinding,
   computed,
+  inject,
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ElectronService } from 'src/app/core/services/electron.service';
-import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UtilsService } from 'src/app/core/services/utils.service';
 
 @Component({
@@ -40,14 +41,15 @@ export class ImageInputComponent implements ControlValueAccessor {
     () => this.value() && `background-image: url("${this.value()}")`
   );
 
+  private readonly snackbar = inject(MatSnackBar);
+
   onChange: (path: string) => void;
   onTouched: () => void;
   isDisabled: boolean = false;
 
   constructor(
     private electronService: ElectronService,
-    private utilsService: UtilsService,
-    private snackbar: SnackbarService
+    private utilsService: UtilsService
   ) {}
 
   writeValue(path: any): void {
@@ -118,14 +120,10 @@ export class ImageInputComponent implements ControlValueAccessor {
         throw notAllowedFileExtensionError;
       }
     } catch (err) {
-      const element = document.querySelector('app-add-anime');
       if (err.name === notAllowedFileExtensionError.name) {
-        this.snackbar.open(err.message, element.lastElementChild);
+        this.snackbar.open(err.message);
       } else {
-        this.snackbar.open(
-          'Upload Folder is not supported',
-          element.lastElementChild
-        );
+        this.snackbar.open('Upload Folder is not supported');
       }
     }
 

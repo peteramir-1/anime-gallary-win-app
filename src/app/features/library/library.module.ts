@@ -29,10 +29,13 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatMenuModule } from '@angular/material/menu';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { APP_SNACK_BAR_DEFAULT_OPTIONS } from 'src/app/shared/models/app-snackbar.model';
 
 import { VideoPlayerService } from './services/video-player.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ImageInputModule } from './features/image-input/image-input.module';
+import { LibraryWrapperComponent } from './library-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +43,7 @@ import { ImageInputModule } from './features/image-input/image-input.module';
     AnimeWatchComponent,
     AnimeDetailsComponent,
     LibraryComponent,
+    LibraryWrapperComponent,
   ],
   imports: [
     // Angular Core Modules
@@ -74,6 +78,12 @@ import { ImageInputModule } from './features/image-input/image-input.module';
 
     SharedModule,
   ],
-  providers: [VideoPlayerService],
+  providers: [
+    VideoPlayerService,
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: APP_SNACK_BAR_DEFAULT_OPTIONS,
+    },
+  ],
 })
 export class LibraryModule {}

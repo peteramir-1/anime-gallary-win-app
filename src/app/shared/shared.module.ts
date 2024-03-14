@@ -14,6 +14,7 @@ import { NumInputModule } from 'src/app/shared/modules/num-input/num-input.modul
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { WidgetContainerModule } from './directives/widget-container/widget-container.module';
 import { ScrollableModule } from './directives/scrollable/scrollable.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [],
@@ -22,7 +23,9 @@ import { ScrollableModule } from './directives/scrollable/scrollable.module';
     FormsModule,
     ReactiveFormsModule,
 
+    // Material Module
     MatTooltipModule,
+    MatSnackBarModule,
 
     AnimeCardModule,
     OnOffInputModule,
@@ -40,6 +43,7 @@ import { ScrollableModule } from './directives/scrollable/scrollable.module';
     ReactiveFormsModule,
 
     MatTooltipModule,
+    MatSnackBarModule,
 
     AnimeCardModule,
     OnOffInputModule,

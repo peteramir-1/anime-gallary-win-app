@@ -2,11 +2,10 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  selector: 'lib-wrapper',
+  template: `<router-outlet></router-outlet>`,
 })
-export class SettingsComponent {
+export class LibraryWrapperComponent {
   private readonly matSnackBar = inject(MatSnackBar);
   private readonly closeSnackbar = inject(DestroyRef).onDestroy(() => {
     this.matSnackBar.dismiss();
