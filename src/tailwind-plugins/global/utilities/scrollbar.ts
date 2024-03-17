@@ -1,12 +1,6 @@
-const plugin = require('tailwindcss/plugin');
+import scrollbarTransition from '../models/transitions';
 
-const scrollbarTransition = theme => ({
-  transition: theme('transitionProperty.DEFAULT'),
-  'transition-duration': theme('transitionDuration.700'),
-  'transition-timing-function': theme("transitionTimingFunction['in-out']"),
-});
-
-module.exports = plugin(({ addBase, theme }) => {
+export default ({ addBase, theme }) => {
   addBase({
     '::-webkit-scrollbar': {
       width: theme('width.2'),
@@ -31,4 +25,4 @@ module.exports = plugin(({ addBase, theme }) => {
       },
     },
   });
-});
+};

@@ -1,6 +1,8 @@
-const plugin = require('tailwindcss/plugin');
-
-module.exports = plugin(({ addBase, theme }) => {
+export default ({
+  addBase,
+  addVariant,
+  theme,
+}) => {
   addBase({
     html: {
       margin: theme('margin.0'),
@@ -55,4 +57,5 @@ module.exports = plugin(({ addBase, theme }) => {
       margin: 0,
     },
   });
-});
+  addVariant('hocus', ['&:hover', '&:focus']);
+};

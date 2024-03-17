@@ -1,6 +1,4 @@
-const plugin = require('tailwindcss/plugin');
-
-module.exports = plugin(({ addBase, theme }) => {
+export default ({ addBase, theme }) => {
   addBase({
     '.vjs-theme-fantasy vjs-slider:focus, .vjs-theme-city vjs-slider:focus, .vjs-theme-forest vjs-slider:focus, .vjs-theme-sea vjs-slider:focus':
       {
@@ -29,4 +27,4 @@ module.exports = plugin(({ addBase, theme }) => {
       'margin-top': '1.6rem',
     },
   });
-});
+};

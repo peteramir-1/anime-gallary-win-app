@@ -1,7 +1,11 @@
-/** @type {import('tailwindcss').Config} */
-const defaultTheme = require('tailwindcss/defaultTheme');
+import type { Config } from 'tailwindcss';
+import * as defaultTheme from 'tailwindcss/defaultTheme';
+import * as postcssImport from 'postcss-import';
+import typography from '@tailwindcss/typography';
+import * as tailwindcssAnimated from 'tailwindcss-animated';
+import * as GlobalPlugin from './src/tailwind-plugins/global/global';
 
-module.exports = {
+export default {
   content: ['./src/**/*.{html,ts}'],
   theme: {
     extend: {
@@ -31,18 +35,18 @@ module.exports = {
         },
         'fade-in': {
           '0%': {
-            opacity: 0,
+            opacity: '0',
           },
           '100%': {
-            opacity: 1,
+            opacity: '1',
           },
         },
         'fade-out': {
           '0%': {
-            opacity: 1,
+            opacity: '1',
           },
           '100%': {
-            opacity: 0,
+            opacity: '0',
           },
         },
         'swipe-up-out': {
@@ -73,17 +77,15 @@ module.exports = {
       fontFamily: {
         moirai: ['MoiraiOne', 'cursive', ...defaultTheme.fontFamily.sans],
         roboto: ['Roboto', ...defaultTheme.fontFamily.sans],
-        kanit: ['Kanit', ...defaultTheme.fontFamily.sans]
+        kanit: ['Kanit', ...defaultTheme.fontFamily.sans],
       },
     },
   },
   darkMode: 'class',
   plugins: [
-    require('postcss-import'),
-    require('@tailwindcss/typography'),
-    require('tailwindcss-animated'),
-    require('./src/tailwind-plugins/base/base-plugin'),
-    require('./src/tailwind-plugins/base/scrollbar-plugin'),
-    require('./src/tailwind-plugins/base/electron-plugin'),
+    postcssImport,
+    typography,
+    tailwindcssAnimated,
+    GlobalPlugin,
   ],
-};
+} satisfies Config;
