@@ -16,6 +16,7 @@ export default ({
       width: theme('width.full'),
       height: theme('height.full'),
       'font-family': theme('fontFamily.roboto'),
+      color: theme('colors.neutral.900'),
     },
     'h1, h2, h3, h4, h5, h6': {
       'font-family': theme('fontFamily.kanit'),
@@ -55,6 +56,9 @@ export default ({
       appearance: 'none',
       display: 'none',
       margin: 0,
+    },
+    '.dark body': {
+      color: theme('colors.white'),
     },
   });
   addVariant('hocus', ['&:hover', '&:focus']);
