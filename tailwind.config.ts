@@ -3,7 +3,8 @@ import * as defaultTheme from 'tailwindcss/defaultTheme';
 import * as postcssImport from 'postcss-import';
 import typography from '@tailwindcss/typography';
 import * as tailwindcssAnimated from 'tailwindcss-animated';
-import * as GlobalPlugin from './src/tailwind-plugins/global/global';
+import GlobalPlugin from './src/tailwind-plugins/global/global';
+import InputPlugin from './src/tailwind-plugins/input/input';
 
 export default {
   content: ['./src/**/*.{html,ts}'],
@@ -87,5 +88,6 @@ export default {
     typography,
     tailwindcssAnimated,
     GlobalPlugin,
+    InputPlugin,
   ],
 } satisfies Config;

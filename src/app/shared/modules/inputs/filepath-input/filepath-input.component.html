@@ -1,0 +1,12 @@
+<button
+  type="button"
+  class="flex-initial px-3 py-2 input-custom-transition input-button-text input-button-bg-default hocus:input-button-bg-default-hocus dark:input-button-bg-dark dark:hocus:input-button-bg-dark-hocus"
+  (click)="interactToClientEvents(button, $event)"
+  (keypress)="interactToClientEvents(button, $event)"
+  #button>
+  Choose File
+</button>
+<input
+  class="flex-auto bg-clip-padding p-2 input-custom-transition custom-input-bg-default custom-input-text-default dark:custom-input-bg-dark dark:custom-input-text-dark"
+  [(ngModel)]="value"
+  readonly />
