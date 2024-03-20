@@ -14,10 +14,7 @@ export default ({ addUtilities, matchUtilities, theme }: PluginAPI) => {
       }),
     },
     {
-      values: {
-        default: theme('colors.neutral.50'),
-        dark: theme('colors.neutral.700'),
-      },
+      values: theme('colors.inputs.background'),
     }
   );
   matchUtilities(
@@ -27,10 +24,7 @@ export default ({ addUtilities, matchUtilities, theme }: PluginAPI) => {
       }),
     },
     {
-      values: {
-        default: theme('colors.neutral.300'),
-        dark: theme('colors.neutral.600'),
-      },
+      values: theme('colors.inputs.ring'),
     }
   );
   matchUtilities(
@@ -40,10 +34,7 @@ export default ({ addUtilities, matchUtilities, theme }: PluginAPI) => {
       }),
     },
     {
-      values: {
-        default: theme('colors.neutral.900'),
-        dark: theme('colors.white'),
-      },
+      values: theme('colors.inputs.text'),
     }
   );
   matchUtilities(
@@ -53,10 +44,7 @@ export default ({ addUtilities, matchUtilities, theme }: PluginAPI) => {
       }),
     },
     {
-      values: {
-        default: theme('colors.blue.500'),
-        dark: theme('colors.blue.600'),
-      },
+      values: theme('colors.inputs.primary'),
     }
   );
 };

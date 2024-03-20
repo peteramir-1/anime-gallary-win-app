@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss';
 import * as defaultTheme from 'tailwindcss/defaultTheme';
+import colors from 'tailwindcss/colors';
 import * as postcssImport from 'postcss-import';
 import typography from '@tailwindcss/typography';
 import * as tailwindcssAnimated from 'tailwindcss-animated';
@@ -12,6 +13,24 @@ export default {
     extend: {
       colors: {
         scrollbar: '55 65 81',
+        inputs: {
+          background: {
+            default: colors['neutral']['50'],
+            dark: colors['neutral']['700'],
+          },
+          ring: {
+            default: colors['neutral']['300'],
+            dark: colors['neutral']['600'],
+          },
+          text: {
+            default: colors['neutral']['900'],
+            dark: colors['white'],
+          },
+          primary: {
+            default: colors['blue']['500'],
+            dark: colors['blue']['600'],
+          },
+        },
       },
       boxShadow: {
         'inner-lg': 'inset 0 0px 15px 2px rgb(0 0 0 / 0.3)',
