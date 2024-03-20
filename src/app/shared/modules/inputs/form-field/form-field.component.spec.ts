@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OptionComponent } from './option.component';
+import { FormFieldComponent } from './form-field.component';
 
-describe('OptionComponent', () => {
-  let component: OptionComponent;
-  let fixture: ComponentFixture<OptionComponent>;
+describe('FormFieldComponent', () => {
+  let component: FormFieldComponent;
+  let fixture: ComponentFixture<FormFieldComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OptionComponent ]
+      imports: [FormFieldComponent]
     })
     .compileComponents();
-
-    fixture = TestBed.createComponent(OptionComponent);
+    
+    fixture = TestBed.createComponent(FormFieldComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

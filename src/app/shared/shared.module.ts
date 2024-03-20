@@ -16,6 +16,8 @@ import { WidgetContainerModule } from './directives/widget-container/widget-cont
 import { ScrollableModule } from './directives/scrollable/scrollable.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { FormFieldModule } from 'src/app/shared/modules/inputs/form-field/form-field.module';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -30,6 +32,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AnimeCardModule,
     OnOffInputModule,
     CheckboxInputModule,
+
+    // Input Modules
+    FormFieldModule,
     NumberInputModule,
     FilepathInputModule,
     FolderInputModule,
@@ -41,6 +46,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   exports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
+
+    FormFieldModule,
 
     MatTooltipModule,
     MatSnackBarModule,
@@ -52,7 +60,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FilepathInputModule,
     FolderInputModule,
     NumInputModule,
-    FormsModule,
 
     WidgetContainerModule,
     ScrollableModule,
