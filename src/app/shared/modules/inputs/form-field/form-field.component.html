@@ -1,8 +1,22 @@
 <label
-  class="group flex h-full select-none flex-col gap-1 text-sm font-medium"
+  class="group flex h-full w-full select-none gap-1 text-sm font-medium"
+  [ngClass]="{
+    'flex-row': !this.flexCol,
+    'flex-col': this.flexCol,
+  }"
+  [ngStyle]="{
+    gap: this.flexGap + 'rem',
+  }"
   [attr.aria-required]="required"
   [attr.for]="for">
-  <div class="flex flex-initial items-center">
+  <div
+    class="flex min-w-fit flex-initial items-center"
+    [ngStyle]="{
+      width:
+        this.labelFixedWidthPercentage === 0
+          ? '100%'
+          : this.labelFixedWidthPercentage + '%'
+    }">
     <span class="mr-1 flex-initial leading-6">
       {{ label | titlecase }}
     </span>
