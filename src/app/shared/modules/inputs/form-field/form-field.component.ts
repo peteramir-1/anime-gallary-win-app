@@ -5,9 +5,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   selector: 'app-form-field',
   templateUrl: './form-field.component.html',
   styleUrl: './form-field.component.scss',
-  host: {
-    class: 'flex gap-2',
-  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormFieldComponent {
