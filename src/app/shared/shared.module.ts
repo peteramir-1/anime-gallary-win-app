@@ -17,6 +17,7 @@ import { ScrollableModule } from './directives/scrollable/scrollable.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { FormFieldModule } from 'src/app/shared/modules/inputs/form-field/form-field.module';
+import { RadioWrapperModule } from 'src/app/shared/modules/inputs/radio-wrapper/radio-wrapper.module';
 
 @NgModule({
   declarations: [],
@@ -35,6 +36,7 @@ import { FormFieldModule } from 'src/app/shared/modules/inputs/form-field/form-f
 
     // Input Modules
     FormFieldModule,
+    RadioWrapperModule,
     NumberInputModule,
     FilepathInputModule,
     FolderInputModule,
@@ -49,6 +51,7 @@ import { FormFieldModule } from 'src/app/shared/modules/inputs/form-field/form-f
     FormsModule,
 
     FormFieldModule,
+    RadioWrapperModule,
 
     MatTooltipModule,
     MatSnackBarModule,
