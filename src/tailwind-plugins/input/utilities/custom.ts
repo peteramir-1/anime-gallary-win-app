@@ -1,4 +1,4 @@
-import { PluginAPI } from "tailwindcss/types/config";
+import { PluginAPI } from 'tailwindcss/types/config';
 
 export default ({ addUtilities, matchUtilities, theme }: PluginAPI) => {
   addUtilities({
@@ -21,8 +21,10 @@ export default ({ addUtilities, matchUtilities, theme }: PluginAPI) => {
       values: {
         default: theme('colors.neutral.200'),
         'default-hover': theme('colors.neutral.300'),
+        'default-disabled': theme('colors.gray.200'),
         dark: theme('colors.neutral.700'),
         'dark-hover': theme('colors.neutral.600'),
+        'dark-disabled': theme('colors.neutral.600'),
       },
     }
   );
@@ -55,6 +57,20 @@ export default ({ addUtilities, matchUtilities, theme }: PluginAPI) => {
         'dark-hover': theme('colors.blue.500'),
         'dark-focus': theme('colors.blue.500'),
         'dark-hocus': theme('colors.blue.500'),
+        disabled: theme('colors.neutral.400'),
+        'dark-disabled': theme('colors.neutral.700'),
+      },
+    }
+  );
+  matchUtilities(
+    {
+      'input-button-text': value => ({
+        backgroundColor: value,
+      }),
+    },
+    {
+      values: {
+        'disabled': theme('colors.neutral.300'),
       },
     }
   );
