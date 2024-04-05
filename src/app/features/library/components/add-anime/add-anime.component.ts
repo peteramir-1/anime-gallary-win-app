@@ -42,7 +42,6 @@ export class AddAnimeComponent implements OnInit {
     episodes: this.fb.array<FormControl<string>>([this.fb.control<string>('')]),
     status: this.fb.control<Status>(Status.Complete, Validators.required),
     type: this.fb.control<Type>(Type.Serie, Validators.required),
-    addFromFileOrFolder: this.fb.control<'file' | 'folder'>('file'),
   });
   years = Array.from(
     { length: new Date().getFullYear() - 1917 },
@@ -149,7 +148,6 @@ export class AddAnimeComponent implements OnInit {
           );
           this._animeForm.controls.numOfEpisodes.setValue(files.length);
           this.saveEpisodesToAnimeForm(files);
-          this._animeForm.controls.addFromFileOrFolder.setValue('file');
         }
       }
     });

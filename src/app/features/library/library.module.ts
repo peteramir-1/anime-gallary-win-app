@@ -4,6 +4,7 @@ import { LibraryComponent } from './library.component';
 import { AddAnimeComponent } from './components/add-anime/add-anime.component';
 import { AnimeDetailsComponent } from './components/anime-details/anime-details.component';
 import { AnimeWatchComponent } from './components/anime-watch/anime-watch.component';
+import { LibraryWrapperComponent } from './library-wrapper.component';
 
 import { LibraryRoutingModule } from './routes/library.routing';
 
@@ -15,6 +16,7 @@ import {
   matIncompleteCircle,
   matWbSunny,
   matThunderstorm,
+  matFolder
 } from '@ng-icons/material-icons/baseline';
 import { lucideLeaf, lucideFlower2 } from '@ng-icons/lucide';
 import {
@@ -33,9 +35,10 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { APP_SNACK_BAR_DEFAULT_OPTIONS } from 'src/app/shared/models/app-snackbar.model';
 
 import { VideoPlayerService } from './services/video-player.service';
+
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ImageInputModule } from './features/image-input/image-input.module';
-import { LibraryWrapperComponent } from './library-wrapper.component';
+import { FilepathInputModule } from 'src/app/shared/modules/inputs/filepath-input/filepath-input.module';
 
 @NgModule({
   declarations: [
@@ -57,6 +60,7 @@ import { LibraryWrapperComponent } from './library-wrapper.component';
       jamHeart, // love outlined
       jamHeartF, // love solid
       matCircle,
+      matFolder,
       matIncompleteCircle,
       matWbSunny, // Summer
       matThunderstorm, // Winter
@@ -72,6 +76,7 @@ import { LibraryWrapperComponent } from './library-wrapper.component';
 
     // Library Features
     ImageInputModule,
+    FilepathInputModule,
 
     // NG Pipes Modules
     NgArrayPipesModule,

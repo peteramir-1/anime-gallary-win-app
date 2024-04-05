@@ -247,110 +247,43 @@
         </section>
       </section>
 
-      <!-- Anime Movie -->
-      <section
-        class="flex flex-col gap-2"
-        [ngClass]="{
-          hidden: this._animeForm.get('type').value !== 'movie'
-        }">
-        <h1
-          class="mb-2 text-3xl font-bold leading-none tracking-normal text-gray-900 dark:text-white">
-          Anime Movie
-          <span
-            class="mt-2 block text-xs text-gray-500 dark:text-gray-300"
-            id="file_input_help">
-            MP4, MKV, FLV or MWV.
-          </span>
-        </h1>
-        <ng-container formArrayName="episodes">
-          @if (_animeForm.get('addFromFileOrFolder').value === 'file') {
-          <section class="flex flex-1 flex-row flex-wrap gap-5">
-            @for (num of getEpisodesLength(); track num; let i = $index) {
-            <app-filepath-input
-              class="min-w-[40%] flex-auto"
-              [formControlName]="i"
-              [extensions]="['mp4', 'mkv', 'flv', 'mwv']"
-              inputLabel=""
-              [inputId]="'file_input_' + i"></app-filepath-input>
-            }
-          </section>
-          } @if (_animeForm.get('addFromFileOrFolder').value === 'folder') {
-          <section class="flex flex-1 flex-col gap-5">
-            <app-folder-input
-              label="Episodes Folder"
-              (click)="selectEpisodesFromFolder()"></app-folder-input>
-          </section>
-          }
-        </ng-container>
-      </section>
-
       <!-- Anime Episodes -->
       <section
         class="flex flex-col gap-2"
         [ngClass]="{
           hidden: this._animeForm.get('type').value === 'movie'
         }">
-        <h1
-          class="mb-2 text-3xl font-bold leading-none tracking-normal text-gray-900 dark:text-white">
-          Anime Episodes
-          <span
-            class="mt-2 block text-xs text-gray-500 dark:text-gray-300"
-            id="file_input_help">
-            MP4, MKV, FLV or MWV.
-          </span>
-        </h1>
-        <fieldset
-          id="addFromFileOrFolder"
-          class="mb-6 flex flex-initial flex-row items-center gap-5">
-          <div class="flex items-center">
-            <input
-              id="select-from-file"
-              type="radio"
-              value="file"
-              name="addFromFileOrFolder"
-              class="input"
-              formControlName="addFromFileOrFolder" />
-            <label
-              for="select-from-file"
-              class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-              File By File
-            </label>
-          </div>
-          <div class="flex items-center">
-            <input
-              id="select-from-folder"
-              class="input"
-              type="radio"
-              value="folder"
-              name="addFromFileOrFolder"
-              formControlName="addFromFileOrFolder" />
-            <label
-              for="select-from-folder"
-              class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-              From Folder
-            </label>
-          </div>
-        </fieldset>
-        <ng-container formArrayName="episodes">
-          @if (_animeForm.get('addFromFileOrFolder').value === 'file') {
-          <section class="flex flex-1 flex-row flex-wrap gap-5">
-            @for (num of getEpisodesLength(); track num; let i = $index) {
+        <header class="mb-4 flex gap-5">
+          <section class="flex flex-col gap-2">
+            <h1
+              class="flex gap-5 text-3xl font-bold leading-none tracking-normal text-gray-900 dark:text-white">
+              Anime Episodes
+            </h1>
+            <h6
+              class="block text-xs text-gray-500 dark:text-gray-300"
+              id="file_input_help">
+              MP4, MKV, FLV or MWV.
+            </h6>
+          </section>
+          <button
+            class="btn btn-secondary p-2.5"
+            matTooltip="Select episodes from folder"
+            (click)="selectEpisodesFromFolder()">
+            <ng-icon name="matFolder"></ng-icon>
+          </button>
+        </header>
+        <section class="grid grid-cols-2 gap-5" formArrayName="episodes">
+          @for (num of getEpisodesLength(); track num; let i = $index) {
+          <app-form-field
+            [for]="'file_input_' + i"
+            [label]="'Episode ' + (i + 1)">
             <app-filepath-input
-              class="min-w-[40%] flex-auto"
               [formControlName]="i"
               [extensions]="['mp4', 'mkv', 'flv', 'mwv']"
-              [inputLabel]="'Episode ' + (i + 1)"
-              [inputId]="'file_input_' + i"></app-filepath-input>
-            }
-          </section>
-          } @if (_animeForm.get('addFromFileOrFolder').value === 'folder') {
-          <section class="flex flex-1 flex-col gap-5">
-            <app-folder-input
-              label="Episodes Folder"
-              (click)="selectEpisodesFromFolder()"></app-folder-input>
-          </section>
+              [id]="'file_input_' + i"></app-filepath-input>
+          </app-form-field>
           }
-        </ng-container>
+        </section>
       </section>
 
       <!-- Buttons Section -->
