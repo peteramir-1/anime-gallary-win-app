@@ -27,7 +27,7 @@ import {
 } from '@ng-icons/heroicons/outline';
 import { jamHeartF, jamHeart } from '@ng-icons/jam-icons';
 
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import { CdkScrollableModule, ScrollingModule } from '@angular/cdk/scrolling';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatMenuModule } from '@angular/material/menu';
@@ -38,7 +38,9 @@ import { VideoPlayerService } from './services/video-player.service';
 
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ImageInputModule } from './features/image-input/image-input.module';
+import { InputModule } from 'src/app/shared/directives/input/inputs.module';
 import { FilepathInputModule } from 'src/app/shared/modules/inputs/filepath-input/filepath-input.module';
+import { SelectModule } from 'src/app/shared/modules/inputs/select/select.module';
 
 @NgModule({
   declarations: [
@@ -73,9 +75,14 @@ import { FilepathInputModule } from 'src/app/shared/modules/inputs/filepath-inpu
     MatMenuModule,
     ClipboardModule,
     A11yModule,
+    CdkScrollableModule,
 
     // Library Features
     ImageInputModule,
+
+    // Input Modules
+    InputModule,
+    SelectModule,
     FilepathInputModule,
 
     // NG Pipes Modules

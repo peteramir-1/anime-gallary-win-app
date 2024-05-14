@@ -36,209 +36,137 @@
           <section class="flex flex-auto flex-col gap-5">
             <section class="flex flex-initial flex-row gap-5">
               <!-- Name Form Control -->
-              <section class="flex flex-auto flex-col">
-                <label
-                  for="name"
-                  class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Name
-                  <span
-                    class="ml-2 text-xs font-normal italic text-red-500 dark:text-red-300">
-                    required
-                  </span>
-                </label>
+              <app-form-field
+                class="flex-auto"
+                for="name"
+                required
+                label="name"
+                inputLabel="name">
                 <input
                   formControlName="name"
                   type="text"
                   id="name"
                   name="name"
-                  required
-                  class="input" />
-              </section>
+                  appInput />
+              </app-form-field>
 
               <!-- Number of Episodes Form Control -->
-              <app-num-input
-                inputLabel="Num. of Episodes"
+              <app-form-field
+                for="numOfEpisodes"
+                class="flex-initial"
                 required
-                inputId="numOfEpisodes"
-                [inputMin]="1"
-                (focusout)="enableScroll()"
-                (focusin)="disableScroll()"
-                class="flex flex-initial flex-col"
-                formControlName="numOfEpisodes"></app-num-input>
+                inputLabel="numOfEpisodesInput"
+                label="Num. of Episodes">
+                <app-number-input
+                  id="numOfEpisodesInput"
+                  required
+                  inputId="numOfEpisodes"
+                  min="1"
+                  formControlName="numOfEpisodes"></app-number-input>
+              </app-form-field>
             </section>
 
             <section class="flex flex-initial flex-row gap-5">
-              <!-- Released Date Form Control -->
-              <section class="flex flex-auto flex-col">
-                <label
-                  for="released"
-                  class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Released
-                  <!-- <span
-                  class="ml-2 text-xs font-normal italic text-red-500 dark:text-red-300">
-                  required
-                </span> -->
-                </label>
-                <select
-                  formControlName="released"
-                  type="text"
+              <!-- Released Form Control -->
+              <app-form-field
+                for="released"
+                class="flex-auto"
+                label="released"
+                inputLabel="released">
+                <app-select
                   id="released"
-                  name="released"
-                  class="input w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
-                  <option [value]="null">N/A</option>
+                  formControlName="released"
+                  name="released">
+                  <app-option [value]="null">N/A</app-option>
                   @for (year of years; track year) {
-                  <option [value]="year">
+                  <app-option [value]="year">
                     {{ year }}
-                  </option>
+                  </app-option>
                   }
-                </select>
-              </section>
+                </app-select>
+              </app-form-field>
 
               <!-- Season Form Control -->
-              <section class="flex flex-auto flex-col">
-                <label
-                  for="season"
-                  class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Season
-                  <!-- <span
-                class="ml-2 text-xs font-normal italic text-red-500 dark:text-red-300">
-                required
-              </span> -->
-                </label>
-                <select
-                  formControlName="season"
-                  type="text"
-                  id="season"
-                  name="season"
-                  class="input w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
-                  <option [value]="null">N/A</option>
-                  <option value="winter">Winter</option>
-                  <option value="summer">Summer</option>
-                  <option value="spring">Spring</option>
-                  <option value="autumn">Autumn</option>
-                </select>
-              </section>
+              <app-form-field
+                for="season"
+                class="flex-auto"
+                label="season"
+                inputLabel="season">
+                <app-select id="season" formControlName="season" name="season">
+                  <app-option [value]="null">N/A</app-option>
+                  <app-option value="winter">Winter</app-option>
+                  <app-option value="summer">Summer</app-option>
+                  <app-option value="spring">Spring</app-option>
+                  <app-option value="autumn">Autumn</app-option>
+                </app-select>
+              </app-form-field>
             </section>
 
             <!-- Story Form Control -->
-            <section class="flex flex-auto flex-col">
-              <label
-                for="story"
-                class="mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Story
-              </label>
+            <app-form-field
+              for="story"
+              class="flex-auto"
+              label="story"
+              inputLabel="story">
               <textarea
                 id="story"
                 resizable
                 formControlName="story"
                 name="story"
-                class="textarea"></textarea>
-            </section>
+                appInput></textarea>
+            </app-form-field>
 
-            <section class="flex flex-initial flex-row">
+            <section class="flex flex-initial flex-row gap-5">
               <!-- Type Form Control -->
-              <section class="flex flex-initial basis-1/2 flex-col">
-                <label
-                  for="type"
-                  class="mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Type
-                  <span
-                    class="ml-2 text-xs font-normal italic text-red-500 dark:text-red-300">
-                    required
-                  </span>
-                </label>
-                <fieldset id="type">
-                  <div class="mb-4 flex items-center">
-                    <input
-                      formControlName="type"
-                      id="option-serie"
-                      type="radio"
-                      name="type"
-                      value="serie"
-                      class="input" />
-                    <label
-                      for="option-serie"
-                      class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
-                      Serie
-                    </label>
-                  </div>
-                  <div class="mb-4 flex items-center">
-                    <input
-                      formControlName="type"
-                      id="option-movie"
-                      type="radio"
-                      name="type"
-                      value="movie"
-                      class="input" />
-                    <label
-                      for="option-movie"
-                      class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
-                      Movie
-                    </label>
-                  </div>
-                  <div class="mb-4 flex items-center">
-                    <input
-                      formControlName="type"
-                      id="option-ova"
-                      type="radio"
-                      name="type"
-                      value="ova"
-                      class="input" />
-                    <label
-                      for="option-ova"
-                      class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
-                      OVA
-                    </label>
-                  </div>
-                </fieldset>
-              </section>
+              <app-form-field
+                class="flex-auto"
+                for="type"
+                label="type"
+                required>
+                <div radioWrapper>
+                  <input
+                    formControlName="type"
+                    id="option-serie"
+                    type="radio"
+                    name="type"
+                    value="serie"
+                    appRadioInput />
+                  <input
+                    formControlName="type"
+                    id="option-movie"
+                    type="radio"
+                    name="type"
+                    value="movie"
+                    appRadioInput />
+                  <input
+                    formControlName="type"
+                    id="option-ova"
+                    type="radio"
+                    name="type"
+                    value="ova"
+                    appRadioInput />
+                </div>
+              </app-form-field>
 
               <!-- Status Form Control -->
-              <section
-                class="flex flex-initial flex-col"
-                [ngClass]="{
-                  hidden: this._animeForm.get('type').value === 'movie'
-                }">
-                <label
-                  for="status"
-                  class="mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Status
-                  <span
-                    class="ml-2 text-xs font-normal italic text-red-500 dark:text-red-300">
-                    required
-                  </span>
-                </label>
-                <fieldset id="status">
-                  <div class="mb-4 flex items-center">
-                    <input
-                      formControlName="status"
-                      id="option-complete"
-                      type="radio"
-                      name="status"
-                      value="complete"
-                      class="input" />
-                    <label
-                      for="option-complete"
-                      class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
-                      Complete
-                    </label>
-                  </div>
-                  <div class="mb-4 flex items-center">
-                    <input
-                      formControlName="status"
-                      id="option-in-complete"
-                      type="radio"
-                      name="status"
-                      value="incomplete"
-                      class="input" />
-                    <label
-                      for="option-in-complete"
-                      class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
-                      Incomplete
-                    </label>
-                  </div>
-                </fieldset>
-              </section>
+              <app-form-field class="flex-auto" label="status">
+                <div for="status" id="status" radioWrapper>
+                  <input
+                    formControlName="status"
+                    id="option-complete"
+                    type="radio"
+                    name="status"
+                    value="complete"
+                    appRadioInput />
+                  <input
+                    formControlName="status"
+                    id="option-in-complete"
+                    type="radio"
+                    name="status"
+                    value="incomplete"
+                    appRadioInput />
+                </div>
+              </app-form-field>
             </section>
           </section>
           <section class="flex w-1/3">
@@ -248,11 +176,7 @@
       </section>
 
       <!-- Anime Episodes -->
-      <section
-        class="flex flex-col gap-2"
-        [ngClass]="{
-          hidden: this._animeForm.get('type').value === 'movie'
-        }">
+      <section class="flex flex-col gap-2">
         <header class="mb-4 flex gap-5">
           <section class="flex flex-col gap-2">
             <h1

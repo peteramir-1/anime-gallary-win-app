@@ -13,7 +13,7 @@ import {
   Status,
   Type,
   UpdateAnimeGQL,
-  CreateAnimeGQL
+  CreateAnimeGQL,
 } from 'src/app/core/services/graphql.service';
 import { ElectronService } from 'src/app/core/services/electron.service';
 import { UtilsService } from 'src/app/core/services/utils.service';
@@ -70,10 +70,13 @@ export class AddAnimeComponent implements OnInit {
     this._animeForm.controls.type.valueChanges.subscribe(type => {
       if (type === 'movie') {
         this._animeForm.controls.status.setValue(Status.Complete);
+        this._animeForm.controls.status.disable();
         this._animeForm.controls.numOfEpisodes.setValue(1);
         this._animeForm.controls.numOfEpisodes.disable();
         this._animeForm.controls.numOfEpisodes.updateValueAndValidity();
       } else {
+        this._animeForm.controls.status.enable();
+        this._animeForm.controls.status.updateValueAndValidity();
         this._animeForm.controls.numOfEpisodes.enable();
         this._animeForm.controls.numOfEpisodes.updateValueAndValidity();
       }
@@ -199,7 +202,8 @@ export class AddAnimeComponent implements OnInit {
             type: this._animeForm.controls.type.value,
             status: this._animeForm.controls.status.value,
             numOfEpisodes: this._animeForm.controls.numOfEpisodes.value,
-            thumbnail: this._animeForm.controls.thumbnail.value ?? this.thumbnailDefault,
+            thumbnail:
+              this._animeForm.controls.thumbnail.value ?? this.thumbnailDefault,
             description: this._animeForm.controls.story.value,
             season: this._animeForm.controls.season.value,
             released: this._animeForm.controls.released.value,
@@ -229,7 +233,8 @@ export class AddAnimeComponent implements OnInit {
             type: this._animeForm.controls.type.value,
             status: this._animeForm.controls.status.value,
             numOfEpisodes: this._animeForm.controls.numOfEpisodes.value,
-            thumbnail: this._animeForm.controls.thumbnail.value ?? this.thumbnailDefault,
+            thumbnail:
+              this._animeForm.controls.thumbnail.value ?? this.thumbnailDefault,
             released: this._animeForm.controls.released.value,
             season: this._animeForm.controls.season.value,
             description: this._animeForm.controls.story.value,

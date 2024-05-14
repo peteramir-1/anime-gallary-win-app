@@ -75,13 +75,6 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
   });
   readonly themes = themes;
   isSaveButtonDisabled = true;
-  formStyles = {
-    group: 'flex flex-col gap-4 px-3',
-    groupHeader: 'mb-2 font-bold text-lg',
-    field: 'flex flex-row items-center px-3',
-    label:
-      'flex flex-row items-center basis-32 select-none text-sm font-semibold',
-  };
 
   private readonly snackbar = inject(MatSnackBar);
 

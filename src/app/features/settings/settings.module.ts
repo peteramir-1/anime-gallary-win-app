@@ -11,6 +11,9 @@ import { heroQuestionMarkCircle } from '@ng-icons/heroicons/outline';
 import { SettingsRoutingModule } from './routes/settings.routes';
 
 import { SharedModule } from 'src/app/shared/shared.module';
+import { OnOffInputModule } from 'src/app/shared/modules/inputs/on-off-input/on-off-input.module';
+import { NumberInputModule } from 'src/app/shared/modules/inputs/number-input/number-input.module';
+import { RadioWrapperModule } from 'src/app/shared/modules/inputs/radio-wrapper/radio-wrapper.module';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { SETTINGS_SNACK_BAR_DEFAULT_OPTIONS } from './models/settings-snackbar.model';
 
@@ -23,6 +26,10 @@ import { SETTINGS_SNACK_BAR_DEFAULT_OPTIONS } from './models/settings-snackbar.m
   ],
   imports: [
     SettingsRoutingModule,
+
+    RadioWrapperModule,
+    OnOffInputModule,
+    NumberInputModule,
 
     NgIconsModule.withIcons({
       heroQuestionMarkCircle,
