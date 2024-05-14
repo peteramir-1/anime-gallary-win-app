@@ -2,13 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { OnOffInputModule } from 'src/app/shared/modules/on-off-input/on-off-input.module';
-import { CheckboxInputModule } from 'src/app/shared/modules/checkbox-input/checkbox-input.module';
-
 import { AnimeCardModule } from 'src/app/shared/modules/anime-card/anime-card.module';
-import { FilepathInputModule } from 'src/app/shared/modules/filepath-input/filepath-input.module';
-import { FolderInputModule } from 'src/app/shared/modules/folder-input/folder-input.module';
-import { NumInputModule } from 'src/app/shared/modules/num-input/num-input.module';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { WidgetContainerModule } from './directives/widget-container/widget-container.module';
@@ -20,7 +14,6 @@ import { NumberInputModule } from 'src/app/shared/modules/inputs/number-input/nu
 import { RadioWrapperModule } from 'src/app/shared/modules/inputs/radio-wrapper/radio-wrapper.module';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
@@ -32,17 +25,13 @@ import { RadioWrapperModule } from 'src/app/shared/modules/inputs/radio-wrapper/
 
     // Widgets Module
     AnimeCardModule,
-    OnOffInputModule,
-    CheckboxInputModule,
 
     // Input Modules
     FormFieldModule,
     RadioWrapperModule,
     NumberInputModule,
-    FilepathInputModule,
-    FolderInputModule,
-    NumInputModule,
 
+    // Layout Module
     WidgetContainerModule,
     ScrollableModule
   ],
@@ -59,11 +48,6 @@ import { RadioWrapperModule } from 'src/app/shared/modules/inputs/radio-wrapper/
     MatSnackBarModule,
 
     AnimeCardModule,
-    OnOffInputModule,
-    CheckboxInputModule,
-    FilepathInputModule,
-    FolderInputModule,
-    NumInputModule,
 
     WidgetContainerModule,
     ScrollableModule,
