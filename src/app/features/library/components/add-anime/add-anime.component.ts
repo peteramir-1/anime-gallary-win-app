@@ -253,4 +253,12 @@ export class AddAnimeComponent implements OnInit {
         });
       });
   }
+
+  back() {
+    if (!!this.anime?.id) {
+      this.router.navigate(['/library', 'details', this.anime?.id]);
+    } else {
+      this.router.navigate(['/library']);
+    }
+  }
 }

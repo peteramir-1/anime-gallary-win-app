@@ -16,6 +16,6 @@ export class AnimeResolver  {
   ): Observable<any> {
     return this.animeService
       .getAnimeById(route.params.id)
-      .pipe(map(res => res.data.anime));
+      .pipe(map(res => ({...res.data.anime, id: route.params.id})));
   }
 }
