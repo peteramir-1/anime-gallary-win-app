@@ -3,10 +3,8 @@
   @for (item of sidenav; track item) {
   <ng-container tabindex="-1">
     <button
-      [class]="
-        'btn btn-secondary w-full flex-initial gap-2 ' +
-        (item.buttonClass ?? '')
-      "
+      appButton
+      [class]="'w-full flex-initial gap-2 ' + (item.buttonClass ?? '')"
       [routerLink]="item.link"
       routerLinkActive="!bg-teal-900 shadow-lg"
       [routerLinkActiveOptions]="{ exact: item.link === '/' ? true : false }">
@@ -20,7 +18,9 @@
 
   <!-- Dark/Light Mode Buttons -->
   <button
-    class="btn flex-initial gap-2 self-end bg-gray-600 align-bottom text-gray-50"
+    appButton
+    color="gray"
+    class="w-full flex-initial gap-2 self-end align-bottom"
     (click)="darkModeService.toggleTheme()"
     tabindex="-1">
     <span

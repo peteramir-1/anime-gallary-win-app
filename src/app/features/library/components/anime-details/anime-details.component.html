@@ -3,11 +3,7 @@
     <!--
   + RETUN BACK Button "<--"
   -->
-    <button
-      class="btn btn-secondary"
-      type="button"
-      routerLink="/library"
-      role="navigation">
+    <button appButton type="button" routerLink="/library" role="navigation">
       <ng-icon name="heroArrowLeft"></ng-icon>
     </button>
 
@@ -131,14 +127,16 @@
         <section
           class="mt-4 flex flex-auto flex-row flex-wrap content-end gap-5">
           <button
+            appButton
             type="button"
-            class="btn btn-secondary"
             [routerLink]="['/library', 'edit', anime?.id]">
             Edit
           </button>
           <button
+            appButton
+            color="danger"
+            shape="outline"
             type="button"
-            class="btn btn-outline-danger"
             (click)="remove()">
             Delete
           </button>

@@ -3,9 +3,10 @@
     class="flex flex-row items-center bg-neutral-50 py-3 dark:bg-neutral-800">
     <h2 class="select-none text-xl font-extrabold">Video Player</h2>
     <button
-      [disabled]="isSaveButtonDisabled"
+      appButton
       type="submit"
-      class="btn btn-secondary ml-auto py-2"
+      class="ml-auto py-2"
+      [disabled]="isSaveButtonDisabled"
       (click)="save()">
       {{ 'save' | titlecase }}
     </button>

@@ -3,11 +3,7 @@
     <!--
   + RETUN BACK Button "<--"
   -->
-    <button
-      class="btn btn-secondary"
-      type="button"
-      routerLink="/library"
-      role="navigation">
+    <button appButton type="button" routerLink="/library" role="navigation">
       <ng-icon name="heroArrowLeft"></ng-icon>
     </button>
 
@@ -190,8 +186,9 @@
             </h6>
           </section>
           <button
+            appButton
             type="button"
-            class="btn btn-secondary p-2.5"
+            class="p-2.5"
             matTooltip="Select episodes from folder"
             (click)="selectEpisodesFromFolder()">
             <ng-icon name="matFolder"></ng-icon>
@@ -214,7 +211,9 @@
       <!-- Buttons Section -->
       <section class="flex flex-row items-start gap-5">
         <button
-          class="btn btn-outline-danger"
+          appButton
+          color="danger"
+          shape="outline"
           type="button"
           [routerLink]="
             _animeForm.get('uuid').value === null
@@ -223,7 +222,7 @@
           ">
           Cancel
         </button>
-        <button class="btn btn-secondary" type="submit" (click)="submit()">
+        <button appButton type="submit" (click)="submit()">
           {{ !anime ? 'Add' : 'Edit' }}
         </button>
       </section>

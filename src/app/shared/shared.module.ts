@@ -12,6 +12,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormFieldModule } from 'src/app/shared/modules/inputs/form-field/form-field.module';
 import { NumberInputModule } from 'src/app/shared/modules/inputs/number-input/number-input.module';
 import { RadioWrapperModule } from 'src/app/shared/modules/inputs/radio-wrapper/radio-wrapper.module';
+import { ButtonModule } from './directives/button/button.module';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { RadioWrapperModule } from 'src/app/shared/modules/inputs/radio-wrapper/
 
     // Layout Module
     WidgetContainerModule,
-    ScrollableModule
+    ScrollableModule,
+    ButtonModule,
   ],
   exports: [
     CommonModule,
@@ -51,6 +53,8 @@ import { RadioWrapperModule } from 'src/app/shared/modules/inputs/radio-wrapper/
 
     WidgetContainerModule,
     ScrollableModule,
+
+    ButtonModule
   ],
 })
 export class SharedModule {}

@@ -14,6 +14,7 @@ import { lucideLibrary, lucideSettings } from '@ng-icons/lucide';
 import { WidgetContainerModule } from './shared/directives/widget-container/widget-container.module';
 import { ScrollableModule } from './shared/directives/scrollable/scrollable.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ButtonModule } from './shared/directives/button/button.module';
 
 @NgModule({
   declarations: [AppComponent, SidenavComponent, LayoutComponent],
@@ -32,6 +33,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     GraphQLModule,
     ScrollableModule,
     WidgetContainerModule,
+    ButtonModule,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],
