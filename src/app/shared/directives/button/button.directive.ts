@@ -47,7 +47,7 @@ export class ButtonDirective implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.disabled.previousValue !== changes.disabled.currentValue) {
+    if (changes?.disabled?.previousValue !== changes?.disabled?.currentValue) {
       this.updateColorAndShape();
     }
   }
