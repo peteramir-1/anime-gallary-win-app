@@ -6,6 +6,7 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 
 type ButtonColor = 'primary' | 'secondary' | 'gray' | 'danger';
@@ -29,8 +30,12 @@ export class ButtonDirective implements OnInit, OnChanges {
   @Input() color: ButtonColor = 'secondary';
   @Input() shape: ButtonShape = 'default';
 
-  constructor(private el: ElementRef) {
-    for (const klass of el.nativeElement.classList) {
+  private elementClassList: string[] = Array.from(
+    inject(ElementRef).nativeElement.classList
+  );
+
+  constructor() {
+    for (const klass of this.elementClassList) {
       if (/^px-\d*/.test(klass)) {
         this.paddingX = false;
       } else if (/^py-\d*/.test(klass)) {
