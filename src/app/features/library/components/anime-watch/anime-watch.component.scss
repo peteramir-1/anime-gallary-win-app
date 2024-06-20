@@ -1,0 +1,49 @@
+#vjs-playlist-ui-container {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: none !important;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar {
+    width: 0.8rem !important;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    box-shadow: 0px 0px 0px 3px white inset;
+    background-color: #5a5a5a5e;
+  }
+}
+
+.dark #vjs-playlist-ui-container {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: none !important;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar {
+    width: 0.8rem !important;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    @apply shadow-[0px_0px_0px_4px_white_inset];
+    @apply shadow-neutral-800;
+    @apply bg-neutral-300;
+  }
+}
+
+.vjs-playlist {
+  @apply bg-neutral-600;
+}
+.vjs-playlist-item {
+  @apply mb-1 #{!important};
+}
+.vjs-playlist-vertical img {
+  position: relative;
+  bottom: 50%;
+}
+.vjs-playlist-thumbnail {
+  height: 7rem;
+}

@@ -1,0 +1,36 @@
+<label
+  class="group flex h-full w-full select-none gap-1 text-sm font-medium"
+  [ngClass]="{
+    'flex-row': !this.flexCol,
+    'flex-col': this.flexCol,
+  }"
+  [ngStyle]="{
+    gap: this.flexGap + 'rem',
+  }"
+  [attr.aria-required]="required"
+  [attr.for]="for">
+  <div
+    class="flex min-w-fit flex-initial items-center"
+    [ngStyle]="{
+      width:
+        this.labelFixedWidthPercentage === 0
+          ? '100%'
+          : this.labelFixedWidthPercentage + '%'
+    }">
+    <span class="mr-1 flex-initial leading-6">
+      {{ label | titlecase }}
+    </span>
+    <span
+      class="mr-2 hidden flex-initial leading-6 text-red-500 group-aria-required:inline dark:text-red-300">
+      *
+    </span>
+    <ng-icon
+      *ngIf="help"
+      class="flex-initial cursor-pointer items-center align-text-top"
+      matTooltipPosition="left"
+      matTooltipClass="text-xs"
+      [matTooltip]="help"
+      name="heroQuestionMarkCircle"></ng-icon>
+  </div>
+  <ng-content></ng-content>
+</label>

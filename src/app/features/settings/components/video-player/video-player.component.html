@@ -1,0 +1,173 @@
+<article class="flex w-full flex-col gap-10">
+  <header
+    class="flex flex-row items-center bg-neutral-50 py-3 dark:bg-neutral-800">
+    <h2 class="select-none text-xl font-extrabold">Video Player</h2>
+    <button
+      appButton
+      type="submit"
+      class="ml-auto py-2"
+      [disabled]="isSaveButtonDisabled"
+      (click)="save()">
+      {{ 'save' | titlecase }}
+    </button>
+  </header>
+  <form
+    class="flex flex-col gap-16 overflow-y-scroll"
+    [formGroup]="optionsForm">
+    <article formGroupName="general" class="flex flex-col gap-4 px-3">
+      <header>
+        <h4>
+          {{ 'general' | titlecase }}
+        </h4>
+      </header>
+      <section class="ml-4 flex flex-col gap-4">
+        <app-form-field
+          class="w-full"
+          label="theme"
+          [flexCol]="false"
+          labelFixedWidthPercentage="25">
+          <div radioWrapper>
+            @for (theme of themes; track theme.value; let i = $index) {
+            <input
+              [id]="'theme-' + i"
+              type="radio"
+              name="theme"
+              [label]="theme.name"
+              [value]="theme.value"
+              formControlName="theme"
+              appRadioInput />
+            }
+          </div>
+        </app-form-field>
+        <app-form-field
+          class="w-full"
+          label="autoplay"
+          [flexCol]="false"
+          labelFixedWidthPercentage="25">
+          <on-off-input formControlName="autoplay"></on-off-input>
+        </app-form-field>
+        <app-form-field
+          class="w-full"
+          label="loop"
+          help="Causes the video to start over as soon as it ends."
+          [flexCol]="false"
+          labelFixedWidthPercentage="25">
+          <on-off-input formControlName="loop"></on-off-input>
+        </app-form-field>
+        <app-form-field
+          class="w-full"
+          label="muted"
+          help="Will silence any audio by default."
+          [flexCol]="false"
+          labelFixedWidthPercentage="25">
+          <on-off-input formControlName="muted"></on-off-input>
+        </app-form-field>
+        <app-form-field
+          class="w-full"
+          label="picture in picture"
+          [flexCol]="false"
+          labelFixedWidthPercentage="25">
+          <on-off-input formControlName="pip"></on-off-input>
+        </app-form-field>
+        <app-form-field
+          class="w-full"
+          label="enable controls"
+          [flexCol]="false"
+          labelFixedWidthPercentage="25">
+          <on-off-input formControlName="controls"></on-off-input>
+        </app-form-field>
+      </section>
+    </article>
+
+    <!-- HotKeys Form Group -->
+    <article
+      formGroupName="hotkeys"
+      for="hotkeys"
+      class="flex flex-col gap-4 px-3">
+      <header class="flex flex-row items-center">
+        <h4>
+          {{ 'hotkeys' | titlecase }}
+        </h4>
+        <ng-icon
+          class="ml-1 cursor-pointer"
+          matTooltipPosition="left"
+          matTooltipClass="text-xs"
+          matTooltip="Controls how player-wide hotkeys operate."
+          size="1rem"
+          name="heroQuestionMarkCircle"></ng-icon>
+        <on-off-input
+          class="ml-4"
+          (ngModelChange)="toggleDisableForHotkeyControls($event)"
+          formControlName="hotkeys"></on-off-input>
+      </header>
+      <section class="ml-4 flex flex-col gap-4">
+        <app-form-field
+          class="w-full"
+          label="number control"
+          help="Enables seeking the video by pressing the number keys."
+          [flexCol]="false"
+          labelFixedWidthPercentage="35">
+          <on-off-input formControlName="enableNumbers"></on-off-input>
+        </app-form-field>
+        <app-form-field
+          class="w-full"
+          label="fullscreen"
+          help="Enables increasing/decreasing the volume by scrolling the mouse wheel."
+          [flexCol]="false"
+          labelFixedWidthPercentage="35">
+          <on-off-input formControlName="enableVolumeScroll"></on-off-input>
+        </app-form-field>
+        <app-form-field
+          class="w-full"
+          label="fullscreen"
+          help="Enables toggling the video fullscreen by pressing the F key."
+          [flexCol]="false"
+          labelFixedWidthPercentage="35">
+          <on-off-input formControlName="enableFullscreen"></on-off-input>
+        </app-form-field>
+        <app-form-field
+          class="w-full"
+          label="enable modifiers for numbers"
+          help="Enables the use of Ctrl/Alt/Cmd + Number keys for skipping around in the video."
+          [flexCol]="false"
+          labelFixedWidthPercentage="35">
+          <on-off-input
+            formControlName="enableModifiersForNumbers"></on-off-input>
+        </app-form-field>
+        <app-form-field
+          class="w-full"
+          label="enable mute"
+          help="Enables the volume mute to be toggle by pressing the M key."
+          [flexCol]="false"
+          labelFixedWidthPercentage="35">
+          <on-off-input formControlName="enableMute"></on-off-input>
+        </app-form-field>
+        <app-form-field
+          class="w-full"
+          label="seek step"
+          help="The number of seconds to seek forward and backwards when using the Right and Left Arrow keys."
+          [flexCol]="false"
+          labelFixedWidthPercentage="35">
+          <app-number-input
+            min="1"
+            max="15"
+            formControlName="seekStep"></app-number-input>
+        </app-form-field>
+        <app-form-field
+          class="w-full"
+          label="volume step"
+          help="The percentage to increase/decrease the volume level when using the Up and Down Arrow keys."
+          [flexCol]="false"
+          labelFixedWidthPercentage="35">
+          <app-number-input
+            min="0.1"
+            max="1"
+            notManuallyEditable
+            decimal="1"
+            #volumeStep
+            formControlName="volumeStep"></app-number-input>
+        </app-form-field>
+      </section>
+    </article>
+  </form>
+</article>

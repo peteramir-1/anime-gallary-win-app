@@ -1,0 +1,9 @@
+<article class="flex flex-col gap-7">
+  <h2 class="select-none text-xl font-bold">Theme</h2>
+  <section class="flex flex-row items-center gap-4">
+    <h4 class="select-none font-semibold">Dark Mode</h4>
+    <on-off-input
+      [ngModel]="darkMode"
+      (ngModelChange)="toggleTheme()"></on-off-input>
+  </section>
+</article>

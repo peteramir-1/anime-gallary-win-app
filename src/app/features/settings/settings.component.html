@@ -1,0 +1,34 @@
+<article class="grid h-full w-full grid-cols-7 grid-rows-1 gap-4">
+  <div class="col-span-5" appWidgetContainer>
+    <section appScrollable>
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+  <div class="col-span-2" appWidgetContainer>
+    <section appScrollable>
+      <ul class="flex w-full flex-col">
+        <li
+          tabindex="-1"
+          routerLink="/settings/general"
+          routerLinkActive="!bg-neutral-300 dark:!bg-neutral-500 shadow-inner"
+          class="my-2 mt-0 flex-initial cursor-pointer overflow-hidden rounded-lg bg-neutral-100 py-3 text-center text-[0.9rem] font-semibold transition-all duration-300 ease-in-out hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-600">
+          General
+        </li>
+        <li
+          tabindex="-1"
+          routerLink="/settings/video-player"
+          routerLinkActive="!bg-neutral-300 dark:!bg-neutral-500 shadow-inner"
+          class="my-2 flex-initial cursor-pointer overflow-hidden rounded-lg bg-neutral-100 py-3 text-center text-[0.9rem] font-semibold transition-all duration-300 ease-in-out hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-600">
+          Video Player
+        </li>
+        <li
+          tabindex="-1"
+          routerLink="/settings/about"
+          routerLinkActive="!bg-neutral-300 dark:!bg-neutral-500 shadow-inner"
+          class="my-2 mb-0 flex-initial cursor-pointer overflow-hidden rounded-lg bg-neutral-100 py-3 text-center text-[0.9rem] font-semibold transition-all duration-300 ease-in-out hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-600">
+          About
+        </li>
+      </ul>
+    </section>
+  </div>
+</article>

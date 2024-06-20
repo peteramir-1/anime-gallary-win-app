@@ -6,15 +6,13 @@
   "main": "./app/main.js",
   "scripts": {
     "compile": "tsc --project tsconfig.json",
-    "start:electron": "nodemon --watch ./src/**/* -e ts,tsx --ignore node_modules --ignore src/**/*.sqlite --exec \"npm run compile && electron-forge start\"",
+    "start:electron": "nodemon --watch ./src/**/* -e ts,tsx --ignore node_modules --ignore src/**/*.sqlite --exec \"SET mode=development && npm run compile && electron-forge start\"",
     "start:apollo": "nodemon --watch ./src/**/* -e ts,tsx --ignore node_modules --ignore src/**/*.sqlite --ignore src/**/*.test.ts --exec \"npm run compile && SET mode=development && SET NODE_APP=apollo && node app/servers/apollo/app.js\"",
     "start:frontend": "nodemon --watch ./src/**/* -e ts,tsx  --ignore node_modules --ignore src/**/*.sqlite --ignore src/**/*.test.ts --exec \"npm run compile && SET mode=development && SET NODE_APP=frontend && node app/servers/frontend/app.js\"",
-    "remove:prod-databases": "rmdir /S .\\app\\servers\\apollo\\database\\databases",
-    "remove:dev-databases": "rmdir /S .\\src\\servers\\apollo\\database\\databases",
     "package": "npm run compile && electron-forge package",
     "make": "npm run compile && electron-forge make",
     "publish": "npm run compile && electron-forge publish",
-    "test": "jest --watchAll"
+    "test": "SET mode=development && jest --watchAll"
   },
   "author": {
     "name": "Peter A. Labib",
@@ -24,7 +22,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "./images/favicon.ico",
+        "icon": "./favicon.ico",
         "out": "./build",
         "overwrite": true,
         "platform": "win32"
@@ -32,39 +30,43 @@
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
-          "config": {}
+          "config": {
+            "loadingGif": "./setup.gif",
+            "setupIcon": "./favicon.ico"
+          }
         }
       ]
     }
   },
   "dependencies": {
     "@apollo/server": "^4.7.5",
-    "@types/express": "^4.17.17",
-    "better-sqlite3": "^8.4.0",
+    "better-sqlite3": "^9.3.0",
     "body-parser": "^1.20.2",
     "custom-electron-titlebar": "^4.2.3",
     "electron-squirrel-startup": "^1.0.0",
     "express": "^4.18.2",
-    "graphql": "^16.7.1",
+    "graphql": "^16.8.1",
     "systeminformation": "^5.18.7",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.2.1",
-    "@electron-forge/maker-deb": "^6.2.1",
-    "@electron-forge/maker-rpm": "^6.2.1",
-    "@electron-forge/maker-squirrel": "^6.2.1",
-    "@electron-forge/maker-zip": "^6.2.1",
+    "@electron-forge/cli": "^7.2.0",
+    "@electron-forge/maker-deb": "^7.2.0",
+    "@electron-forge/maker-rpm": "^7.2.0",
+    "@electron-forge/maker-squirrel": "^7.2.0",
+    "@electron-forge/maker-zip": "^7.2.0",
     "@types/babel-generator": "^6.25.5",
     "@types/better-sqlite3": "^7.6.4",
+    "@types/express": "^4.17.21",
     "@types/jest": "^29.5.3",
     "@types/node": "^20.4.2",
     "@types/uuid": "^9.0.2",
-    "electron": "^25.2.0",
+    "electron": "^28.1.4",
     "jest": "^29.6.1",
+    "node-abi": "^3.54.0",
     "nodemon": "^3.0.1",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.3.3"
   }
 }

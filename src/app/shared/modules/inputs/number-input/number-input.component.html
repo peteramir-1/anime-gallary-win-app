@@ -1,0 +1,77 @@
+<!-- Decrease button -->
+<button
+  type="button"
+  [class]="buttonClass"
+  [ngClass]="{
+    'cursor-default': isDisabled,
+    'hocus:input-button-bg-default-hocus': !isDisabled,
+    'input-button-bg-default': !isDisabled,
+    'input-button-bg-disabled': isDisabled,
+    'input-button-text': !isDisabled,
+    'input-button-text-disabled': isDisabled,
+    'dark:input-button-bg-dark-disabled': isDisabled,
+  }"
+  [disabled]="isDisabled"
+  (click)="
+    updateValue(input.value, input, _increament * -1);
+    animateButton(decreamentButton)
+  "
+  #decreamentButton>
+  <ng-icon size="1.1em" [strokeWidth]="2" name="heroMinus"></ng-icon>
+</button>
+
+<input
+  [id]="id"
+  type="number"
+  class="h-full w-full flex-auto overflow-hidden text-ellipsis whitespace-nowrap bg-clip-padding text-center font-bold leading-6 transition-all ease-in-out"
+  [ngClass]="{
+    'cursor-default': notManuallyEditable,
+    'custom-input-text-default': !isDisabled,
+    'custom-input-bg-default': !isDisabled,
+    'hocus:custom-input-bg-default-hover': !isDisabled,
+    'dark:custom-input-text-dark': !isDisabled,
+    'dark:hocus:custom-input-bg-dark-hover': !isDisabled,
+    'dark:custom-input-bg-dark': !isDisabled,
+    'text-neutral-400': isDisabled,
+    'custom-input-bg-default-disabled': isDisabled,
+    'dark:custom-input-bg-dark-disabled': isDisabled
+  }"
+  [value]="value"
+  (keydown)="
+    clearUpdateValueTimeout(); setUpdateValueTimeout($event, input, 1500)
+  "
+  (keydown.arrowUp)="updateValue(input.value, input, _increament, $event)"
+  (keydown.arrowDown)="
+    updateValue(input.value, input, _increament * -1, $event)
+  "
+  (change)="updateValue(input.value, input)"
+  (focuschange)="updateValue(input.value, input)"
+  [min]="+min"
+  [max]="+max"
+  [tabindex]="
+    notManuallyEditable || isDisabled ? -1 : !!tabindex ? +tabindex : 0
+  "
+  [readonly]="notManuallyEditable"
+  #input />
+
+<!-- Increase button -->
+<button
+  type="button"
+  [class]="buttonClass"
+  [ngClass]="{
+    'cursor-default': isDisabled,
+    'hocus:input-button-bg-default-hocus': !isDisabled,
+    'input-button-bg-default': !isDisabled,
+    'input-button-bg-disabled': isDisabled,
+    'input-button-text': !isDisabled,
+    'input-button-text-disabled': isDisabled,
+    'dark:input-button-bg-dark-disabled': isDisabled,
+  }"
+  [disabled]="isDisabled"
+  (click)="
+    updateValue(input.value, input, _increament);
+    animateButton(increamentButton)
+  "
+  #increamentButton>
+  <ng-icon size="1.1em" [strokeWidth]="2" name="heroPlus"></ng-icon>
+</button>

@@ -19,23 +19,36 @@
             "outputPath": "./anime-gallery-electron/app/views",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": ["src/assets"],
             "styles": [
-              "src/fonts.scss",
-              "src/styles.scss",
-              "node_modules/fluid-player/src/css/fluidplayer.css"
+              "video.js/dist/video-js.css",
+              "src/assets/scss/videojs-theme-1.scss",
+              "@videojs/themes/dist/forest/index.css",
+              "@videojs/themes/dist/city/index.css",
+              "@videojs/themes/dist/fantasy/index.css",
+              "@videojs/themes/dist/sea/index.css",
+              "videojs-playlist-ui/dist/videojs-playlist-ui.css",
+              "src/mat-theme.scss",
+              "src/fonts/fonts.scss",
+              "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": ["src/assets/js/electron-titlebar-renderer.js"],
             "allowedCommonJsDependencies": [
-              "vtt.js",
-              "es6-promise",
-              "hls.js",
-              "videojs-vtt.js",
+              "tailwindcss/colors",
+              "videojs-playlist",
+              "videojs-playlist-ui",
+              "videojs-hotkeys",
+              "@videojs/xhr",
+              "global/document",
               "global/window",
-              "dashjs"
+              "keycode",
+              "mux.js/lib/tools/parse-sidx",
+              "mux.js/lib/utils/clock",
+              "safe-json-parse/tuple",
+              "videojs-vtt.js"
             ]
           },
           "configurations": {
@@ -80,10 +93,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "anime-gallery-frontend:build:production"
+              "buildTarget": "anime-gallery-frontend:build:production"
             },
             "development": {
-              "browserTarget": "anime-gallery-frontend:build:development"
+              "buildTarget": "anime-gallery-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -91,34 +104,41 @@
         "production": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "anime-gallery-frontend:build"
+            "buildTarget": "anime-gallery-frontend:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "anime-gallery-frontend:build:production"
+              "buildTarget": "anime-gallery-frontend:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "anime-gallery-frontend:build"
+            "buildTarget": "anime-gallery-frontend:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": ["src/assets"],
             "styles": [
-              "src/fonts.scss",
-              "src/styles.scss",
-              "node_modules/fluid-player/src/css/fluidplayer.css"
+              "video.js/dist/video-js.css",
+              "src/assets/scss/videojs-theme-1.scss",
+              "@videojs/themes/dist/forest/index.css",
+              "@videojs/themes/dist/city/index.css",
+              "@videojs/themes/dist/fantasy/index.css",
+              "@videojs/themes/dist/sea/index.css",
+              "videojs-playlist-ui/dist/videojs-playlist-ui.css",
+              "src/mat-theme.scss",
+              "src/fonts/fonts.scss",
+              "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["src/assets/js/electron-titlebar-renderer.js"]
           }
         },
         "lint": {
