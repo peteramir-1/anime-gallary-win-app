@@ -28,7 +28,6 @@ export class AddAnimeComponent implements OnInit {
   private readonly thumbnailDefault = 'assets/pictures/no-image.webp';
   private readonly allowedVideoTypes = [
     'mp4',
-    'mkv',
     'flv',
     'mwv',
     'avi',
