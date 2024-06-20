@@ -26,7 +26,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AddAnimeComponent implements OnInit {
   private readonly thumbnailDefault = 'assets/pictures/no-image.webp';
-  private readonly allowedVideoTypes = ['mp4', 'mkv', 'flv', 'mwv'];
+  private readonly allowedVideoTypes = [
+    'mp4',
+    'mkv',
+    'flv',
+    'mwv',
+    'avi',
+    'mpeg',
+    'webm',
+    '3gp',
+    'ogv',
+    'm3u8',
+    'ts',
+    'mov',
+  ];
   anime = this.activeRoute.snapshot.data.anime;
   _animeForm = this.fb.group({
     uuid: this.fb.control<string | null>(null),

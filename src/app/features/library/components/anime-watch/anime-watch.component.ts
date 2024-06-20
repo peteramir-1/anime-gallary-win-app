@@ -39,7 +39,7 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
       .fetch()
       .pipe(
         map(res => res.data.settings),
-        tap((settings) => {
+        tap(settings => {
           this.videoPlayerService.videoJsInit(
             'main-video-js',
             this.anime.thumbnail,
@@ -83,7 +83,7 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Scroll to the current episode position in playlist menu 
+   * Scroll to the current episode position in playlist menu
    */
   private scrollPlaylistMenuToCurrentEpisode() {
     document
@@ -118,11 +118,34 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
     const episodeExtension = videoUrl.toLowerCase().split('.')[
       videoUrl.split('.').length - 1
     ];
-    if (episodeExtension === 'flv') return 'video/x-flv';
-    else if (episodeExtension === 'mkv') return 'video/x-matroska';
-    else if (episodeExtension === 'mwv') return 'video/x-matroska';
-    else if (episodeExtension === 'mp4') return 'video/mp4';
-    else return undefined;
+    switch (episodeExtension) {
+      case 'flv':
+        return 'video/x-flv';
+      case 'mkv':
+        return 'video/x-matroska';
+      case 'mwv':
+        return 'video/x-matroska';
+      case 'mp4':
+        return 'video/mp4';
+      case 'avi':
+        return 'video/x-msvideo';
+      case 'mpeg':
+        return 'video/mpeg';
+      case 'webm':
+        return 'video/webm';
+      case '3gp':
+        return ' video/3gpp';
+      case 'ogv':
+        return ' video/ogg';
+      case 'm3u8':
+        return 'application/x-mpegURL';
+      case 'ts':
+        return ' video/MP2T';
+      case 'mov':
+        return ' video/quicktime';
+      default:
+        return undefined;
+    }
   }
 
   ngOnDestroy(): void {
