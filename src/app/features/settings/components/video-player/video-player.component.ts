@@ -124,6 +124,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
   }
 
   save(): void {
+    if(this.isSaveButtonDisabled === true) return;
     this.updateSettingsGQL
       .mutate(
         {
