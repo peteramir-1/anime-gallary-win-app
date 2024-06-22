@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { LibraryComponent } from './library.component';
+import { LibHeaderComponent } from './components/lib-header/lib-header.component';
 import { AddAnimeComponent } from './components/add-anime/add-anime.component';
 import { AnimeDetailsComponent } from './components/anime-details/anime-details.component';
 import { AnimeWatchComponent } from './components/anime-watch/anime-watch.component';
@@ -47,6 +48,7 @@ import { SelectModule } from 'src/app/shared/modules/inputs/select/select.module
     AddAnimeComponent,
     AnimeWatchComponent,
     AnimeDetailsComponent,
+    LibHeaderComponent,
     LibraryComponent,
     LibraryWrapperComponent,
   ],
