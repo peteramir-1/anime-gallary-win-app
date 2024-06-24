@@ -10,6 +10,10 @@ import {
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, tap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl } from '@angular/forms';
+
+type SEASONS = 'summer' | 'autumn' | 'winter' | 'spring' | null;
+type STATUS = 'complete' | 'incomplete' | null;
 
 @Component({
   selector: 'app-lib-header',
@@ -22,22 +26,20 @@ export class LibHeaderComponent implements OnInit {
   @Output() onSearchByName = new EventEmitter<string>();
 
   searchResult = '';
+  releaseDateControl: string = null;
+  seasonControl: SEASONS = null;
+  statusControl: STATUS = null;
 
   readonly likedFilter = new BehaviorSubject<boolean>(false);
-  readonly statusFilter = new BehaviorSubject<
-    'complete' | 'incomplete' | undefined
-  >(undefined);
-  readonly seasonFilter = new BehaviorSubject<
-    'summer' | 'autumn' | 'winter' | 'spring' | undefined
-  >(undefined);
-  readonly releaseDateFilter = new BehaviorSubject<string | undefined>(
-    undefined
-  );
+  readonly statusFilter = new BehaviorSubject<STATUS>(null);
+  readonly seasonFilter = new BehaviorSubject<SEASONS>(null);
+  readonly releaseDateFilter = new BehaviorSubject<string | null>(null);
+  
   readonly years: string[] = Array.from(
     { length: new Date().getFullYear() - 1917 },
     (_, index) => new Date().getFullYear() - (index + 1)
   ).map(val => val.toString());
-
+  
   private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
@@ -65,15 +67,15 @@ export class LibHeaderComponent implements OnInit {
                 else return anime.liked === true;
               })
               .filter(anime => {
-                if (statusFilter === undefined) return true;
+                if (statusFilter === null) return true;
                 else return anime.status === statusFilter;
               })
               .filter(anime => {
-                if (seasonFilter === undefined) return true;
+                if (seasonFilter === null) return true;
                 else return anime.season === seasonFilter;
               })
               .filter(anime => {
-                if (releaseDateFilter === undefined) return true;
+                if (releaseDateFilter === null) return true;
                 else return anime.released === releaseDateFilter;
               })
           );
@@ -86,7 +88,7 @@ export class LibHeaderComponent implements OnInit {
    * clears anime status filter
    */
   clearStatusFilter(): void {
-    this.statusFilter.next(undefined);
+    this.statusFilter.next(null);
   }
 
   /**
@@ -101,7 +103,7 @@ export class LibHeaderComponent implements OnInit {
    * clear anime season Filter
    */
   clearSeasonFilter(): void {
-    this.seasonFilter.next(undefined);
+    this.seasonFilter.next(null);
   }
 
   /**
@@ -116,7 +118,7 @@ export class LibHeaderComponent implements OnInit {
    * clears anime release date filter
    */
   clearReleaseDateFilter(): void {
-    this.releaseDateFilter.next(undefined);
+    this.releaseDateFilter.next(null);
   }
 
   /**

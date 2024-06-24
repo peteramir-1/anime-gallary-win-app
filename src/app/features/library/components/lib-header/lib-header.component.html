@@ -1,22 +1,21 @@
-<article class="flex content-stretch items-center" appScrollable>
+<article class="flex content-stretch items-center gap-5" appScrollable>
   <section class="flex-initial">
     <button appButton routerLink="/library/add">
       <ng-icon name="heroPlus"></ng-icon>
     </button>
   </section>
-  <div class="flex-auto"></div>
-  <section class="min-w-[60%] flex-initial">
+  <section class="basis-1/2">
     <input
       type="text"
       name="search"
+      class="!p-3"
       placeholder="Search Example: Demon Slayer"
       [(ngModel)]="searchResult"
       [ngModelOptions]="{ standalone: true }"
       (ngModelChange)="searchByName($event)"
       appInput />
   </section>
-  <div class="flex-auto"></div>
-  <section class="flex min-w-[25%] flex-initial justify-between">
+  <section class="flex flex-auto items-center justify-between">
     <!-- Filter By Like/Love/Favorite -->
     <section class="flex-initial">
       @if (!likedFilter.getValue()) {
@@ -48,192 +47,65 @@
     </section>
 
     <!-- Filter By Status of the anime incomplete/complete/all -->
-    <section class="flex-initial">
-      @if (statusFilter.getValue() === 'incomplete') {
-      <ng-icon
-        class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-        size="1.75rem"
-        name="matIncompleteCircle"
-        matTooltip="Incompleted Animes"
-        (click)="setStatusFilter('complete')"></ng-icon>
-      } @else { @if (statusFilter.getValue() === 'complete') {
-      <ng-icon
-        class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-        size="1.75rem"
-        name="matCircle"
-        matTooltip="Completed Animes"
-        (click)="clearStatusFilter()"></ng-icon>
-      } @else {
-      <span
-        matTooltip="Completed and Incompleted Animes"
-        class="cursor-pointer align-text-top font-mono text-base font-bold leading-7 text-teal-600 dark:text-white"
-        (click)="setStatusFilter('incomplete')">
-        N/A
-      </span>
-      } }
-      <ng-template #matCircle>
-        @if (statusFilter.getValue() === 'complete') {
-        <ng-icon
-          class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-          size="1.75rem"
-          name="matCircle"
-          matTooltip="Completed Animes"
-          (click)="clearStatusFilter()"></ng-icon>
-        } @else {
-        <span
-          matTooltip="Completed and Incompleted Animes"
-          class="cursor-pointer align-text-top font-mono text-base font-bold leading-7 text-teal-600 dark:text-white"
-          (click)="setStatusFilter('incomplete')">
-          N/A
-        </span>
-        }
-      </ng-template>
+    <section class="min-w-28 flex-initial">
+      <app-select
+        class="min-w-28"
+        name="status"
+        placeholder="Status Filter"
+        [(ngModel)]="statusControl"
+        [ngModelOptions]="{ standalone: true }"
+        (ngModelChange)="setStatusFilter($event)">
+        <app-option [value]="null">N/A</app-option>
+        <app-option value="complete">
+          {{ 'complete' | titlecase }}
+        </app-option>
+        <app-option value="incomplete">
+          {{ 'incomplete' | titlecase }}
+        </app-option>
+      </app-select>
     </section>
 
     <!-- Filter By Anime Season autumn/summer/winter/spring/all -->
-    <section class="flex-initial">
-      @if (seasonFilter.getValue() === 'autumn') {
-      <ng-icon
-        class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-        size="1.75rem"
-        name="lucideLeaf"
-        matTooltip="Autumn"
-        (click)="setSeasonFilter('summer')"></ng-icon>
-      } @else { @if (seasonFilter.getValue() === 'summer') {
-      <ng-icon
-        class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-        size="1.75rem"
-        name="matWbSunny"
-        matTooltip="Summer"
-        (click)="setSeasonFilter('winter')"></ng-icon>
-      } @else { @if (seasonFilter.getValue() === 'winter') {
-      <ng-icon
-        class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-        size="1.75rem"
-        name="matThunderstorm"
-        matTooltip="Winter"
-        (click)="setSeasonFilter('spring')"></ng-icon>
-      } @else { @if (seasonFilter.getValue() === 'spring') {
-      <ng-icon
-        class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-        size="1.75rem"
-        name="lucideFlower2"
-        matTooltip="Spring"
-        (click)="clearSeasonFilter()"></ng-icon>
-      } @else {
-      <span
-        matTooltip="All Seasons"
-        class="cursor-pointer align-text-top font-mono text-base font-bold leading-7 text-teal-600 dark:text-white"
-        (click)="setSeasonFilter('autumn')">
-        N/A
-      </span>
-      } } } }
-      <ng-template #summer>
-        @if (seasonFilter.getValue() === 'summer') {
-        <ng-icon
-          class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-          size="1.75rem"
-          name="matWbSunny"
-          matTooltip="Summer"
-          (click)="setSeasonFilter('winter')"></ng-icon>
-        } @else { @if (seasonFilter.getValue() === 'winter') {
-        <ng-icon
-          class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-          size="1.75rem"
-          name="matThunderstorm"
-          matTooltip="Winter"
-          (click)="setSeasonFilter('spring')"></ng-icon>
-        } @else { @if (seasonFilter.getValue() === 'spring') {
-        <ng-icon
-          class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-          size="1.75rem"
-          name="lucideFlower2"
-          matTooltip="Spring"
-          (click)="clearSeasonFilter()"></ng-icon>
-        } @else {
-        <span
-          matTooltip="All Seasons"
-          class="cursor-pointer align-text-top font-mono text-base font-bold leading-7 text-teal-600 dark:text-white"
-          (click)="setSeasonFilter('autumn')">
-          N/A
-        </span>
-        } } }
-      </ng-template>
-      <ng-template #winter>
-        @if (seasonFilter.getValue() === 'winter') {
-        <ng-icon
-          class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-          size="1.75rem"
-          name="matThunderstorm"
-          matTooltip="Winter"
-          (click)="setSeasonFilter('spring')"></ng-icon>
-        } @else { @if (seasonFilter.getValue() === 'spring') {
-        <ng-icon
-          class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-          size="1.75rem"
-          name="lucideFlower2"
-          matTooltip="Spring"
-          (click)="clearSeasonFilter()"></ng-icon>
-        } @else {
-        <span
-          matTooltip="All Seasons"
-          class="cursor-pointer align-text-top font-mono text-base font-bold leading-7 text-teal-600 dark:text-white"
-          (click)="setSeasonFilter('autumn')">
-          N/A
-        </span>
-        } }
-      </ng-template>
-      <ng-template #spring>
-        @if (seasonFilter.getValue() === 'spring') {
-        <ng-icon
-          class="cursor-pointer align-text-top text-teal-600 dark:text-white"
-          size="1.75rem"
-          name="lucideFlower2"
-          matTooltip="Spring"
-          (click)="clearSeasonFilter()"></ng-icon>
-        } @else {
-        <span
-          matTooltip="All Seasons"
-          class="cursor-pointer align-text-top font-mono text-base font-bold leading-7 text-teal-600 dark:text-white"
-          (click)="setSeasonFilter('autumn')">
-          N/A
-        </span>
-        }
-      </ng-template>
+    <section class="min-w-28 flex-initial">
+      <app-select
+        class="w-full"
+        name="season"
+        placeholder="Season Filter"
+        [(ngModel)]="seasonControl"
+        [ngModelOptions]="{ standalone: true }"
+        (ngModelChange)="setSeasonFilter($event)">
+        <app-option [value]="null">N/A</app-option>
+        <app-option value="summer">
+          {{ 'summer' | titlecase }}
+        </app-option>
+        <app-option value="autumn">
+          {{ 'autumn' | titlecase }}
+        </app-option>
+        <app-option value="winter">
+          {{ 'winter' | titlecase }}
+        </app-option>
+        <app-option value="spring">
+          {{ 'spring' | titlecase }}
+        </app-option>
+      </app-select>
     </section>
 
     <!-- Filter By Anime Release Date -->
-    <section class="flex-initial">
-      <span
-        matTooltip="Release Date"
-        [matMenuTriggerFor]="releaseDateFilterMenu"
-        class="cursor-pointer align-text-top font-mono text-base font-bold leading-7 text-teal-600 dark:text-white">
-        {{ releaseDateFilter.getValue() ?? 'N/A' | uppercase }}
-      </span>
-      <mat-menu
-        style="height: 15rem"
-        xPosition="before"
-        yPosition="below"
-        #releaseDateFilterMenu>
-        <cdk-virtual-scroll-viewport
-          appendOnly
-          itemSize="48"
-          minBufferPx="300"
-          maxBufferPx="600"
-          style="height: 15rem; margin-left: 8px">
-          <button mat-menu-item (click)="clearReleaseDateFilter()">N/A</button>
-          <button
-            [ngClass]="{
-              '!bg-blue-500 !text-white':
-                year === (this.releaseDateFilter | async)
-            }"
-            mat-menu-item
-            *cdkVirtualFor="let year of years"
-            (click)="setReleaseDateFilter(year)">
-            {{ year }}
-          </button>
-        </cdk-virtual-scroll-viewport>
-      </mat-menu>
+    <section class="min-w-28 flex-initial">
+      <app-select
+        class="w-full"
+        name="releaseDate"
+        placeholder="Date Filter"
+        [(ngModel)]="releaseDateControl"
+        [ngModelOptions]="{ standalone: true }"
+        (ngModelChange)="setReleaseDateFilter($event)">
+        <app-option [value]="null">N/A</app-option>
+        @for (year of years; track year) {
+        <app-option [value]="year">
+          {{ year }}
+        </app-option>
+        }
+      </app-select>
     </section>
   </section>
 </article>
