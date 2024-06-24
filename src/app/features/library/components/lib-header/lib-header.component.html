@@ -223,6 +223,10 @@
           style="height: 15rem; margin-left: 8px">
           <button mat-menu-item (click)="clearReleaseDateFilter()">N/A</button>
           <button
+            [ngClass]="{
+              '!bg-blue-500 !text-white':
+                year === (this.releaseDateFilter | async)
+            }"
             mat-menu-item
             *cdkVirtualFor="let year of years"
             (click)="setReleaseDateFilter(year)">

@@ -46,5 +46,6 @@ $anime-gallery-frontend-theme: mat.define-light-theme(
 @include mat.select-theme($anime-gallery-frontend-theme);
 @include mat.dialog-theme($anime-gallery-frontend-theme);
 @include mat.button-theme($anime-gallery-frontend-theme);
+@include mat.menu-theme($anime-gallery-frontend-theme);
 @include mat.snack-bar-theme($anime-gallery-frontend-theme);
 @include mat.tooltip-theme($anime-gallery-frontend-theme);

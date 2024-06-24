@@ -17,21 +17,23 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './lib-header.component.scss',
 })
 export class LibHeaderComponent implements OnInit {
-  @Input({required: true}) readonly animes = [];
+  @Input({ required: true }) readonly animes = [];
   @Output() onFiltering = new EventEmitter<any[]>();
   @Output() onSearchByName = new EventEmitter<string>();
 
   searchResult = '';
 
   readonly likedFilter = new BehaviorSubject<boolean>(false);
-  readonly statusFilter = new BehaviorSubject<'complete' | 'incomplete' | undefined>(
-    undefined
-  );
+  readonly statusFilter = new BehaviorSubject<
+    'complete' | 'incomplete' | undefined
+  >(undefined);
   readonly seasonFilter = new BehaviorSubject<
     'summer' | 'autumn' | 'winter' | 'spring' | undefined
   >(undefined);
-  readonly releaseDateFilter = new BehaviorSubject<string | undefined>(undefined);
-  readonly years = Array.from(
+  readonly releaseDateFilter = new BehaviorSubject<string | undefined>(
+    undefined
+  );
+  readonly years: string[] = Array.from(
     { length: new Date().getFullYear() - 1917 },
     (_, index) => new Date().getFullYear() - (index + 1)
   ).map(val => val.toString());
@@ -103,7 +105,7 @@ export class LibHeaderComponent implements OnInit {
   }
 
   /**
-   * sets anime season filter 
+   * sets anime season filter
    * @param season anime season
    */
   setSeasonFilter(season: 'autumn' | 'summer' | 'winter' | 'spring'): void {
@@ -119,7 +121,7 @@ export class LibHeaderComponent implements OnInit {
 
   /**
    * sets anime release date filter
-   * @param releaseDate anime release date 
+   * @param releaseDate anime release date
    */
   setReleaseDateFilter(releaseDate: string): void {
     this.releaseDateFilter.next(releaseDate);
