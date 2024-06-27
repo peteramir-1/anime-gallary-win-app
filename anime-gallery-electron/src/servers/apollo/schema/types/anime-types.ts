@@ -37,9 +37,18 @@ export const animeTypeDefs = `
     updatedAt: String
   }
 
+  type AnimeFF {
+    id: ID!
+    name: String!
+    type: String!
+    thumbnail: String
+    episodes: [String]!
+  }
+
   type Query {
     animes: [Anime]
     anime(id: String!): Anime
+    animesFromFolder(mainFolderPath: String!): [AnimeFF]
   }
 
   input CreateAnimeInput {

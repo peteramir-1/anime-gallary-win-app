@@ -2,6 +2,7 @@ import { AnimesController } from '../database/controllers/animes/animes-controll
 import { SettingsController } from '../database/controllers/settings/settings-controller';
 import { Anime } from '../database/interfaces/anime.interface';
 import { Settings } from '../database/interfaces/settings-interface';
+import { readFolders, getAnimes } from '../special-features/anime-viewer/anime-viewer';
 
 export const getResolvers = (
   animesController: AnimesController,
@@ -12,6 +13,13 @@ export const getResolvers = (
     anime: async (_: any, { id }: { id: string }) =>
       animesController.getAnimeById(id),
     settings: async () => settingsController.getAllSettings(),
+    animesFromFolder: async (
+      _: any,
+      { mainFolderPath }: { mainFolderPath: string }
+    ) => {
+      const folders = readFolders(mainFolderPath);
+      return getAnimes(folders);
+    },
   },
   Mutation: {
     createAnime: async (

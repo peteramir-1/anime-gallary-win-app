@@ -10,11 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getResolvers = void 0;
+const anime_viewer_1 = require("../special-features/anime-viewer/anime-viewer");
 const getResolvers = (animesController, settingsController) => ({
     Query: {
         animes: () => __awaiter(void 0, void 0, void 0, function* () { return animesController.getAllAnimes(); }),
         anime: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () { return animesController.getAnimeById(id); }),
         settings: () => __awaiter(void 0, void 0, void 0, function* () { return settingsController.getAllSettings(); }),
+        animesFromFolder: (_, { mainFolderPath }) => __awaiter(void 0, void 0, void 0, function* () {
+            const folders = (0, anime_viewer_1.readFolders)(mainFolderPath);
+            return (0, anime_viewer_1.getAnimes)(folders);
+        }),
     },
     Mutation: {
         createAnime: (_, { animeInput }) => __awaiter(void 0, void 0, void 0, function* () { return animesController.createAnime(animeInput); }),
