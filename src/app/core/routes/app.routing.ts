@@ -27,6 +27,11 @@ export const routes: Routes = [
       import('src/app/features/error/error.module').then(m => m.ErrorModule),
   },
   {
+    path: 'anime-viewer',
+    loadChildren: () =>
+      import('src/app/features/anime-viewer/anime-viewer.module').then(m => m.AnimeViewerModule),
+  },
+  {
     path: '**',
     redirectTo: 'error',
   },
