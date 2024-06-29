@@ -3,6 +3,8 @@ import * as path from 'path';
 import { blockDevices } from 'systeminformation';
 import { startApolloServer, closeApolloServer } from '../../servers/apollo/app';
 
+import servingFilesRoutes from './routes/serving-files';
+
 // Variables and constants
 let server: any;
 export const PORT = 8020;
@@ -11,17 +13,19 @@ const app = express();
 
 // Main Function
 export const startFrontendServer = async (callback: () => void = () => {}) => {
-  await app.use(express.static(path.join(__dirname, '..', '..', 'views')));
+  app.use(express.static(path.join(__dirname, '..', '..', 'views')));
 
   const devices = await blockDevices();
 
   devices
-    .filter((device) => !device.mount.startsWith('C'))
-    .forEach((dir) => {
+    .filter(device => !device.mount.startsWith('C'))
+    .forEach(dir => {
       app.use(express.static(path.join(dir.mount)));
     });
 
-  await app.use('/*', (req, res, next) => {
+  app.use('/serve', servingFilesRoutes);
+
+  app.use('/*', (req, res, next) => {
     const FrontEndPath = path.join(
       __dirname,
       '..',
@@ -50,4 +54,8 @@ export const closeFrontendServer = () => {
 // Please Comment below line on production.
 // @ts-ignore
 // eslint-disable-next-line prettier/prettier, max-len
-if (process.env.mode?.trim() === 'development' && process.env.NODE_APP?.trim() === 'frontend') startFrontendServer();
+if (
+  process.env.mode?.trim() === 'development' &&
+  process.env.NODE_APP?.trim() === 'frontend'
+)
+  startFrontendServer();
