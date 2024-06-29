@@ -1,0 +1,9 @@
+query GetAnimesFromFolder($folderPath: String!) {
+  animesFromFolder(mainFolderPath: $folderPath) {
+    id
+    name
+    type
+    thumbnail
+    episodes
+  }
+}

@@ -6,7 +6,8 @@
         class="flex-auto !text-base"
         name="animesFolderPath"
         type="text"
-        [ngModel]="animesFolder"
+        [formControl]="animesFolder"
+        ngModel
         (ngModelChange)="updateAnimesList()"
         readonly
         appInput />
@@ -23,11 +24,11 @@
   <div class="row-span-6" appWidgetContainer>
     <section appScrollable>
       <article class="-m-4 flex flex-1 flex-wrap gap-y-9">
-        @for ( anime of filteredAnimes ;track anime) {
+        @for ( anime of animes ;track anime) {
         <app-anime-card
           [anime]="anime"
           class="md:1/2 w-full p-4 sm:w-1/2 lg:w-1/3 xl:w-1/4"></app-anime-card>
-        } @empty { @if(animesFolder === '') {
+        } @empty { @if(animesFolder.value === '') {
         <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
           Please Select Anime Folder to View Animes
         </h3>
