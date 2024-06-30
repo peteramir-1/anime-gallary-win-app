@@ -33,6 +33,7 @@
     "@ng-icons/heroicons": "^25.6.1",
     "@ng-icons/jam-icons": "^25.6.1",
     "@ng-icons/lucide": "^25.6.1",
+    "@ng-icons/material-file-icons": "^28.1.0",
     "@ng-icons/material-icons": "^25.6.1",
     "@videojs/themes": "^1.0.1",
     "apollo-angular": "^6.0.0",
