@@ -23,6 +23,16 @@
 
   <div class="row-span-6" appWidgetContainer>
     <section appScrollable>
+      @if(loading()) {
+      <section class="relative top-1/2 m-auto -translate-y-1/2 text-center">
+        <ng-icon
+          class="animate-bounce"
+          size="3rem"
+          color="#3b82f6"
+          name="matfVideoColored"></ng-icon>
+        <h3>Loading<span class="tracking-wide">...</span></h3>
+      </section>
+      } @else {
       <article class="-m-4 flex flex-1 flex-wrap gap-y-9">
         @for ( anime of animes ;track anime) {
         <app-anime-card
@@ -38,6 +48,7 @@
         </h3>
         } }
       </article>
+      }
     </section>
   </div>
 </div>

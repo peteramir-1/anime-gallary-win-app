@@ -15,11 +15,14 @@ import { GetAnimesFromFolderGQL } from 'src/app/core/services/graphql.service';
 export class AnimeViewerComponent {
   animesFolder = new FormControl<string | undefined>(undefined);
   animes = [];
+  loading = signal(false);
 
   private prevAnimeFolder = undefined;
-  private electronService = inject(ElectronService);
-  private getAnimesFromFolderGQL = inject(GetAnimesFromFolderGQL);
-  private fileServingService = inject(FileServingService);
+
+  private readonly electronService = inject(ElectronService);
+  private readonly getAnimesFromFolderGQL = inject(GetAnimesFromFolderGQL);
+  private readonly fileServingService = inject(FileServingService);
+  private readonly defaultThumbnail = '../../../assets/pictures/no-image.webp';
 
   selectAnimeFolder(): void {
     this.electronService.selectFolder().then((path: string | false) => {
@@ -29,22 +32,34 @@ export class AnimeViewerComponent {
   }
 
   updateAnimesList(): void {
-    const defaultThumbnail = '../../../assets/pictures/no-image.webp';
-
     if (this.animesFolder.value !== this.prevAnimeFolder) {
-      this.getAnimesFromFolderGQL
-        .fetch({ folderPath: this.animesFolder.value })
-        .pipe(
-          map(res => res?.data?.animesFromFolder || []),
-          map(animes => {
-            return animes.map(anime => ({
-              ...anime,
-              thumbnail:
-                this.fileServingService.convertPictureToFileServingPath(
-                  anime.thumbnail
-                ) || defaultThumbnail,
-            }));
-          })
+      this.fetchAnimes()
+        .pipe(tap(() => this.loading.set(true)))
+        .subscribe(
+          animes => {
+            this.animes = animes;
+          },
+          err => {},
+          () => this.loading.set(false)
+        );
+    }
+    this.prevAnimeFolder = this.animesFolder.value;
+  }
+
+  private fetchAnimes() {
+    return this.getAnimesFromFolderGQL
+      .fetch({ folderPath: this.animesFolder.value })
+      .pipe(
+        map(res => res?.data?.animesFromFolder || []),
+        map(animes => {
+          return animes.map(anime => ({
+            ...anime,
+            thumbnail:
+              this.fileServingService.convertPictureToFileServingPath(
+                anime.thumbnail
+              ) || this.defaultThumbnail,
+          }));
+        })
         )
         .subscribe(animes => {
           this.animes = animes;
