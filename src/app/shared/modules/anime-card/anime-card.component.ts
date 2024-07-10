@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Anime } from 'src/app/core/services/graphql.service';
+import { Anime, AnimeFf } from 'src/app/core/services/graphql.service';
 
 @Component({
   selector: 'app-anime-card',
@@ -7,6 +7,6 @@ import { Anime } from 'src/app/core/services/graphql.service';
   styleUrls: ['./anime-card.component.scss'],
 })
 export class AnimeCardComponent {
-  @Input() anime: Omit<Anime, 'createdAt' | 'updatedAt'>;
+  @Input() anime: Omit<Anime, 'createdAt' | 'updatedAt'> | AnimeFf;
   constructor() {}
 }

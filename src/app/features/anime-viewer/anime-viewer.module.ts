@@ -10,6 +10,7 @@ import { InputModule } from 'src/app/shared/directives/input/inputs.module';
 
 import { matfVideoColored } from '@ng-icons/material-file-icons/colored';
 import { NgIconsModule } from '@ng-icons/core';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [AnimeViewerComponent],
@@ -21,6 +22,7 @@ import { NgIconsModule } from '@ng-icons/core';
     NgIconsModule.withIcons({
       matfVideoColored,
     }),
+    ScrollingModule,
   ],
 })
 export class AnimeViewerModule {}

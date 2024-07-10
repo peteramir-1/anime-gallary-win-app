@@ -1,24 +1,35 @@
-import { Component, inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { ElectronService } from 'src/app/core/services/electron.service';
 import { FileServingService } from 'src/app/core/services/file-serving.service';
 import { GetAnimesFromFolderGQL } from 'src/app/core/services/graphql.service';
+import { AnimeFf } from 'src/app/core/services/graphql.service';
 
 @Component({
   selector: 'app-anime-viewer',
   templateUrl: './anime-viewer.component.html',
   styleUrl: './anime-viewer.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeViewerComponent {
-  animesFolder = new FormControl<string | undefined>(undefined);
-  animes = [];
-  loading = signal(false);
+  private readonly formBuilder = inject(FormBuilder);
+  readonly animesFolder = this.formBuilder.control<string | undefined>(
+    undefined
+  );
 
-  private prevAnimeFolder = undefined;
+  readonly animes = signal<AnimeFf[][]>([]);
+  readonly loading = signal(false);
+  readonly error = signal<string | undefined>(undefined);
 
+  private readonly prevAnimeFolder = signal(undefined);
   private readonly electronService = inject(ElectronService);
   private readonly getAnimesFromFolderGQL = inject(GetAnimesFromFolderGQL);
   private readonly fileServingService = inject(FileServingService);
@@ -32,40 +43,52 @@ export class AnimeViewerComponent {
   }
 
   updateAnimesList(): void {
-    if (this.animesFolder.value !== this.prevAnimeFolder) {
+    if (this.animesFolder.value !== this.prevAnimeFolder()) {
       this.fetchAnimes()
         .pipe(tap(() => this.loading.set(true)))
         .subscribe(
-          animes => {
-            this.animes = animes;
+          (animes: AnimeFf[][]) => {
+            this.error.set(undefined);
+            this.animes.set(animes);
           },
-          err => {},
-          () => this.loading.set(false)
+          err => {
+            this.error.set(err.message);
+            this.animes.set([]);
+          },
+          () => {
+            this.loading.set(false);
+          }
         );
     }
-    this.prevAnimeFolder = this.animesFolder.value;
+    this.prevAnimeFolder.set(this.animesFolder.value);
   }
 
   private fetchAnimes() {
     return this.getAnimesFromFolderGQL
       .fetch({ folderPath: this.animesFolder.value })
       .pipe(
-        map(res => res?.data?.animesFromFolder || []),
-        map(animes => {
-          return animes.map(anime => ({
-            ...anime,
-            thumbnail:
-              this.fileServingService.convertPictureToFileServingPath(
-                anime.thumbnail
-              ) || this.defaultThumbnail,
-          }));
+        map(res => {
+          const animes =
+            res?.data?.animesFromFolder.map(anime => ({
+              ...anime,
+              thumbnail:
+                this.fileServingService.convertPictureToFileServingPath(
+                  anime.thumbnail
+                ) || this.defaultThumbnail,
+            })) || [];
+
+          const animesList = [];
+          let row = [];
+          animes.forEach((anime, index) => {
+            row.push(anime);
+
+            if (row.length === 4 || animes.length - 1 === index) {
+              animesList.push(row);
+              row = [];
+            }
+          });
+          return animesList;
         })
-        )
-        .subscribe(animes => {
-          this.animes = animes;
-        });
-    }
-    console.log("there's duplicate inputs");
-    this.prevAnimeFolder = this.animesFolder.value;
+      );
   }
 }
