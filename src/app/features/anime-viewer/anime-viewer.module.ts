@@ -9,7 +9,9 @@ import { NgArrayPipesModule } from 'ngx-pipes';
 import { InputModule } from 'src/app/shared/directives/input/inputs.module';
 
 import { matfVideoColored } from '@ng-icons/material-file-icons/colored';
+import { matFolder } from '@ng-icons/material-icons/baseline';
 import { NgIconsModule } from '@ng-icons/core';
+
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
@@ -21,6 +23,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     NgArrayPipesModule,
     NgIconsModule.withIcons({
       matfVideoColored,
+      matFolder,
     }),
     ScrollingModule,
   ],
