@@ -1,7 +1,7 @@
 <div
   class="grid h-full w-full grid-cols-1 grid-rows-[min-content,_repeat(6,_minmax(0,_1fr))] gap-4">
   <header appWidgetContainer>
-    <section class="flex flex-row gap-10 px-6">
+    <section class="flex flex-row gap-5 px-6">
       <button
         class="flex-initial"
         type="button"
@@ -10,6 +10,13 @@
         matTooltip="Select Anime Folder">
         <ng-icon name="matFolder"></ng-icon>
       </button>
+
+      <input
+        type="text"
+        [disabled]="!!loading() || !!error() || !animesFolder.value"
+        [(ngModel)]="name"
+        placeholder="Search"
+        appInput />
     </section>
   </header>
 
@@ -38,7 +45,11 @@
           <div class="flex flex-1 flex-col gap-9">
             <section
               class="flex flex-1 flex-row"
-              *cdkVirtualFor="let animeRow of animes()">
+              *cdkVirtualFor="
+                let animeRow of orderAnimes(
+                  animes() | filterBy : ['name'] : name
+                )
+              ">
               @for (anime of animeRow; track anime.name) {
               <app-anime-card
                 [anime]="anime"

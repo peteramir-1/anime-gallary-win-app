@@ -28,7 +28,7 @@ export class AnimeViewerComponent implements OnInit {
     undefined
   );
 
-  readonly animes = signal<AnimeFf[][]>([]);
+  readonly animes = signal<AnimeFf[]>([]);
   readonly loading = signal(false);
   readonly error = signal<string | undefined>(undefined);
 
@@ -37,10 +37,13 @@ export class AnimeViewerComponent implements OnInit {
   private readonly getAnimesFromFolderGQL = inject(GetAnimesFromFolderGQL);
   private readonly fileServingService = inject(FileServingService);
   private readonly defaultThumbnail = '../../../assets/pictures/no-image.webp';
+
   private readonly destroyed = inject(DestroyRef).onDestroy(() => {
     this.animesFolderSubscribtion.unsubscribe();
   });
   animesFolderSubscribtion: Subscription;
+
+  name = '';
 
   ngOnInit(): void {
     this.animesFolderSubscribtion = this.animesFolder.valueChanges.subscribe(
@@ -55,12 +58,12 @@ export class AnimeViewerComponent implements OnInit {
     });
   }
 
-  updateAnimesList(): void {
+  private updateAnimesList(): void {
     if (this.animesFolder.value !== this.prevAnimeFolder()) {
       this.fetchAnimes()
         .pipe(tap(() => this.loading.set(true)))
         .subscribe(
-          (animes: AnimeFf[][]) => {
+          (animes: AnimeFf[]) => {
             this.error.set(undefined);
             this.animes.set(animes);
           },
@@ -76,32 +79,35 @@ export class AnimeViewerComponent implements OnInit {
     this.prevAnimeFolder.set(this.animesFolder.value);
   }
 
-  private fetchAnimes() {
+  fetchAnimes(): any {
     return this.getAnimesFromFolderGQL
       .fetch({ folderPath: this.animesFolder.value })
       .pipe(
         map(res => {
-          const animes =
+          return (
             res?.data?.animesFromFolder.map(anime => ({
               ...anime,
               thumbnail:
                 this.fileServingService.convertPictureToFileServingPath(
                   anime.thumbnail
                 ) || this.defaultThumbnail,
-            })) || [];
-
-          const animesList = [];
-          let row = [];
-          animes.forEach((anime, index) => {
-            row.push(anime);
-
-            if (row.length === 4 || animes.length - 1 === index) {
-              animesList.push(row);
-              row = [];
-            }
-          });
-          return animesList;
+            })) || []
+          );
         })
       );
+  }
+
+  orderAnimes<T>(animes: T[]): T[][] {
+    const animesList = [];
+    let row = [];
+    animes.forEach((anime, index) => {
+      row.push(anime);
+
+      if (row.length === 4 || animes.length - 1 === index) {
+        animesList.push(row);
+        row = [];
+      }
+    });
+    return animesList;
   }
 }
