@@ -81,8 +81,8 @@ export const getAnimes = (foldersList: fs.Dirent[]) => {
       }
     });
 
-    if (anime.episodes.length > 1) anime.type = 'movie';
-    if (anime.episodes.length === 1) anime.type = 'serie';
+    if (anime.episodes.length === 1) anime.type = 'movie';
+    if (anime.episodes.length > 1) anime.type = 'serie';
     if (anime.episodes.length !== 0) animes.push(anime);
   });
   return animes.map(anime => anime);

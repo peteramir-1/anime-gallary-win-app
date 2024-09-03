@@ -10,8 +10,6 @@ const mime: { [string: string]: string } = {
 export const servePictures = (req: any, res: any) => {
   if (req.query.path) {
     try {
-        console.log(req.query.path)
-        console.log(req.params.path)
         const file = path.join(req.query.path);
         const extension = path.extname(file).slice(1);
         if (!Object.keys(mime).includes(extension)) {
