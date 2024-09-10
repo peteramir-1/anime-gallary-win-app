@@ -53,6 +53,7 @@
               @for (anime of animeRow; track anime.name) {
               <app-anime-card
                 [anime]="anime"
+                [navigatable]="false"
                 class="md:1/2 w-full p-4 sm:w-1/2 lg:w-1/3 xl:w-1/4"></app-anime-card>
               }
             </section>

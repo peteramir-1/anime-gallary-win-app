@@ -1,6 +1,7 @@
 <article
-  class="flex w-auto cursor-pointer select-none flex-col overflow-hidden rounded-md shadow-lg"
-  [routerLink]="['/library', 'details', anime.id]">
+  class="flex w-auto select-none flex-col overflow-hidden rounded-md shadow-lg"
+  (click)="navigateToAnimePage(anime.id)"
+  [ngClass]="{ 'cursor-pointer': navigatable }">
   <section class="relative h-[350px] w-full shadow-inner-lg">
     <img
       [alt]="anime.name + 'image'"
