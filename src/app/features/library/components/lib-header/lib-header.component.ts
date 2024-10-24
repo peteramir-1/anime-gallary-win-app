@@ -10,7 +10,6 @@ import {
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, tap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl } from '@angular/forms';
 
 type SEASONS = 'summer' | 'autumn' | 'winter' | 'spring' | null;
 type STATUS = 'complete' | 'incomplete' | null;
@@ -19,6 +18,9 @@ type STATUS = 'complete' | 'incomplete' | null;
   selector: 'app-lib-header',
   templateUrl: './lib-header.component.html',
   styleUrl: './lib-header.component.scss',
+  host: {
+    class: 'flex content-stretch items-center gap-5 min-h-12',
+  },
 })
 export class LibHeaderComponent implements OnInit {
   @Input({ required: true }) readonly animes = [];
@@ -34,12 +36,12 @@ export class LibHeaderComponent implements OnInit {
   readonly statusFilter = new BehaviorSubject<STATUS>(null);
   readonly seasonFilter = new BehaviorSubject<SEASONS>(null);
   readonly releaseDateFilter = new BehaviorSubject<string | null>(null);
-  
+
   readonly years: string[] = Array.from(
     { length: new Date().getFullYear() - 1917 },
     (_, index) => new Date().getFullYear() - (index + 1)
   ).map(val => val.toString());
-  
+
   private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
