@@ -1,0 +1,133 @@
+<!--
+  + Anime Details Page ->
+  + This page is all about showing the details of a
+  + specific anime.
+  + TODO:
+  +   [] Fix Episodes Doesnt open
+-->
+
+<section
+  class="relative h-auto min-w-[22rem] max-w-xs flex-initial overflow-hidden rounded-lg bg-gray-100 after:absolute after:bottom-0 after:block after:h-full after:w-full after:shadow-inner-lg dark:bg-neutral-700">
+  <img
+    class="h-full w-full object-cover"
+    [ngClass]="{
+      'no-image': anime?.thumbnail === 'assets/pictures/no-image.webp',
+      'object-bottom': anime?.thumbnail === 'assets/pictures/no-image.webp',
+      'object-top': anime?.thumbnail !== 'assets/pictures/no-image.webp'
+    }"
+    [src]="anime?.thumbnail" />
+</section>
+
+<section class="flex flex-auto flex-col gap-7">
+  <section class="mb-2 flex flex-initial flex-row items-center gap-5">
+    <h2
+      matTooltip="Click to Copy"
+      matTooltipPosition="below"
+      (click)="copyAnimeName()"
+      class="w-fit max-w-md flex-initial cursor-pointer text-2xl font-bold leading-relaxed tracking-wide text-neutral-900 dark:text-white">
+      {{ anime?.name | titlecase }}
+    </h2>
+    @if (!anime?.liked) {
+    <ng-icon
+      class="cursor-pointer text-red-600"
+      size="1.75rem"
+      name="jamHeart"
+      (click)="likeAnime()"></ng-icon>
+    } @if (anime?.liked) {
+    <ng-icon
+      class="cursor-pointer text-red-600"
+      size="1.75rem"
+      name="jamHeartF"
+      (click)="unlikeAnime()"></ng-icon>
+    }
+  </section>
+  <section class="flex flex-initial flex-col gap-2">
+    <h4 class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
+      Story
+    </h4>
+    <p
+      class="max-w-md text-sm font-normal leading-relaxed text-neutral-900 dark:text-white">
+      {{ anime?.description }}
+    </p>
+  </section>
+  <section class="flex flex-initial flex-row">
+    <section class="flex flex-initial basis-1/3 flex-col gap-2">
+      <h4
+        class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
+        Type
+      </h4>
+      <p
+        class="text-sm font-normal leading-none text-neutral-900 dark:text-white">
+        {{ anime?.type | titlecase }}
+      </p>
+    </section>
+    @if (anime?.type !== 'movie') {
+    <section class="flex flex-initial basis-1/3 flex-col gap-2">
+      <h4
+        class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
+        Episodes
+      </h4>
+      <p
+        class="text-sm font-normal leading-none text-neutral-900 dark:text-white">
+        {{ anime?.numOfEpisodes }}
+      </p>
+    </section>
+    } @if (anime?.type !== 'movie') {
+    <section class="flex flex-initial flex-col gap-2">
+      <h4
+        class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
+        State
+      </h4>
+      <p
+        class="text-sm font-normal leading-none text-neutral-900 dark:text-white">
+        {{ anime?.status | titlecase }}
+      </p>
+    </section>
+    }
+  </section>
+
+  <section class="flex flex-initial flex-row">
+    <section class="flex flex-initial basis-1/3 flex-col gap-2">
+      <h4
+        class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
+        Released
+      </h4>
+      <p
+        class="text-sm font-normal leading-none text-neutral-900 dark:text-white">
+        {{ anime?.released }}
+      </p>
+    </section>
+    <section class="flex flex-initial basis-1/3 flex-col gap-2">
+      <h4
+        class="text-base font-semibold text-neutral-400 dark:text-neutral-500">
+        Season
+      </h4>
+      <p
+        class="text-sm font-normal leading-none text-neutral-900 dark:text-white">
+        {{ anime?.season | titlecase }}
+      </p>
+    </section>
+  </section>
+  <!--
+      + Anime Controls
+      + Consists of
+      +   Edit Button
+      +   Delete Button
+      -->
+  <section class="mt-4 flex flex-auto flex-row flex-wrap content-end gap-5">
+    <button
+      appButton
+      type="button"
+      [routerLink]="['/library', 'edit', anime?.id]">
+      Edit
+    </button>
+    <button
+      appButton
+      color="danger"
+      shape="outline"
+      type="button"
+      (click)="remove()">
+      Delete
+    </button>
+  </section>
+</section>
