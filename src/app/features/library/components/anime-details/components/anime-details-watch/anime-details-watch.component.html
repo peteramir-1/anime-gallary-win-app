@@ -2,10 +2,10 @@
   class="my-4 text-3xl font-extrabold leading-none tracking-normal text-gray-900 dark:text-white">
   Watch
 </h1>
-<section class="mb-5 flex flex-row flex-wrap gap-5">
+<section class="mb-5 flex flex-row flex-wrap justify-start gap-7">
   @for (episode of anime?.episodes; track episode; let i = $index) {
   <button
-    class="flex-initial basis-1/6 cursor-pointer overflow-hidden rounded-lg bg-neutral-100 p-4 font-semibold shadow-md transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:bg-neutral-700 dark:text-white dark:hover:bg-neutral-600"
+    class="flex-auto basis-1/6 cursor-pointer overflow-hidden rounded-lg bg-neutral-100 py-4 font-semibold shadow-md transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:bg-neutral-700 dark:text-white dark:hover:bg-neutral-600"
     type="button"
     [routerLink]="['/library', 'watch', anime.id]"
     [queryParams]="{ episodeIndex: i }"
