@@ -6,41 +6,6 @@
 
     <app-anime-details-header [anime]="anime"></app-anime-details-header>
 
-    <!--
-    + Episodes
-    -->
-    <section class="flex flex-initial flex-col gap-5">
-      <h1
-        class="my-4 text-3xl font-extrabold leading-none tracking-normal text-gray-900 dark:text-white">
-        Watch
-      </h1>
-      @if (anime?.type === 'movie') {
-      <section class="flex flex-row flex-wrap gap-5">
-        @for (episode of anime?.episodes; track episode; let i = $index) {
-        <div
-          class="flex-initial basis-1/6 cursor-pointer overflow-hidden rounded-lg bg-neutral-100 p-4 font-semibold shadow-md transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:bg-neutral-700 dark:text-white dark:hover:bg-neutral-600"
-          [ngClass]="{
-            'ring-1 ring-red-500': episode === ''
-          }">
-          Movie
-        </div>
-        }
-      </section>
-      } @if (anime?.type !== 'movie') {
-      <section class="flex flex-row flex-wrap gap-5">
-        @for (episode of anime?.episodes; track episode; let i = $index) {
-        <div
-          class="flex-initial basis-1/6 cursor-pointer overflow-hidden rounded-lg bg-neutral-100 p-4 font-semibold shadow-md transition-colors duration-300 ease-in-out hover:bg-neutral-200 dark:bg-neutral-700 dark:text-white dark:hover:bg-neutral-600"
-          [routerLink]="['/library', 'watch', anime.id]"
-          [queryParams]="{ episodeIndex: i }"
-          [ngClass]="{
-            'ring-1 ring-red-500': episode === ''
-          }">
-          Episode {{ i + 1 }}
-        </div>
-        }
-      </section>
-      }
-    </section>
+    <app-anime-details-watch [anime]="anime"></app-anime-details-watch>
   </article>
 </div>
