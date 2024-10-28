@@ -11,11 +11,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getResolvers = void 0;
 const anime_viewer_1 = require("../special-features/anime-viewer/anime-viewer");
+const graphql_1 = require("graphql");
 const getResolvers = (animesController, settingsController) => ({
     Query: {
         animes: () => __awaiter(void 0, void 0, void 0, function* () { return animesController.getAllAnimes(); }),
         anime: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () { return animesController.getAnimeById(id); }),
-        settings: () => __awaiter(void 0, void 0, void 0, function* () { return settingsController.getAllSettings(); }),
+        settings: () => __awaiter(void 0, void 0, void 0, function* () {
+            const appSettings = yield settingsController.getAllSettings();
+            if (appSettings)
+                return appSettings;
+            else
+                throw new graphql_1.GraphQLError('App Settings Error. Unrecognized Error while fetching settings!', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                    },
+                });
+        }),
         animesFromFolder: (_, { mainFolderPath }) => __awaiter(void 0, void 0, void 0, function* () {
             const folders = (0, anime_viewer_1.readFolders)(mainFolderPath);
             return (0, anime_viewer_1.getAnimes)(folders);
@@ -29,7 +40,17 @@ const getResolvers = (animesController, settingsController) => ({
                 affectedRows: animesController.deleteAnimeById(id),
             });
         }),
-        updateSettings: (_, { settingsInput, }) => __awaiter(void 0, void 0, void 0, function* () { return settingsController.updateSettings(settingsInput); }),
+        updateSettings: (_, { settingsInput, }) => __awaiter(void 0, void 0, void 0, function* () {
+            const settings = yield settingsController.updateSettings(settingsInput);
+            if (settings)
+                return settings;
+            else
+                throw new graphql_1.GraphQLError('App Settings Error. Unrecognized Error while updating settings!', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                    },
+                });
+        }),
     },
 });
 exports.getResolvers = getResolvers;

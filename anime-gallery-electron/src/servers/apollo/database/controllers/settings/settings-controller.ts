@@ -4,6 +4,7 @@ import {
   Settings,
 } from '../../interfaces/settings-interface';
 import * as statements from './settings-sql';
+import { GraphQLError } from 'graphql';
 
 export class SettingsController {
   private booleanFields = [
@@ -30,44 +31,105 @@ export class SettingsController {
   ];
 
   constructor(private DatabaseConnection: Database) {
-    this.DatabaseConnection.prepare(
-      statements.CREATE_SETTINGS_TABLE_IF_NOT_EXISTED
-    ).run();
-    const res = this.DatabaseConnection.prepare(
-      'SELECT id FROM Settings WHERE id = 0'
-    ).get() as { id: number };
-    if (!(res?.id === 0)) {
-      const createdAt = new Date().toLocaleDateString('en-CA');
+    this.prepareDatabaseConnection();
+  }
+  private prepareDatabaseConnection(): void {
+    try {
       this.DatabaseConnection.prepare(
-        'INSERT INTO Settings(id, createdAt) VALUES(0, @createdAt);'
-      ).run({ createdAt });
+        statements.CREATE_SETTINGS_TABLE_IF_NOT_EXISTED
+      ).run();
+      const res = this.DatabaseConnection.prepare(
+        'SELECT id FROM Settings WHERE id = 0'
+      ).get() as { id: number };
+      if (!(res?.id === 0)) {
+        const createdAt = new Date().toLocaleDateString('en-CA');
+        this.DatabaseConnection.prepare(
+          'INSERT INTO Settings(id, createdAt) VALUES(0, @createdAt);'
+        ).run({ createdAt });
+      }
+    } catch (error) {
+      throw new GraphQLError('Error in Preparing Database Connection', {
+        extensions: {
+          code: 'INTERNAL_SERVER_ERROR',
+          origin: error,
+        },
+      });
     }
   }
 
-  getAllSettings(): Settings {
-    const res = this.DatabaseConnection.prepare(
-      statements.GET_SETTINGS
-    ).get() as sqliteSettingsInterface;
-    const settings: Settings = {
-      ...this.convertToApolloDataType(res),
-    };
-    return settings;
+  public getAllSettings(): Promise<Settings> {
+    return new Promise((resolve, reject) => {
+      try {
+        const res = this.DatabaseConnection.prepare(
+          statements.GET_SETTINGS
+        ).get() as sqliteSettingsInterface;
+        const settings: Settings = {
+          ...this.convertToApolloDataType(res),
+        };
+        resolve(settings);
+      } catch (error) {
+        reject(
+          new GraphQLError('Error in Fetching Saved Data', {
+            extensions: {
+              code: 'INTERNAL_SERVER_ERROR',
+              origin: error,
+            },
+          })
+        );
+      }
+    });
   }
 
-  updateSettings(update_settings: Partial<Settings>): Settings {
-    const previousSettings = this.DatabaseConnection.prepare(
-      statements.GET_SETTINGS
-    ).get() as sqliteSettingsInterface;
-    const updatedAt = new Date().toLocaleDateString('en-CA');
-    const updatedSettings: sqliteSettingsInterface & { updatedAt: string } = {
-      ...previousSettings,
-      ...this.convertToSqliteDataType(update_settings),
-      updatedAt,
-    };
-    this.DatabaseConnection.prepare(statements.UPDATE_SETTINGS).run(
-      updatedSettings
-    );
-    return this.getAllSettings();
+  public updateSettings(update_settings: Partial<Settings>): Promise<Settings> {
+    return new Promise<Settings>((resolve, reject) => {
+      try {
+        this.getAllSettings().then(
+          previousSettings => {
+            const updatedAt = new Date().toLocaleDateString('en-CA');
+            const updatedSettings: sqliteSettingsInterface & {
+              updatedAt: string;
+            } = {
+              ...previousSettings,
+              ...this.convertToSqliteDataType(update_settings),
+              updatedAt,
+            };
+            this.DatabaseConnection.prepare(statements.UPDATE_SETTINGS).run(
+              updatedSettings
+            );
+            this.getAllSettings().then(
+              settings => {
+                resolve(settings);
+              },
+              error => {
+                reject(
+                  new GraphQLError('Error in Fetching Data After Updating', {
+                    extensions: {
+                      code: 'INTERNAL_SERVER_ERROR',
+                      origin: error,
+                    },
+                  })
+                );
+              }
+            );
+          },
+          error => {
+            throw new GraphQLError('Error in Fetching Previously Saved Data', {
+              extensions: {
+                code: 'INTERNAL_SERVER_ERROR',
+                origin: error,
+              },
+            });
+          }
+        );
+      } catch (error) {
+        throw new GraphQLError('Error in Updating Data', {
+          extensions: {
+            code: 'INTERNAL_SERVER_ERROR',
+            origin: error,
+          },
+        });
+      }
+    });
   }
 
   private convertToSqliteDataType(
