@@ -40,17 +40,23 @@ export const getResolvers = (
         );
     },
     settings: async () => {
-      const appSettings = await settingsController.getAllSettings();
-      if (appSettings) return appSettings;
-      else
+      try {
+        const appSettings = await settingsController.getAllSettings();
+        return appSettings;
+      } catch (error) {
         throw new GraphQLError(
           'App Settings Error. Unrecognized Error while fetching settings!',
           {
             extensions: {
               code: 'INTERNAL_SERVER_ERROR',
+              origin: error,
+              http: {
+                status: 500,
+              },
             },
           }
         );
+      }
     },
     animesFromFolder: async (
       _: any,
@@ -109,17 +115,20 @@ export const getResolvers = (
         settingsInput,
       }: { settingsInput: Omit<Settings, 'id' | 'createdAt' | 'updatedAt'> }
     ) => {
-      const settings = await settingsController.updateSettings(settingsInput);
-      if (settings) return settings;
-      else
-        throw new GraphQLError(
-          'App Settings Error. Unrecognized Error while updating settings!',
-          {
-            extensions: {
-              code: 'INTERNAL_SERVER_ERROR',
+      try {
+        const settings = await settingsController.updateSettings(settingsInput);
+        return settings;
+      } catch (error) {
+        throw new GraphQLError('App Error While updating Settings', {
+          extensions: {
+            code: 'INTERNAL_SERVER_ERROR',
+            origin: error,
+            http: {
+              status: 500,
             },
-          }
-        );
+          },
+        });
+      }
     },
   },
 });

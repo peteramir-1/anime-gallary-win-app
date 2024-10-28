@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SettingsController = void 0;
 const statements = require("./settings-sql");
@@ -66,39 +75,36 @@ class SettingsController {
         });
     }
     updateSettings(update_settings) {
-        return new Promise((resolve, reject) => {
-            try {
-                this.getAllSettings().then(previousSettings => {
+        return __awaiter(this, void 0, void 0, function* () {
+            const previousSettings = yield this.getAllSettings();
+            return new Promise((resolve, reject) => {
+                try {
                     const updatedAt = new Date().toLocaleDateString('en-CA');
-                    const updatedSettings = Object.assign(Object.assign(Object.assign({}, previousSettings), this.convertToSqliteDataType(update_settings)), { updatedAt });
+                    const updatedSettings = Object.assign(Object.assign(Object.assign({}, this.convertToSqliteDataType(previousSettings)), this.convertToSqliteDataType(update_settings)), { updatedAt });
                     this.DatabaseConnection.prepare(statements.UPDATE_SETTINGS).run(updatedSettings);
-                    this.getAllSettings().then(settings => {
+                    this.getAllSettings()
+                        .then(settings => {
                         resolve(settings);
-                    }, error => {
-                        reject(new graphql_1.GraphQLError('Error in Fetching Data After Updating', {
+                    })
+                        .catch(error => {
+                        console.error('Error in Fetching Data After Updating', error);
+                        throw new graphql_1.GraphQLError('Error in Fetching Data After Updating', {
                             extensions: {
                                 code: 'INTERNAL_SERVER_ERROR',
                                 origin: error,
                             },
-                        }));
+                        });
                     });
-                }, error => {
-                    throw new graphql_1.GraphQLError('Error in Fetching Previously Saved Data', {
+                }
+                catch (error) {
+                    reject(new graphql_1.GraphQLError('Error in Updating Data', {
                         extensions: {
                             code: 'INTERNAL_SERVER_ERROR',
                             origin: error,
                         },
-                    });
-                });
-            }
-            catch (error) {
-                throw new graphql_1.GraphQLError('Error in Updating Data', {
-                    extensions: {
-                        code: 'INTERNAL_SERVER_ERROR',
-                        origin: error,
-                    },
-                });
-            }
+                    }));
+                }
+            });
         });
     }
     convertToSqliteDataType(obj) {

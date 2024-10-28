@@ -80,54 +80,45 @@ export class SettingsController {
     });
   }
 
-  public updateSettings(update_settings: Partial<Settings>): Promise<Settings> {
+  public async updateSettings(
+    update_settings: Partial<Settings>
+  ): Promise<Settings> {
+    const previousSettings = await this.getAllSettings();
     return new Promise<Settings>((resolve, reject) => {
       try {
-        this.getAllSettings().then(
-          previousSettings => {
-            const updatedAt = new Date().toLocaleDateString('en-CA');
-            const updatedSettings: sqliteSettingsInterface & {
-              updatedAt: string;
-            } = {
-              ...previousSettings,
-              ...this.convertToSqliteDataType(update_settings),
-              updatedAt,
-            };
-            this.DatabaseConnection.prepare(statements.UPDATE_SETTINGS).run(
-              updatedSettings
-            );
-            this.getAllSettings().then(
-              settings => {
-                resolve(settings);
-              },
-              error => {
-                reject(
-                  new GraphQLError('Error in Fetching Data After Updating', {
-                    extensions: {
-                      code: 'INTERNAL_SERVER_ERROR',
-                      origin: error,
-                    },
-                  })
-                );
-              }
-            );
-          },
-          error => {
-            throw new GraphQLError('Error in Fetching Previously Saved Data', {
+        const updatedAt = new Date().toLocaleDateString('en-CA');
+        const updatedSettings: sqliteSettingsInterface & {
+          updatedAt: string;
+        } = {
+          ...this.convertToSqliteDataType(previousSettings),
+          ...this.convertToSqliteDataType(update_settings),
+          updatedAt,
+        };
+        this.DatabaseConnection.prepare(statements.UPDATE_SETTINGS).run(
+          updatedSettings
+        );
+        this.getAllSettings()
+          .then(settings => {
+            resolve(settings);
+          })
+          .catch(error => {
+            console.error('Error in Fetching Data After Updating', error);
+            throw new GraphQLError('Error in Fetching Data After Updating', {
               extensions: {
                 code: 'INTERNAL_SERVER_ERROR',
                 origin: error,
               },
             });
-          }
-        );
+          });
       } catch (error) {
-        throw new GraphQLError('Error in Updating Data', {
-          extensions: {
-            code: 'INTERNAL_SERVER_ERROR',
-            origin: error,
-          },
-        });
+        reject(
+          new GraphQLError('Error in Updating Data', {
+            extensions: {
+              code: 'INTERNAL_SERVER_ERROR',
+              origin: error,
+            },
+          })
+        );
       }
     });
   }

@@ -37,15 +37,21 @@ const getResolvers = (animesController, settingsController) => ({
                 });
         }),
         settings: () => __awaiter(void 0, void 0, void 0, function* () {
-            const appSettings = yield settingsController.getAllSettings();
-            if (appSettings)
+            try {
+                const appSettings = yield settingsController.getAllSettings();
                 return appSettings;
-            else
+            }
+            catch (error) {
                 throw new graphql_1.GraphQLError('App Settings Error. Unrecognized Error while fetching settings!', {
                     extensions: {
                         code: 'INTERNAL_SERVER_ERROR',
+                        origin: error,
+                        http: {
+                            status: 500,
+                        },
                     },
                 });
+            }
         }),
         animesFromFolder: (_, { mainFolderPath }) => __awaiter(void 0, void 0, void 0, function* () {
             const folders = (0, anime_viewer_1.readFolders)(mainFolderPath);
@@ -87,15 +93,21 @@ const getResolvers = (animesController, settingsController) => ({
                 });
         }),
         updateSettings: (_, { settingsInput, }) => __awaiter(void 0, void 0, void 0, function* () {
-            const settings = yield settingsController.updateSettings(settingsInput);
-            if (settings)
+            try {
+                const settings = yield settingsController.updateSettings(settingsInput);
                 return settings;
-            else
-                throw new graphql_1.GraphQLError('App Settings Error. Unrecognized Error while updating settings!', {
+            }
+            catch (error) {
+                throw new graphql_1.GraphQLError('App Error While updating Settings', {
                     extensions: {
                         code: 'INTERNAL_SERVER_ERROR',
+                        origin: error,
+                        http: {
+                            status: 500,
+                        },
                     },
                 });
+            }
         }),
     },
 });
