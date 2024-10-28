@@ -30,7 +30,6 @@ export const startFrontendServer = async (callback: () => void = () => {}) => {
       __dirname,
       '..',
       '..',
-      'assets',
       'views',
       'index.html'
     );

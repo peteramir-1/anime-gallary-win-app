@@ -29,7 +29,7 @@ const startFrontendServer = (callback = () => { }) => __awaiter(void 0, void 0, 
     });
     app.use('/serve', serving_files_1.default);
     app.use('/*', (req, res, next) => {
-        const FrontEndPath = path.join(__dirname, '..', '..', 'assets', 'views', 'index.html');
+        const FrontEndPath = path.join(__dirname, '..', '..', 'views', 'index.html');
         res.sendFile(FrontEndPath);
     });
     yield (0, app_1.startApolloServer)(() => {
