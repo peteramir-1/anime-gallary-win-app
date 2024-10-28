@@ -244,10 +244,16 @@ export class AnimesController {
           this.DatabaseConnection.prepare(
             statusments.DELETE_ANIME_EPISODES_BY_ID
           ).run({ id: updatedAnime.id });
-          this.insertAnimeEpisodesTransaction(
-            updatedAnime.id,
-            updatedAnime.episodes
-          );
+          if (updatedAnime.type === 'movie') {
+            this.insertAnimeEpisodesTransaction(updatedAnime.id, [
+              updatedAnime.episodes[0],
+            ]);
+          } else {
+            this.insertAnimeEpisodesTransaction(
+              updatedAnime.id,
+              updatedAnime.episodes
+            );
+          }
         }
 
         this.getAnimeById(updatedAnime.id)
