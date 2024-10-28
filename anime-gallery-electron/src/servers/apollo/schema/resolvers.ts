@@ -13,9 +13,32 @@ export const getResolvers = (
   settingsController: SettingsController
 ): any => ({
   Query: {
-    animes: async () => animesController.getAllAnimes(),
-    anime: async (_: any, { id }: { id: string }) =>
-      animesController.getAnimeById(id),
+    animes: async () => {
+      const animes = await animesController.getAllAnimes();
+      if (animes) return animes;
+      else
+        throw new GraphQLError(
+          'App DB Error. Unrecognized Error while fetching Animes!',
+          {
+            extensions: {
+              code: 'INTERNAL_SERVER_ERROR',
+            },
+          }
+        );
+    },
+    anime: async (_: any, { id }: { id: string }) => {
+      const anime = await animesController.getAnimeById(id);
+      if (anime) return anime;
+      else
+        throw new GraphQLError(
+          'App DB Error. Unrecognized Error while fetching Anime!',
+          {
+            extensions: {
+              code: 'INTERNAL_SERVER_ERROR',
+            },
+          }
+        );
+    },
     settings: async () => {
       const appSettings = await settingsController.getAllSettings();
       if (appSettings) return appSettings;
@@ -41,12 +64,45 @@ export const getResolvers = (
     createAnime: async (
       _: any,
       { animeInput }: { animeInput: Omit<Anime, 'id'> }
-    ) => animesController.createAnime(animeInput),
-    updateAnime: async (_: any, { animeInput }: { animeInput: Anime }) =>
-      animesController.updateAnimeById(animeInput),
-    deleteAnime: async (_: any, { id }: { id: string }) => ({
-      affectedRows: animesController.deleteAnimeById(id),
-    }),
+    ) => {
+      const createdAnime = await animesController.createAnime(animeInput);
+      if (createdAnime) return createdAnime;
+      else
+        throw new GraphQLError(
+          'App DB Error. Unrecognized Error while creating Anime!',
+          {
+            extensions: {
+              code: 'INTERNAL_SERVER_ERROR',
+            },
+          }
+        );
+    },
+    updateAnime: async (_: any, { animeInput }: { animeInput: Anime }) => {
+      const updatedAnime = await animesController.updateAnimeById(animeInput);
+      if (updatedAnime) return updatedAnime;
+      else
+        throw new GraphQLError(
+          'App DB Error. Unrecognized Error while updating Anime!',
+          {
+            extensions: {
+              code: 'INTERNAL_SERVER_ERROR',
+            },
+          }
+        );
+    },
+    deleteAnime: async (_: any, { id }: { id: string }) => {
+      const affectedRows = await animesController.deleteAnimeById(id);
+      if (affectedRows) return { affectedRows };
+      else
+        throw new GraphQLError(
+          'App DB Error. Unrecognized Error while Deleting Anime!',
+          {
+            extensions: {
+              code: 'INTERNAL_SERVER_ERROR',
+            },
+          }
+        );
+    },
     updateSettings: async (
       _: any,
       {

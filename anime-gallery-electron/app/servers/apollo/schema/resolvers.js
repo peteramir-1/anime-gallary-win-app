@@ -14,8 +14,28 @@ const anime_viewer_1 = require("../special-features/anime-viewer/anime-viewer");
 const graphql_1 = require("graphql");
 const getResolvers = (animesController, settingsController) => ({
     Query: {
-        animes: () => __awaiter(void 0, void 0, void 0, function* () { return animesController.getAllAnimes(); }),
-        anime: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () { return animesController.getAnimeById(id); }),
+        animes: () => __awaiter(void 0, void 0, void 0, function* () {
+            const animes = yield animesController.getAllAnimes();
+            if (animes)
+                return animes;
+            else
+                throw new graphql_1.GraphQLError('App DB Error. Unrecognized Error while fetching Animes!', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                    },
+                });
+        }),
+        anime: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () {
+            const anime = yield animesController.getAnimeById(id);
+            if (anime)
+                return anime;
+            else
+                throw new graphql_1.GraphQLError('App DB Error. Unrecognized Error while fetching Anime!', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                    },
+                });
+        }),
         settings: () => __awaiter(void 0, void 0, void 0, function* () {
             const appSettings = yield settingsController.getAllSettings();
             if (appSettings)
@@ -33,12 +53,38 @@ const getResolvers = (animesController, settingsController) => ({
         }),
     },
     Mutation: {
-        createAnime: (_, { animeInput }) => __awaiter(void 0, void 0, void 0, function* () { return animesController.createAnime(animeInput); }),
-        updateAnime: (_, { animeInput }) => __awaiter(void 0, void 0, void 0, function* () { return animesController.updateAnimeById(animeInput); }),
+        createAnime: (_, { animeInput }) => __awaiter(void 0, void 0, void 0, function* () {
+            const createdAnime = yield animesController.createAnime(animeInput);
+            if (createdAnime)
+                return createdAnime;
+            else
+                throw new graphql_1.GraphQLError('App DB Error. Unrecognized Error while creating Anime!', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                    },
+                });
+        }),
+        updateAnime: (_, { animeInput }) => __awaiter(void 0, void 0, void 0, function* () {
+            const updatedAnime = yield animesController.updateAnimeById(animeInput);
+            if (updatedAnime)
+                return updatedAnime;
+            else
+                throw new graphql_1.GraphQLError('App DB Error. Unrecognized Error while updating Anime!', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                    },
+                });
+        }),
         deleteAnime: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () {
-            return ({
-                affectedRows: animesController.deleteAnimeById(id),
-            });
+            const affectedRows = yield animesController.deleteAnimeById(id);
+            if (affectedRows)
+                return { affectedRows };
+            else
+                throw new graphql_1.GraphQLError('App DB Error. Unrecognized Error while Deleting Anime!', {
+                    extensions: {
+                        code: 'INTERNAL_SERVER_ERROR',
+                    },
+                });
         }),
         updateSettings: (_, { settingsInput, }) => __awaiter(void 0, void 0, void 0, function* () {
             const settings = yield settingsController.updateSettings(settingsInput);
