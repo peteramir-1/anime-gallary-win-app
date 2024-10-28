@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AnimesController = void 0;
 const statusments = require("./animes-sql");
@@ -23,12 +32,12 @@ class AnimesController {
         this.DatabaseConnection.pragma('journal_mode = WAL');
     }
     getAllAnimes() {
-        return new Promise((resolve, reject) => {
-            try {
-                const animesWithoutEpisodes = this.DatabaseConnection.prepare(statusments.GET_ANIMES).all();
-                this.getAnimeEpisodes()
-                    .then(_episodes => {
-                    const episodesRecords = this.groupByProperty(_episodes, 'anime_id', 'link');
+        return __awaiter(this, void 0, void 0, function* () {
+            const episodes = yield this.getAnimeEpisodes();
+            return new Promise((resolve, reject) => {
+                try {
+                    const animesWithoutEpisodes = this.DatabaseConnection.prepare(statusments.GET_ANIMES).all();
+                    const episodesRecords = this.groupByProperty(episodes, 'anime_id', 'link');
                     const result = animesWithoutEpisodes.map(anime => {
                         const episodes = episodesRecords.find(record => record.id === anime.id);
                         if (episodes) {
@@ -39,24 +48,16 @@ class AnimesController {
                         }
                     });
                     resolve(result);
-                })
-                    .catch(error => {
-                    reject(new graphql_1.GraphQLError('Error In Fetching Animes Episodes', {
+                }
+                catch (error) {
+                    reject(new graphql_1.GraphQLError('Error In Fetching Animes', {
                         extensions: {
                             code: 'INTERNAL_SERVER_ERROR',
                             origin: error,
                         },
                     }));
-                });
-            }
-            catch (error) {
-                reject(new graphql_1.GraphQLError('Error In Fetching Animes', {
-                    extensions: {
-                        code: 'INTERNAL_SERVER_ERROR',
-                        origin: error,
-                    },
-                }));
-            }
+                }
+            });
         });
     }
     getAnimeEpisodes() {
@@ -94,29 +95,23 @@ class AnimesController {
         });
     }
     getAnimeById(id) {
-        return new Promise((resolve, reject) => {
-            try {
-                const anime = this.DatabaseConnection.prepare(statusments.GET_ANIME_BY_ID).get({ id });
-                this.getAnimeEpisodesById(id).then((episodes) => {
+        return __awaiter(this, void 0, void 0, function* () {
+            const episodes = yield this.getAnimeEpisodesById(id);
+            return new Promise((resolve, reject) => {
+                try {
+                    const anime = this.DatabaseConnection.prepare(statusments.GET_ANIME_BY_ID).get({ id });
                     const targetedAnime = Object.assign(Object.assign({}, anime), { liked: anime.liked === undefined ? false : !!anime.liked, episodes });
                     resolve(targetedAnime);
-                }, error => {
-                    reject(new graphql_1.GraphQLError('Error In Fetching Anime Episodes By Id', {
+                }
+                catch (error) {
+                    reject(new graphql_1.GraphQLError('Error In Fetching Anime By Id', {
                         extensions: {
                             code: 'INTERNAL_SERVER_ERROR',
                             origin: error,
                         },
                     }));
-                });
-            }
-            catch (error) {
-                reject(new graphql_1.GraphQLError('Error In Fetching Anime By Id', {
-                    extensions: {
-                        code: 'INTERNAL_SERVER_ERROR',
-                        origin: error,
-                    },
-                }));
-            }
+                }
+            });
         });
     }
     getAnimeEpisodesById(id) {
@@ -156,10 +151,15 @@ class AnimesController {
                     createdAt: createdAt,
                 };
                 this.DatabaseConnection.prepare(statusments.INSERT_ANIME_DETAILS).run(DBAnime);
-                this.InsertAnimeEpisodes(id, anime.episodes).then(() => {
-                    resolve(this.getAnimeById(id));
-                }, error => {
-                    reject(new graphql_1.GraphQLError('Error In Adding Anime Episodes', {
+                if (anime.episodes) {
+                    this.insertAnimeEpisodesTransaction(id, anime.episodes);
+                }
+                this.getAnimeById(id)
+                    .then(anime => {
+                    resolve(anime);
+                })
+                    .catch(error => {
+                    reject(new graphql_1.GraphQLError('Error In Fetching Anime After Updating', {
                         extensions: {
                             code: 'INTERNAL_SERVER_ERROR',
                             origin: error,
@@ -178,71 +178,53 @@ class AnimesController {
         });
     }
     updateAnimeById(updatedAnime) {
-        return new Promise((resolve, reject) => {
-            try {
-                const prev = this.getAnimeById(updatedAnime.id);
-                const updatedAt = new Date().toLocaleDateString('en-CA');
-                const DBAnime = {
-                    name: updatedAnime.name || prev.name,
-                    description: updatedAnime.description || prev.description,
-                    numOfEpisodes: updatedAnime.numOfEpisodes || prev.numOfEpisodes,
-                    status: updatedAnime.status || prev.status,
-                    type: updatedAnime.type || prev.type,
-                    thumbnail: updatedAnime.thumbnail || prev.thumbnail,
-                    released: updatedAnime.released || prev.released,
-                    season: updatedAnime.season || prev.season,
-                    liked: updatedAnime.liked === undefined
-                        ? Number(prev.liked)
-                        : Number(updatedAnime.liked),
-                    updatedAt,
-                    id: updatedAnime.id,
-                };
-                this.DatabaseConnection.prepare(statusments.UPDATE_ANIME_BY_ID).run(DBAnime);
-                this.DatabaseConnection.prepare(statusments.DELETE_ANIME_EPISODES_BY_ID).run({ id: updatedAnime.id });
-                this.InsertAnimeEpisodes(updatedAnime.id, updatedAnime.episodes || prev.episodes).then(() => {
-                    this.getAnimeById(updatedAnime.id).then(anime => resolve(anime), error => {
-                        reject(new graphql_1.GraphQLError('Error In Fetching Anime', {
+        return __awaiter(this, void 0, void 0, function* () {
+            const prev = yield this.getAnimeById(updatedAnime.id);
+            return new Promise((resolve, reject) => {
+                try {
+                    const updatedAt = new Date().toLocaleDateString('en-CA');
+                    const DBAnime = {
+                        name: updatedAnime.name || prev.name,
+                        description: updatedAnime.description || prev.description,
+                        numOfEpisodes: updatedAnime.numOfEpisodes || prev.numOfEpisodes,
+                        status: updatedAnime.status || prev.status,
+                        type: updatedAnime.type || prev.type,
+                        thumbnail: updatedAnime.thumbnail || prev.thumbnail,
+                        released: updatedAnime.released || prev.released,
+                        season: updatedAnime.season || prev.season,
+                        liked: updatedAnime.liked === undefined
+                            ? Number(prev.liked)
+                            : Number(updatedAnime.liked),
+                        updatedAt,
+                        id: updatedAnime.id,
+                    };
+                    this.DatabaseConnection.prepare(statusments.UPDATE_ANIME_BY_ID).run(DBAnime);
+                    if (updatedAnime.episodes) {
+                        this.DatabaseConnection.prepare(statusments.DELETE_ANIME_EPISODES_BY_ID).run({ id: updatedAnime.id });
+                        this.insertAnimeEpisodesTransaction(updatedAnime.id, updatedAnime.episodes);
+                    }
+                    this.getAnimeById(updatedAnime.id)
+                        .then(anime => {
+                        resolve(anime);
+                    })
+                        .catch(error => {
+                        reject(new graphql_1.GraphQLError('Error In Fetching Anime After Updating', {
                             extensions: {
                                 code: 'INTERNAL_SERVER_ERROR',
                                 origin: error,
                             },
                         }));
                     });
-                }, error => {
-                    reject(new graphql_1.GraphQLError('Error In updating Anime Episodes', {
+                }
+                catch (error) {
+                    reject(new graphql_1.GraphQLError('Error In updating Anime', {
                         extensions: {
                             code: 'INTERNAL_SERVER_ERROR',
                             origin: error,
                         },
                     }));
-                });
-            }
-            catch (error) {
-                reject(new graphql_1.GraphQLError('Error In updating Anime', {
-                    extensions: {
-                        code: 'INTERNAL_SERVER_ERROR',
-                        origin: error,
-                    },
-                }));
-            }
-        });
-    }
-    InsertAnimeEpisodes(id, episodes = []) {
-        return new Promise((resolve, reject) => {
-            if (!episodes)
-                reject('invalid episodes');
-            try {
-                this.insertAnimeEpisodesTransaction(id, episodes);
-                resolve(1);
-            }
-            catch (error) {
-                reject(new graphql_1.GraphQLError('Error In inserting Anime Episodes', {
-                    extensions: {
-                        code: 'INTERNAL_SERVER_ERROR',
-                        origin: error,
-                    },
-                }));
-            }
+                }
+            });
         });
     }
     deleteAnimeById(id) {

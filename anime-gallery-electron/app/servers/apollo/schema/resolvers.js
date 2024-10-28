@@ -15,26 +15,38 @@ const graphql_1 = require("graphql");
 const getResolvers = (animesController, settingsController) => ({
     Query: {
         animes: () => __awaiter(void 0, void 0, void 0, function* () {
-            const animes = yield animesController.getAllAnimes();
-            if (animes)
+            try {
+                const animes = yield animesController.getAllAnimes();
                 return animes;
-            else
+            }
+            catch (error) {
                 throw new graphql_1.GraphQLError('App DB Error. Unrecognized Error while fetching Animes!', {
                     extensions: {
                         code: 'INTERNAL_SERVER_ERROR',
+                        origin: error,
+                        http: {
+                            status: 500,
+                        },
                     },
                 });
+            }
         }),
         anime: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () {
-            const anime = yield animesController.getAnimeById(id);
-            if (anime)
+            try {
+                const anime = yield animesController.getAnimeById(id);
                 return anime;
-            else
+            }
+            catch (error) {
                 throw new graphql_1.GraphQLError('App DB Error. Unrecognized Error while fetching Anime!', {
                     extensions: {
                         code: 'INTERNAL_SERVER_ERROR',
+                        origin: error,
+                        http: {
+                            status: 500,
+                        },
                     },
                 });
+            }
         }),
         settings: () => __awaiter(void 0, void 0, void 0, function* () {
             try {
@@ -60,37 +72,55 @@ const getResolvers = (animesController, settingsController) => ({
     },
     Mutation: {
         createAnime: (_, { animeInput }) => __awaiter(void 0, void 0, void 0, function* () {
-            const createdAnime = yield animesController.createAnime(animeInput);
-            if (createdAnime)
+            try {
+                const createdAnime = yield animesController.createAnime(animeInput);
                 return createdAnime;
-            else
+            }
+            catch (error) {
                 throw new graphql_1.GraphQLError('App DB Error. Unrecognized Error while creating Anime!', {
                     extensions: {
                         code: 'INTERNAL_SERVER_ERROR',
+                        origin: error,
+                        http: {
+                            status: 500,
+                        },
                     },
                 });
+            }
         }),
         updateAnime: (_, { animeInput }) => __awaiter(void 0, void 0, void 0, function* () {
-            const updatedAnime = yield animesController.updateAnimeById(animeInput);
-            if (updatedAnime)
+            try {
+                const updatedAnime = yield animesController.updateAnimeById(animeInput);
                 return updatedAnime;
-            else
+            }
+            catch (error) {
                 throw new graphql_1.GraphQLError('App DB Error. Unrecognized Error while updating Anime!', {
                     extensions: {
                         code: 'INTERNAL_SERVER_ERROR',
+                        origin: error,
+                        http: {
+                            status: 500,
+                        },
                     },
                 });
+            }
         }),
         deleteAnime: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () {
-            const affectedRows = yield animesController.deleteAnimeById(id);
-            if (affectedRows)
+            try {
+                const affectedRows = yield animesController.deleteAnimeById(id);
                 return { affectedRows };
-            else
+            }
+            catch (error) {
                 throw new graphql_1.GraphQLError('App DB Error. Unrecognized Error while Deleting Anime!', {
                     extensions: {
                         code: 'INTERNAL_SERVER_ERROR',
+                        origin: error,
+                        http: {
+                            status: 500,
+                        },
                     },
                 });
+            }
         }),
         updateSettings: (_, { settingsInput, }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
