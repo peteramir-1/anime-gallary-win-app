@@ -1,4 +1,10 @@
-import { Component, OnInit, Renderer2, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Renderer2,
+  inject,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -23,6 +29,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   selector: 'app-add-anime',
   templateUrl: './add-anime.component.html',
   styleUrls: ['./add-anime.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddAnimeComponent implements OnInit {
   private readonly thumbnailDefault = 'assets/pictures/no-image.webp';
