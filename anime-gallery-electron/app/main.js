@@ -35,7 +35,7 @@ const createWindow = () => {
     setTimeout(() => {
         mainWindow.focus();
     }, 1000);
-    mainWindow.loadURL(`http://localhost:${app.PORT}/#/`);
+    mainWindow.loadURL(`http://localhost:${app.PORT}/`);
     return mainWindow;
 };
 if (require('electron-squirrel-startup'))

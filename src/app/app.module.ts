@@ -10,7 +10,7 @@ import { LayoutComponent } from './core/components/layout/layout.component';
 import { GraphQLModule } from './core/modules/graphql.module';
 import { NgIconsModule } from '@ng-icons/core';
 import { heroHome, heroSun, heroMoon } from '@ng-icons/heroicons/outline';
-import { lucideLibrary, lucideSettings } from '@ng-icons/lucide';
+import { lucideLibrary, lucideSettings, lucideEye } from '@ng-icons/lucide';
 import { WidgetContainerModule } from './shared/directives/widget-container/widget-container.module';
 import { ScrollableModule } from './shared/directives/scrollable/scrollable.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -25,6 +25,7 @@ import { ButtonModule } from './shared/directives/button/button.module';
       heroHome,
       lucideLibrary,
       lucideSettings,
+      lucideEye,
       heroSun,
       heroMoon,
     }),

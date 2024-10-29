@@ -1,23 +1,23 @@
-<a
-  class="group relative mx-auto block h-[350px] overflow-hidden rounded-lg bg-cover bg-top bg-origin-padding shadow-inner md:mx-auto md:w-auto"
-  [routerLink]="['/library', 'details', anime.id]">
-  <div
-    class="relative left-0 top-0 z-0 h-full w-full after:absolute after:bottom-0 after:block after:h-full after:w-full after:shadow-inner-md">
-    <img class="h-full w-full object-cover" [src]="anime.thumbnail" />
-  </div>
-  <div
-    class="absolute left-4 top-4 z-10 rounded-md bg-teal-600 px-6 py-3 text-center text-xs font-bold text-white shadow-lg">
-    {{ anime.type | titlecase }}
-  </div>
-  <div
-    class="absolute bottom-0 z-10 flex h-auto w-full flex-col justify-around rounded-sm bg-teal-800/95 p-4 text-center text-white opacity-0 shadow-lg transition-[opacity] duration-500 group-hover:opacity-100">
+<article
+  class="flex w-auto select-none flex-col overflow-hidden rounded-md shadow-lg"
+  (click)="navigateToAnimePage(anime.id)"
+  [ngClass]="{ 'cursor-pointer': navigatable }">
+  <section class="relative h-[350px] w-full shadow-inner-lg">
+    <img
+      [alt]="anime.name + 'image'"
+      [ngSrc]="anime.thumbnail"
+      priority
+      draggable="false"
+      fill />
+  </section>
+  <footer class="relative h-fit flex-initial bg-teal-800 p-3 shadow-md">
+    <div
+      class="absolute -top-6 right-4 z-10 rounded-sm bg-teal-600 px-3 py-2 text-center text-xs font-bold text-gray-100 shadow-lg">
+      {{ anime.type | titlecase }}
+    </div>
     <h5
-      class="overflow-hidden text-ellipsis text-lg font-bold leading-7 text-white">
+      class="line-clamp-1 overflow-hidden text-ellipsis text-start text-sm font-semibold leading-7 text-white">
       {{ anime.name | titlecase }}
     </h5>
-    <p
-      class="line-clamp-3 break-words font-sans text-sm font-thin leading-normal tracking-wide text-gray-50">
-      {{ anime.description }}
-    </p>
-  </div>
-</a>
+  </footer>
+</article>

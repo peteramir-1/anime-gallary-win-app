@@ -1,0 +1,109 @@
+<section class="flex-initial">
+  <button appButton routerLink="/library/add">
+    <ng-icon name="heroPlus"></ng-icon>
+  </button>
+</section>
+<section class="basis-1/2">
+  <input
+    type="text"
+    name="search"
+    class="!p-3"
+    placeholder="Search Example: Demon Slayer"
+    [(ngModel)]="searchResult"
+    [ngModelOptions]="{ standalone: true }"
+    (ngModelChange)="searchByName($event)"
+    appInput />
+</section>
+<section class="flex flex-auto items-center justify-between">
+  <!-- Filter By Like/Love/Favorite -->
+  <section class="flex-initial">
+    @if (!likedFilter.getValue()) {
+    <ng-icon
+      class="cursor-pointer align-text-top"
+      size="1.75rem"
+      color="#dc2626"
+      name="jamHeart"
+      matTooltip="All Anime"
+      (click)="likedFilter.next(true)"></ng-icon>
+    } @else {
+    <ng-icon
+      class="cursor-pointer align-text-top"
+      size="1.75rem"
+      color="#dc2626"
+      name="jamHeartF"
+      matTooltip="Liked Anime"
+      (click)="likedFilter.next(false)"></ng-icon>
+    }
+    <ng-template #jamHeartF>
+      <ng-icon
+        class="cursor-pointer align-text-top"
+        size="1.75rem"
+        color="#dc2626"
+        name="jamHeartF"
+        matTooltip="Liked Anime"
+        (click)="likedFilter.next(false)"></ng-icon>
+    </ng-template>
+  </section>
+
+  <!-- Filter By Status of the anime incomplete/complete/all -->
+  <section class="min-w-28 flex-initial">
+    <app-select
+      class="min-w-28"
+      name="status"
+      placeholder="Status Filter"
+      [(ngModel)]="statusControl"
+      [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="setStatusFilter($event)">
+      <app-option [value]="null">N/A</app-option>
+      <app-option value="complete">
+        {{ 'complete' | titlecase }}
+      </app-option>
+      <app-option value="incomplete">
+        {{ 'incomplete' | titlecase }}
+      </app-option>
+    </app-select>
+  </section>
+
+  <!-- Filter By Anime Season autumn/summer/winter/spring/all -->
+  <section class="min-w-28 flex-initial">
+    <app-select
+      class="w-full"
+      name="season"
+      placeholder="Season Filter"
+      [(ngModel)]="seasonControl"
+      [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="setSeasonFilter($event)">
+      <app-option [value]="null">N/A</app-option>
+      <app-option value="summer">
+        {{ 'summer' | titlecase }}
+      </app-option>
+      <app-option value="autumn">
+        {{ 'autumn' | titlecase }}
+      </app-option>
+      <app-option value="winter">
+        {{ 'winter' | titlecase }}
+      </app-option>
+      <app-option value="spring">
+        {{ 'spring' | titlecase }}
+      </app-option>
+    </app-select>
+  </section>
+
+  <!-- Filter By Anime Release Date -->
+  <section class="min-w-28 flex-initial">
+    <app-select
+      class="w-full"
+      name="releaseDate"
+      placeholder="Date Filter"
+      [(ngModel)]="releaseDateControl"
+      [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="setReleaseDateFilter($event)">
+      <app-option [value]="null">N/A</app-option>
+      @for (year of years; track year) {
+      <app-option [value]="year">
+        {{ year }}
+      </app-option>
+      }
+    </app-select>
+  </section>
+</section>

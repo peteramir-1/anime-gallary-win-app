@@ -121,8 +121,6 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
     switch (episodeExtension) {
       case 'flv':
         return 'video/x-flv';
-      case 'mkv':
-        return 'video/x-matroska';
       case 'mwv':
         return 'video/x-matroska';
       case 'mp4':

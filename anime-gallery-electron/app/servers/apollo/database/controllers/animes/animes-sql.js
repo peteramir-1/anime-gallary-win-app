@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DELETE_ANIME_EPISODES_BY_ID = exports.DELETE_ANIME_BY_ID = exports.UPDATE_ANIME_BY_ID = exports.INSERT_ANIME_EPISODES = exports.INSERT_ANIME_DETAILS = exports.GET_ANIME_EPISODES_BY_ID = exports.GET_ANIME_BY_ID = exports.GET_ANIMES = exports.CREATE_ANIME_EPISODES_TABLE_IF_NOT_EXISTED = exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = void 0;
+exports.DELETE_ANIME_EPISODES_BY_ID = exports.DELETE_ANIME_BY_ID = exports.UPDATE_ANIME_BY_ID = exports.INSERT_ANIME_EPISODES = exports.INSERT_ANIME_DETAILS = exports.GET_ANIME_EPISODES_BY_ANIME_ID = exports.GET_ANIME_EPISODES = exports.GET_ANIME_BY_ID = exports.GET_ANIMES = exports.CREATE_ANIME_EPISODES_TABLE_IF_NOT_EXISTED = exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = void 0;
 exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
     CREATE TABLE IF NOT EXISTS Animes(
 			id VARCHAR(36) PRIMARY KEY,
@@ -22,7 +22,7 @@ exports.CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 			link TEXT,
 			FOREIGN KEY(anime_id) REFERENCES Animes(id) ON DELETE CASCADE
 		);
-	`, exports.GET_ANIMES = `SELECT * FROM Animes;`, exports.GET_ANIME_BY_ID = `SELECT * FROM Animes WHERE id = @id;`, exports.GET_ANIME_EPISODES_BY_ID = `SELECT * FROM AnimeEpisodes WHERE anime_id = ?`, exports.INSERT_ANIME_DETAILS = `
+	`, exports.GET_ANIMES = `SELECT * FROM Animes;`, exports.GET_ANIME_BY_ID = `SELECT * FROM Animes WHERE id = @id;`, exports.GET_ANIME_EPISODES = `SELECT * FROM AnimeEpisodes`, exports.GET_ANIME_EPISODES_BY_ANIME_ID = `SELECT * FROM AnimeEpisodes WHERE anime_id = ?`, exports.INSERT_ANIME_DETAILS = `
 		INSERT INTO Animes(
 			id,
 			name,
