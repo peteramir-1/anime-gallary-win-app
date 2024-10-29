@@ -1,0 +1,110 @@
+<!--
+  + Anime Details Page ->
+  + This page is all about showing the details of a
+  + specific anime.
+  + TODO:
+  +   [] Fix Episodes Doesnt open
+-->
+
+<article
+  class="relative h-auto min-w-[22rem] max-w-xs flex-initial overflow-hidden rounded-lg bg-gray-100 after:absolute after:bottom-0 after:block after:h-full after:w-full after:shadow-inner-lg dark:bg-neutral-700">
+  <img
+    class="h-full w-full object-cover"
+    [ngClass]="{
+      'no-image': anime?.thumbnail === 'assets/pictures/no-image.webp',
+      'object-bottom': anime?.thumbnail === 'assets/pictures/no-image.webp',
+      'object-top': anime?.thumbnail !== 'assets/pictures/no-image.webp'
+    }"
+    [src]="anime?.thumbnail" />
+</article>
+
+<article class="flex flex-auto flex-col gap-7">
+  <header class="mb-2 flex flex-initial flex-row flex-wrap items-center gap-5">
+    <h2
+      matTooltip="Click to Copy"
+      matTooltipPosition="below"
+      (click)="copyAnimeName()"
+      class="flex-1 cursor-pointer text-2xl font-bold leading-relaxed tracking-wide text-neutral-900 dark:text-white">
+      {{ anime?.name | titlecase }}
+    </h2>
+    @if (!anime?.liked) {
+    <ng-icon
+      class="cursor-pointer text-red-600"
+      size="1.75rem"
+      name="jamHeart"
+      (click)="likeAnime()"></ng-icon>
+    } @if (anime?.liked) {
+    <ng-icon
+      class="cursor-pointer text-red-600"
+      size="1.75rem"
+      name="jamHeartF"
+      (click)="unlikeAnime()"></ng-icon>
+    }
+  </header>
+
+  <!-- Anime Specifications -->
+  <article class="flex flex-initial flex-row flex-wrap gap-y-5">
+    <!-- Story -->
+    <app-anime-details-spec
+      class="basis-full"
+      title="story"
+      [value]="anime?.description"></app-anime-details-spec>
+
+    <!-- Type -->
+    <app-anime-details-spec
+      class="basis-1/3"
+      title="type"
+      [value]="anime?.type"></app-anime-details-spec>
+
+    <!-- Episodes -->
+    @if (anime?.type !== 'movie') {
+    <app-anime-details-spec
+      class="basis-1/3"
+      title="episodes"
+      [value]="anime?.numOfEpisodes"></app-anime-details-spec>
+    }
+
+    <!-- state -->
+    @if (anime?.type !== 'movie') {
+    <app-anime-details-spec
+      class="basis-1/3"
+      title="status"
+      [value]="anime?.status"></app-anime-details-spec>
+    }
+
+    <!-- Released -->
+    <app-anime-details-spec
+      class="basis-1/3"
+      title="released"
+      [value]="anime?.released"></app-anime-details-spec>
+
+    <!-- Season -->
+    <app-anime-details-spec
+      class="basis-1/3"
+      title="season"
+      [value]="anime?.season"></app-anime-details-spec>
+  </article>
+
+  <!--
+      + Anime Controls
+      + Consists of
+      +   Edit Button
+      +   Delete Button
+      -->
+  <section class="mt-4 flex flex-auto flex-row flex-wrap content-end gap-5">
+    <button
+      appButton
+      type="button"
+      [routerLink]="['/library', 'edit', anime?.id]">
+      Edit
+    </button>
+    <button
+      appButton
+      color="danger"
+      shape="outline"
+      type="button"
+      (click)="remove()">
+      Delete
+    </button>
+  </section>
+</article>

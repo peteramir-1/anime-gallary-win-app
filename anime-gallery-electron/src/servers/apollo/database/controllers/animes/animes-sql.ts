@@ -23,7 +23,8 @@ export const CREATE_ANIME_TABLE_IF_NOT_EXISTED = `
 	`,
   GET_ANIMES = `SELECT * FROM Animes;`,
   GET_ANIME_BY_ID = `SELECT * FROM Animes WHERE id = @id;`,
-  GET_ANIME_EPISODES_BY_ID = `SELECT * FROM AnimeEpisodes WHERE anime_id = ?`,
+  GET_ANIME_EPISODES = `SELECT * FROM AnimeEpisodes`,
+  GET_ANIME_EPISODES_BY_ANIME_ID = `SELECT * FROM AnimeEpisodes WHERE anime_id = ?`,
   INSERT_ANIME_DETAILS = `
 		INSERT INTO Animes(
 			id,

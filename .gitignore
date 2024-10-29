@@ -103,3 +103,6 @@ views/
 *.sqlite
 *.sqlite-wal
 *.sqlite-shm
+
+# Testing Extension
+.graph-man/

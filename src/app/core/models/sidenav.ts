@@ -12,6 +12,11 @@ export const sidenav: Sidenav[] = [
     link: '/library',
   },
   {
+    title: 'anime viewer',
+    icon: 'lucideEye',
+    link: 'anime-viewer',
+  },
+  {
     title: 'settings',
     buttonClass: 'mt-auto',
     icon: 'lucideSettings',

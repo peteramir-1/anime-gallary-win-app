@@ -44,7 +44,7 @@ export type DBAnime = RequiredField<
   BooleanBDAnimeFields
 >;
 
-export interface DBEpisodes {
+export interface DBEpisode {
   anime_id: string;
   link: string;
 }

@@ -34,6 +34,15 @@ export interface Anime {
   updatedAt?: Maybe<Scalars['String']['output']>;
 }
 
+export interface AnimeFf {
+  __typename?: 'AnimeFF';
+  episodes: Array<Maybe<Scalars['String']['output']>>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  thumbnail?: Maybe<Scalars['String']['output']>;
+  type: Scalars['String']['output'];
+}
+
 export interface CreateAnimeInput {
   description?: InputMaybe<Scalars['String']['input']>;
   episodes?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -84,12 +93,18 @@ export interface Query {
   __typename?: 'Query';
   anime?: Maybe<Anime>;
   animes?: Maybe<Array<Maybe<Anime>>>;
+  animesFromFolder?: Maybe<Array<Maybe<AnimeFf>>>;
   settings?: Maybe<Settings>;
 }
 
 
 export interface QueryAnimeArgs {
   id: Scalars['String']['input'];
+}
+
+
+export interface QueryAnimesFromFolderArgs {
+  mainFolderPath: Scalars['String']['input'];
 }
 
 export enum Season {
@@ -192,6 +207,13 @@ export interface UpdatedSettingsInput {
   volumeStep?: InputMaybe<Scalars['Float']['input']>;
 }
 
+export type GetAnimesFromFolderQueryVariables = Exact<{
+  folderPath: Scalars['String']['input'];
+}>;
+
+
+export type GetAnimesFromFolderQuery = { __typename?: 'Query', animesFromFolder?: Array<{ __typename?: 'AnimeFF', id: string, name: string, type: string, thumbnail?: string | null, episodes: Array<string | null> } | null> | null };
+
 export type CreateAnimeMutationVariables = Exact<{
   createAnimeInput?: InputMaybe<CreateAnimeInput>;
 }>;
@@ -263,6 +285,28 @@ export type SettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type SettingsQuery = { __typename?: 'Query', settings?: { __typename?: 'Settings', darkMode?: boolean | null } | null };
 
+export const GetAnimesFromFolderDocument = gql`
+    query GetAnimesFromFolder($folderPath: String!) {
+  animesFromFolder(mainFolderPath: $folderPath) {
+    id
+    name
+    type
+    thumbnail
+    episodes
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetAnimesFromFolderGQL extends Apollo.Query<GetAnimesFromFolderQuery, GetAnimesFromFolderQueryVariables> {
+    document = GetAnimesFromFolderDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const CreateAnimeDocument = gql`
     mutation CreateAnime($createAnimeInput: CreateAnimeInput) {
   createAnime(animeInput: $createAnimeInput) {

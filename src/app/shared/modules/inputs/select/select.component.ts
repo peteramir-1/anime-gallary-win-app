@@ -45,7 +45,7 @@ export class OptionComponent<T = any> {
       class="relative flex h-full w-full cursor-pointer rounded-lg text-xs ring-1 input-bg-default input-ring-default input-text-default placeholder:input-text-default focus:ring-2 focus:input-primary-ring-default dark:input-bg-dark dark:input-ring-dark dark:input-text-dark dark:placeholder:input-text-dark dark:focus:input-primary-ring-dark"
       #select="matSelect"
       [value]="value()"
-      placeholder="-- Click Here to Select --"
+      [placeholder]="placeholder"
       [panelWidth]="element.offsetWidth"
       (valueChange)="value.set($event)"
       (selectionChange)="changeFormControlValue($event.value)">
@@ -70,6 +70,11 @@ export class OptionComponent<T = any> {
       
       .mat-mdc-select-trigger .mat-mdc-select-arrow {
         color: theme('colors.inputs.text.default');
+      }
+
+      .mat-mdc-select-trigger .mat-mdc-select-arrow-wrapper {
+        color: theme('colors.inputs.text.default');
+        margin-left: 10px;
       }
 
       .mat-mdc-select-panel {
@@ -130,6 +135,8 @@ export class SelectComponent implements AfterContentInit, ControlValueAccessor {
 
   @HostListener('click') onClick = () => this.select.open();
   @HostListener('focus') onFocus = () => this.element.focus();
+
+  @Input() placeholder = "-- Click Here to Select --";
 
   options: { value: string; viewValue: string }[] = [];
   readonly viewNGContent = signal(true);

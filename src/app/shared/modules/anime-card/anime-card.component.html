@@ -1,18 +1,23 @@
-<div
-  class="cursor-pointer select-none overflow-hidden rounded-md text-white shadow-lg"
-  [routerLink]="['/library', 'details', anime.id]">
-  <img
-    class="h-[350px] w-auto object-cover shadow-inner"
-    draggable="false"
-    [src]="anime.thumbnail" />
-  <section class="relative h-fit flex-initial bg-teal-800 p-3 shadow-md">
+<article
+  class="flex w-auto select-none flex-col overflow-hidden rounded-md shadow-lg"
+  (click)="navigateToAnimePage(anime.id)"
+  [ngClass]="{ 'cursor-pointer': navigatable }">
+  <section class="relative h-[350px] w-full shadow-inner-lg">
+    <img
+      [alt]="anime.name + 'image'"
+      [ngSrc]="anime.thumbnail"
+      priority
+      draggable="false"
+      fill />
+  </section>
+  <footer class="relative h-fit flex-initial bg-teal-800 p-3 shadow-md">
     <div
-      class="absolute -top-6 right-4 z-10 rounded-sm bg-teal-600 px-3 py-2 text-center text-xs font-bold shadow-lg">
+      class="absolute -top-6 right-4 z-10 rounded-sm bg-teal-600 px-3 py-2 text-center text-xs font-bold text-gray-100 shadow-lg">
       {{ anime.type | titlecase }}
     </div>
     <h5
-      class="line-clamp-1 overflow-hidden text-ellipsis text-start text-sm font-semibold leading-7">
+      class="line-clamp-1 overflow-hidden text-ellipsis text-start text-sm font-semibold leading-7 text-white">
       {{ anime.name | titlecase }}
     </h5>
-  </section>
-</div>
+  </footer>
+</article>
