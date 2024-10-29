@@ -153,6 +153,7 @@ export class AddAnimeComponent implements OnInit {
   }
 
   selectEpisodesFromFolder() {
+    if(this._animeForm.get('type').value === 'movie') return;
     this.electronService.selectFilesFromFolder().then(res => {
       if (!!res?.data) {
         if (res.data.length === 0) {

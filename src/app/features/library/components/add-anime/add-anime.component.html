@@ -190,6 +190,8 @@
             type="button"
             class="p-2.5"
             matTooltip="Select episodes from folder"
+            [matTooltipDisabled]="_animeForm.get('type').value === 'movie'"
+            [disabled]="_animeForm.get('type').value === 'movie'"
             (click)="selectEpisodesFromFolder()">
             <ng-icon name="matFolder"></ng-icon>
           </button>
