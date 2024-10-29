@@ -39,6 +39,17 @@ export class AddAnimeComponent implements OnInit {
     'ts',
     'mov',
   ];
+
+  private readonly snackbar = inject(MatSnackBar);
+  private readonly fb = inject(FormBuilder);
+  private readonly electronService = inject(ElectronService);
+  private readonly router = inject(Router);
+  private readonly activeRoute = inject(ActivatedRoute);
+  private readonly createAnimeGql = inject(CreateAnimeGQL);
+  private readonly updateAnimeGql = inject(UpdateAnimeGQL);
+  private readonly renderer = inject(Renderer2);
+  public readonly utilService = inject(UtilsService);
+
   anime = this.activeRoute.snapshot.data.anime;
   _animeForm = this.fb.group({
     uuid: this.fb.control<string | null>(null),
@@ -62,18 +73,7 @@ export class AddAnimeComponent implements OnInit {
   private _episodes = this._animeForm.get('episodes') as FormArray;
   enableScroll: () => void;
 
-  private readonly snackbar = inject(MatSnackBar);
-
-  constructor(
-    private fb: FormBuilder,
-    private electronService: ElectronService,
-    private router: Router,
-    private activeRoute: ActivatedRoute,
-    private createAnimeGql: CreateAnimeGQL,
-    private updateAnimeGql: UpdateAnimeGQL,
-    private renderer: Renderer2,
-    public utilService: UtilsService
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {
     this._animeForm.controls.numOfEpisodes.valueChanges.subscribe(
@@ -153,7 +153,7 @@ export class AddAnimeComponent implements OnInit {
   }
 
   selectEpisodesFromFolder() {
-    if(this._animeForm.get('type').value === 'movie') return;
+    if (this._animeForm.get('type').value === 'movie') return;
     this.electronService.selectFilesFromFolder().then(res => {
       if (!!res?.data) {
         if (res.data.length === 0) {
