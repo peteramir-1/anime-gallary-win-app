@@ -39,6 +39,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { APP_SNACK_BAR_DEFAULT_OPTIONS } from 'src/app/shared/models/app-snackbar.model';
 
 import { VideoPlayerService } from './services/video-player.service';
+import { AddAnimeService } from './services/add-anime.service';
 
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ImageInputModule } from './features/image-input/image-input.module';
@@ -104,6 +105,7 @@ import { SelectModule } from 'src/app/shared/modules/inputs/select/select.module
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: APP_SNACK_BAR_DEFAULT_OPTIONS,
     },
+    AddAnimeService,
   ],
 })
 export class LibraryModule {}

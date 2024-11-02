@@ -22,11 +22,12 @@
   -->
     <form
       [formGroup]="_animeForm"
-      class="flex h-fit max-w-full flex-initial flex-col gap-16">
+      class="flex h-fit max-w-full flex-initial flex-col gap-16"
+      (ngSubmit)="onSave()">
       <section class="flex flex-col gap-2">
         <h1
           class="mb-4 text-4xl font-extrabold leading-none tracking-normal text-gray-900 dark:text-white">
-          {{ !anime ? 'Create A New Anime' : 'Edit an Anime' }}
+          {{ isEditMode ? 'Edit an Anime' : 'Create A New Anime' }}
         </h1>
         <section class="flex h-[35rem] flex-initial flex-row gap-10">
           <section class="flex flex-auto flex-col gap-5">
@@ -74,7 +75,7 @@
                   formControlName="released"
                   name="released">
                   <app-option [value]="null">N/A</app-option>
-                  @for (year of years; track year) {
+                  @for (year of releasedOptions; track year) {
                   <app-option [value]="year">
                     {{ year }}
                   </app-option>
@@ -190,14 +191,15 @@
             type="button"
             class="p-2.5"
             matTooltip="Select episodes from folder"
-            [matTooltipDisabled]="_animeForm.get('type').value === 'movie'"
-            [disabled]="_animeForm.get('type').value === 'movie'"
+            [matTooltipDisabled]="isMovie$ | async"
+            [disabled]="isMovie$ | async"
             (click)="selectEpisodesFromFolder()">
             <ng-icon name="matFolder"></ng-icon>
           </button>
         </header>
         <section class="grid grid-cols-2 gap-5" formArrayName="episodes">
-          @for (num of getEpisodesLength(); track num; let i = $index) {
+          @for (num of _animeForm.controls.episodes.value; track num; let i =
+          $index) {
           <app-form-field
             [for]="'file_input_' + i"
             [label]="'Episode ' + (i + 1)">
@@ -217,15 +219,11 @@
           color="danger"
           shape="outline"
           type="button"
-          [routerLink]="
-            _animeForm.get('uuid').value === null
-              ? ['..']
-              : ['/library', 'details', _animeForm.get('uuid').value]
-          ">
+          (click)="back()">
           Cancel
         </button>
-        <button appButton type="submit" (click)="submit()">
-          {{ !anime ? 'Add' : 'Edit' }}
+        <button appButton type="submit">
+          {{ isEditMode ? 'Edit' : 'Add' }}
         </button>
       </section>
     </form>
