@@ -205,7 +205,7 @@ export class AddAnimeComponent implements OnInit {
 
   /**
    * update episodes inside anime form
-   * 
+   *
    * @param episodes {string[]}
    * @returns {void}
    */
@@ -215,6 +215,19 @@ export class AddAnimeComponent implements OnInit {
     episodes.forEach(episode => {
       this._animeForm.controls.episodes.push(this.fb.control(episode));
     });
+  }
+
+  /**
+   * set all values of episodes to an empty string
+   *
+   * @public
+   * @returns {void}
+   */
+  public clearEpisodes(): void {
+    this._animeForm.controls.episodes.controls.forEach(control => {
+      control.setValue('');
+    });
+    this._animeForm.controls.episodes.markAsDirty();
   }
 
   /**

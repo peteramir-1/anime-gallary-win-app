@@ -20,7 +20,7 @@ import {
   matIncompleteCircle,
   matWbSunny,
   matThunderstorm,
-  matFolder
+  matFolder,
 } from '@ng-icons/material-icons/baseline';
 import { lucideLeaf, lucideFlower2 } from '@ng-icons/lucide';
 import {
@@ -29,6 +29,7 @@ import {
   heroArrowSmallRight,
   heroArrowSmallLeft,
 } from '@ng-icons/heroicons/outline';
+import { heroBackspaceSolid } from '@ng-icons/heroicons/solid';
 import { jamHeartF, jamHeart } from '@ng-icons/jam-icons';
 
 import { CdkScrollableModule, ScrollingModule } from '@angular/cdk/scrolling';
@@ -77,6 +78,7 @@ import { SelectModule } from 'src/app/shared/modules/inputs/select/select.module
       matThunderstorm, // Winter
       lucideLeaf, // Fall/Autumn
       lucideFlower2, // Spring
+      heroBackspaceSolid,
     }),
 
     // CDK and Material Modules
