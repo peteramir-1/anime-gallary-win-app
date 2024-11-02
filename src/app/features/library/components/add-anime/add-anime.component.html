@@ -182,7 +182,7 @@
             <h6
               class="block text-xs text-gray-500 dark:text-gray-300"
               id="file_input_help">
-              MP4, MKV, FLV or MWV.
+              MP4, FLV or MWV.
             </h6>
           </section>
           <button
@@ -203,7 +203,7 @@
             [label]="'Episode ' + (i + 1)">
             <app-filepath-input
               [formControlName]="i"
-              [extensions]="['mp4', 'mkv', 'flv', 'mwv']"
+              [extensions]="['mp4', 'flv', 'mwv']"
               [id]="'file_input_' + i"></app-filepath-input>
           </app-form-field>
           }
