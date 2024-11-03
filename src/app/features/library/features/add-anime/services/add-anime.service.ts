@@ -8,9 +8,9 @@ import {
 import {
   CreatedAnime,
   UpdatedAnime,
-} from '../components/add-anime/add-anime.interface';
+} from '../interfaces/add-anime.interface';
 import { ElectronService } from 'src/app/core/services/electron.service';
-import { episodesExtensions } from '../components/add-anime/add-anime.model';
+import { episodesExtensions } from '../models/add-anime.model';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

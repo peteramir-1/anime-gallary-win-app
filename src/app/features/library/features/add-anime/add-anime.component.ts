@@ -12,10 +12,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Status, Type } from 'src/app/core/services/graphql.service';
-import { AddAnimeService } from '../../services/add-anime.service';
+import { AddAnimeService } from './services/add-anime.service';
 
-import { AnimeForm } from './add-anime.interface';
-import { firstAnimeYear, thumbnailDefault } from './add-anime.model';
+import { AnimeForm } from './interfaces/add-anime.interface';
+import { firstAnimeYear, thumbnailDefault } from './models/add-anime.model';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, map, take, tap } from 'rxjs/operators';

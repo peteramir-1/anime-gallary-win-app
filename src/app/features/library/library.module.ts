@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 
 import { LibraryComponent } from './library.component';
 import { LibHeaderComponent } from './components/lib-header/lib-header.component';
-import { AddAnimeComponent } from './components/add-anime/add-anime.component';
 import { AnimeDetailsComponent } from './components/anime-details/anime-details.component';
 import { AnimeDetailsHeaderComponent } from './components/anime-details/components/anime-details-header/anime-details-header.component';
 import { AnimeDetailsSpecComponent } from './components/anime-details/components/anime-details-spec/anime-details-spec.component';
@@ -20,7 +19,6 @@ import {
   matIncompleteCircle,
   matWbSunny,
   matThunderstorm,
-  matFolder,
 } from '@ng-icons/material-icons/baseline';
 import { lucideLeaf, lucideFlower2 } from '@ng-icons/lucide';
 import {
@@ -29,7 +27,6 @@ import {
   heroArrowSmallRight,
   heroArrowSmallLeft,
 } from '@ng-icons/heroicons/outline';
-import { heroBackspaceSolid } from '@ng-icons/heroicons/solid';
 import { jamHeartF, jamHeart } from '@ng-icons/jam-icons';
 
 import { CdkScrollableModule, ScrollingModule } from '@angular/cdk/scrolling';
@@ -40,17 +37,13 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { APP_SNACK_BAR_DEFAULT_OPTIONS } from 'src/app/shared/models/app-snackbar.model';
 
 import { VideoPlayerService } from './services/video-player.service';
-import { AddAnimeService } from './services/add-anime.service';
 
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ImageInputModule } from './features/image-input/image-input.module';
 import { InputModule } from 'src/app/shared/directives/input/inputs.module';
-import { FilepathInputModule } from 'src/app/shared/modules/inputs/filepath-input/filepath-input.module';
 import { SelectModule } from 'src/app/shared/modules/inputs/select/select.module';
 
 @NgModule({
   declarations: [
-    AddAnimeComponent,
     AnimeWatchComponent,
     AnimeDetailsComponent,
     AnimeDetailsHeaderComponent,
@@ -72,13 +65,11 @@ import { SelectModule } from 'src/app/shared/modules/inputs/select/select.module
       jamHeart, // love outlined
       jamHeartF, // love solid
       matCircle,
-      matFolder,
       matIncompleteCircle,
       matWbSunny, // Summer
       matThunderstorm, // Winter
       lucideLeaf, // Fall/Autumn
       lucideFlower2, // Spring
-      heroBackspaceSolid,
     }),
 
     // CDK and Material Modules
@@ -88,13 +79,9 @@ import { SelectModule } from 'src/app/shared/modules/inputs/select/select.module
     A11yModule,
     CdkScrollableModule,
 
-    // Library Features
-    ImageInputModule,
-
     // Input Modules
     InputModule,
     SelectModule,
-    FilepathInputModule,
 
     // NG Pipes Modules
     NgArrayPipesModule,
@@ -107,7 +94,6 @@ import { SelectModule } from 'src/app/shared/modules/inputs/select/select.module
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: APP_SNACK_BAR_DEFAULT_OPTIONS,
     },
-    AddAnimeService,
   ],
 })
 export class LibraryModule {}
