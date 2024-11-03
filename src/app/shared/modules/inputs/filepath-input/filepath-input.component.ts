@@ -86,4 +86,8 @@ export class FilepathInputComponent implements ControlValueAccessor {
         }
       });
   }
+
+  clear(): void {
+    this.onChange('');
+  }
 }

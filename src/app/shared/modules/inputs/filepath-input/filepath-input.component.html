@@ -10,3 +10,9 @@
   class="flex-auto bg-clip-padding p-2 input-custom-transition custom-input-bg-default custom-input-text-default dark:custom-input-bg-dark dark:custom-input-text-dark"
   [(ngModel)]="value"
   readonly />
+<button
+  class="flex-initial bg-red-600 bg-clip-padding px-2 leading-[0.5em] text-white"
+  type="button"
+  (click)="clear()">
+  <ng-icon name="heroXMark" size="1.25em"></ng-icon>
+</button>
