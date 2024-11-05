@@ -15,6 +15,7 @@ import { WidgetContainerModule } from './shared/directives/widget-container/widg
 import { ScrollableModule } from './shared/directives/scrollable/scrollable.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ButtonModule } from './shared/directives/button/button.module';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 @NgModule({
   declarations: [AppComponent, SidenavComponent, LayoutComponent],
@@ -35,6 +36,7 @@ import { ButtonModule } from './shared/directives/button/button.module';
     ScrollableModule,
     WidgetContainerModule,
     ButtonModule,
+    NgxUiLoaderModule,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],
