@@ -52,7 +52,7 @@ export class AnimeViewerComponent implements OnInit {
   }
 
   selectAnimeFolder(): void {
-    this.electronService.selectFolder().then((path: string | false) => {
+    this.electronService.selectFolder().subscribe((path: string | false) => {
       if (!path || path === '') return;
       this.animesFolder.setValue(path);
     });

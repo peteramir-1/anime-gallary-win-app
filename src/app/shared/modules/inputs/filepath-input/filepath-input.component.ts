@@ -78,7 +78,7 @@ export class FilepathInputComponent implements ControlValueAccessor {
   selectFile(): void {
     this.electronService
       .selectFile(this.extensions)
-      .then((path: string | undefined) => {
+      .subscribe((path: string | undefined) => {
         if (!path) return;
         else {
           this.value = path;

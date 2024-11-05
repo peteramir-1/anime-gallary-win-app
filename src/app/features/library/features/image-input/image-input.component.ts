@@ -80,16 +80,13 @@ export class ImageInputComponent implements ControlValueAccessor {
   selectPictureFromDialog(event: Event): void {
     if ((event.target as HTMLElement).tagName === 'INPUT') return;
 
-    this._windowFreeze();
-
     this.electronService
       .selectFile(this.allowedFileExtension)
-      .then((path: string | false) => {
+      .subscribe((path: string | false) => {
         if (!path) return;
         const validPath = this.utilsService.convertPathToValidPath(path);
         this.setValue(validPath);
-      })
-      .finally(() => this._windowRestore());
+      });
   }
 
   /**
