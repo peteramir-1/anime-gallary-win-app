@@ -10,6 +10,7 @@ import {
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, tap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { OrderByPipe } from 'ngx-pipes';
 
 type SEASONS = 'summer' | 'autumn' | 'winter' | 'spring' | null;
 type STATUS = 'complete' | 'incomplete' | null;
@@ -18,11 +19,14 @@ type STATUS = 'complete' | 'incomplete' | null;
   selector: 'app-lib-header',
   templateUrl: './lib-header.component.html',
   styleUrl: './lib-header.component.scss',
+  providers: [OrderByPipe],
   host: {
     class: 'flex content-stretch items-center gap-5 min-h-12',
   },
 })
 export class LibHeaderComponent implements OnInit {
+  private readonly orderByPipe = inject(OrderByPipe);
+
   @Input({ required: true }) readonly animes = [];
   @Output() onFiltering = new EventEmitter<any[]>();
   @Output() onSearchByName = new EventEmitter<string>();
@@ -31,11 +35,13 @@ export class LibHeaderComponent implements OnInit {
   releaseDateControl: string = null;
   seasonControl: SEASONS = null;
   statusControl: STATUS = null;
+  orderByControl: string = null;
 
   readonly likedFilter = new BehaviorSubject<boolean>(false);
   readonly statusFilter = new BehaviorSubject<STATUS>(null);
   readonly seasonFilter = new BehaviorSubject<SEASONS>(null);
   readonly releaseDateFilter = new BehaviorSubject<string | null>(null);
+  readonly orderBy = new BehaviorSubject<string | null>(null);
 
   readonly years: string[] = Array.from(
     { length: new Date().getFullYear() - 1917 },
@@ -50,6 +56,7 @@ export class LibHeaderComponent implements OnInit {
       this.likedFilter,
       this.seasonFilter,
       this.releaseDateFilter,
+      this.orderBy,
     ])
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -57,29 +64,32 @@ export class LibHeaderComponent implements OnInit {
           (previous, current) =>
             JSON.stringify(previous) === JSON.stringify(current)
         ),
-        tap(([statusFilter, likedFilter, seasonFilter, releaseDateFilter]) => {
+        tap(([statusFilter, likedFilter, seasonFilter, releaseDateFilter, orderBy]) => {
           if (this.animes.length === 0) {
             this.onFiltering.emit([]);
             return;
           }
           this.onFiltering.emit(
-            this.animes
-              .filter(anime => {
-                if (!likedFilter) return true;
-                else return anime.liked === true;
-              })
-              .filter(anime => {
-                if (statusFilter === null) return true;
-                else return anime.status === statusFilter;
-              })
-              .filter(anime => {
-                if (seasonFilter === null) return true;
-                else return anime.season === seasonFilter;
-              })
-              .filter(anime => {
-                if (releaseDateFilter === null) return true;
-                else return anime.released === releaseDateFilter;
-              })
+            this.orderByPipe.transform(
+              this.animes
+                .filter(anime => {
+                  if (!likedFilter) return true;
+                  else return anime.liked === true;
+                })
+                .filter(anime => {
+                  if (statusFilter === null) return true;
+                  else return anime.status === statusFilter;
+                })
+                .filter(anime => {
+                  if (seasonFilter === null) return true;
+                  else return anime.season === seasonFilter;
+                })
+                .filter(anime => {
+                  if (releaseDateFilter === null) return true;
+                  else return anime.released === releaseDateFilter;
+                }),
+              [orderBy ?? 'id', 'id']
+            )
           );
         })
       )
@@ -129,6 +139,14 @@ export class LibHeaderComponent implements OnInit {
    */
   setReleaseDateFilter(releaseDate: string): void {
     this.releaseDateFilter.next(releaseDate);
+  }
+
+  /**
+   * sets all animes sorting by
+   * @param releaseDate anime release date
+   */
+  setOrderBy(orderBy: string): void {
+    this.orderBy.next(orderBy);
   }
 
   /**
