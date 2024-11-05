@@ -46,12 +46,9 @@
     </header>
     @if ((animes | async)?.length !== 0) {
     <article>
-      <article class="-m-4 flex flex-wrap gap-y-9">
+      <article class="mx-auto grid w-fit grid-cols-5 gap-6">
         @for (anime of (animes | async)?.d; track anime) {
-        <app-anime-card
-          [anime]="anime"
-          [navigatable]="true"
-          class="md:1/2 w-full p-4 sm:w-1/2 lg:w-1/3 xl:w-1/4"></app-anime-card>
+        <app-anime-card [anime]="anime" [navigatable]="true"></app-anime-card>
         }
       </article>
     </article>
