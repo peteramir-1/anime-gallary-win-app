@@ -19,23 +19,23 @@
 </article>
 
 <article class="flex flex-auto flex-col gap-7">
-  <header class="mb-2 flex flex-initial flex-row flex-wrap items-center gap-5">
+  <header class="mb-2 flex items-center gap-5">
     <h2
+      class="flex-initial cursor-pointer text-2xl font-bold leading-relaxed tracking-wide text-neutral-900 dark:text-white"
       matTooltip="Click to Copy"
       matTooltipPosition="below"
-      (click)="copyAnimeName()"
-      class="flex-1 cursor-pointer text-2xl font-bold leading-relaxed tracking-wide text-neutral-900 dark:text-white">
+      (click)="copyAnimeName()">
       {{ anime?.name | titlecase }}
     </h2>
     @if (!anime?.liked) {
     <ng-icon
-      class="cursor-pointer text-red-600"
+      class="flex-initial cursor-pointer text-red-600"
       size="1.75rem"
       name="jamHeart"
       (click)="likeAnime()"></ng-icon>
     } @if (anime?.liked) {
     <ng-icon
-      class="cursor-pointer text-red-600"
+      class="flex-initial cursor-pointer text-red-600"
       size="1.75rem"
       name="jamHeartF"
       (click)="unlikeAnime()"></ng-icon>
