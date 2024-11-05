@@ -17,7 +17,12 @@
     </div>
     <h5
       class="line-clamp-1 overflow-hidden text-ellipsis text-start text-xs font-semibold leading-7 text-white">
-      {{ anime.name | titlecase }}
+      <span
+        matTooltipPosition="above"
+        matTooltip="{{ anime.name }}"
+        matTooltipDisabled="{{ anime.name.length < 25 }}">
+        {{ anime.name | titlecase }}
+      </span>
     </h5>
   </footer>
 </article>
