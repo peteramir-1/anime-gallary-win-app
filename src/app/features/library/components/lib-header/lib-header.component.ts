@@ -8,9 +8,10 @@ import {
   inject,
 } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { distinctUntilChanged, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrderByPipe } from 'ngx-pipes';
+import { FormControl } from '@angular/forms';
 
 type SEASONS = 'summer' | 'autumn' | 'winter' | 'spring' | null;
 type STATUS = 'complete' | 'incomplete' | null;
@@ -31,7 +32,7 @@ export class LibHeaderComponent implements OnInit {
   @Output() onFiltering = new EventEmitter<any[]>();
   @Output() onSearchByName = new EventEmitter<string>();
 
-  searchResult = '';
+  searchResultControl = new FormControl<string>('');
   releaseDateControl: string = null;
   seasonControl: SEASONS = null;
   statusControl: STATUS = null;
@@ -64,36 +65,48 @@ export class LibHeaderComponent implements OnInit {
           (previous, current) =>
             JSON.stringify(previous) === JSON.stringify(current)
         ),
-        tap(([statusFilter, likedFilter, seasonFilter, releaseDateFilter, orderBy]) => {
-          if (this.animes.length === 0) {
-            this.onFiltering.emit([]);
-            return;
+        tap(
+          ([
+            statusFilter,
+            likedFilter,
+            seasonFilter,
+            releaseDateFilter,
+            orderBy,
+          ]) => {
+            if (this.animes.length === 0) {
+              this.onFiltering.emit([]);
+              return;
+            }
+            this.onFiltering.emit(
+              this.orderByPipe.transform(
+                this.animes
+                  .filter(anime => {
+                    if (!likedFilter) return true;
+                    else return anime.liked === true;
+                  })
+                  .filter(anime => {
+                    if (statusFilter === null) return true;
+                    else return anime.status === statusFilter;
+                  })
+                  .filter(anime => {
+                    if (seasonFilter === null) return true;
+                    else return anime.season === seasonFilter;
+                  })
+                  .filter(anime => {
+                    if (releaseDateFilter === null) return true;
+                    else return anime.released === releaseDateFilter;
+                  }),
+                [orderBy ?? 'id', 'id']
+              )
+            );
           }
-          this.onFiltering.emit(
-            this.orderByPipe.transform(
-              this.animes
-                .filter(anime => {
-                  if (!likedFilter) return true;
-                  else return anime.liked === true;
-                })
-                .filter(anime => {
-                  if (statusFilter === null) return true;
-                  else return anime.status === statusFilter;
-                })
-                .filter(anime => {
-                  if (seasonFilter === null) return true;
-                  else return anime.season === seasonFilter;
-                })
-                .filter(anime => {
-                  if (releaseDateFilter === null) return true;
-                  else return anime.released === releaseDateFilter;
-                }),
-              [orderBy ?? 'id', 'id']
-            )
-          );
-        })
+        )
       )
       .subscribe();
+
+    this.searchResultControl.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(searchResult => this.searchByName(searchResult));
   }
 
   /**

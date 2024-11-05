@@ -9,9 +9,7 @@
     name="search"
     class="!p-3"
     placeholder="Search Example: Demon Slayer"
-    [(ngModel)]="searchResult"
-    [ngModelOptions]="{ standalone: true }"
-    (ngModelChange)="searchByName($event)"
+    [formControl]="searchResultControl"
     appInput />
 </section>
 <section class="grid grid-cols-10 gap-x-2">
