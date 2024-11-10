@@ -90,6 +90,7 @@ typings/
 
 # Electron-Forge
 out/
+anime-gallery-electron/app/
 
 # Angular
 .angular
