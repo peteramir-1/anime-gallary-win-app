@@ -3,8 +3,10 @@ import * as customElectronTitleBar from 'custom-electron-titlebar/main';
 import * as path from 'path';
 import * as handlers from './handlers';
 
-// Express servers imports
-import * as app from './servers/frontend/app';
+import { ApplicationServer } from './server/app';
+import * as env from './server/environment';
+
+const applicationServer = new ApplicationServer();
 
 // Electron titlebar
 customElectronTitleBar.setupTitlebar();
@@ -25,19 +27,19 @@ const createWindow = () => {
   mainWindow.maximize();
   mainWindow.setResizable(false);
   mainWindow.setMovable(false);
-  mainWindow.addListener('will-move', (event) => {
+  mainWindow.addListener('will-move', event => {
     event.preventDefault();
-  })
+  });
   mainWindow.addListener('move', () => {
-    mainWindow.maximize()
-  })
+    mainWindow.maximize();
+  });
   mainWindow.addListener('moved', () => {
-    mainWindow.maximize()
-  })
+    mainWindow.maximize();
+  });
   setTimeout(() => {
     mainWindow.focus();
   }, 1000);
-  mainWindow.loadURL(`http://localhost:${app.PORT}/`);
+  mainWindow.loadURL(`http://localhost:${env.severPort}/`);
   return mainWindow;
 };
 
@@ -53,7 +55,7 @@ electron.app.on('ready', () => {
     'selectFilesFromFolder',
     handlers.selectFilesFromFolder
   );
-  app.startFrontendServer(() => {
+  applicationServer.start().then(() => {
     const mainWindow = createWindow();
     electron.globalShortcut.register('Control+R', () => {
       mainWindow.reload();
@@ -62,8 +64,9 @@ electron.app.on('ready', () => {
       mainWindow.webContents.openDevTools();
     });
     electron.globalShortcut.register('Alt+F4', () => {
-      (0, app.closeFrontendServer)();
-      electron.app.quit();
+      applicationServer.stop().then(() => {
+        electron.app.quit();
+      });
     });
   });
 });
@@ -73,8 +76,9 @@ electron.app.on('ready', () => {
 // explicitly with Cmd + Q.
 electron.app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.closeFrontendServer();
-    electron.app.quit();
+    applicationServer.stop().then(() => {
+      electron.app.quit();
+    });
   }
 });
 
