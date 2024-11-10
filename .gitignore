@@ -98,6 +98,7 @@ views/
 
 # vscode
 .vscode/
+*.code-workspace
 
 # Database files
 *.sqlite
