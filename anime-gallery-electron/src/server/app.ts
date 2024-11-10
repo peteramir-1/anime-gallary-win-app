@@ -3,81 +3,136 @@ import * as http from 'http';
 import * as cors from 'cors';
 import * as path from 'path';
 
-import { ApolloServer } from '@apollo/server';
+import * as _ from 'lodash';
+
+import { APPLICATION_SERVER, TContext } from './app.interfaces';
+
+import { ApolloServer, ContextFunction } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { expressMiddleware } from '@apollo/server/express4';
 
-import * as DBModel from './database/models/db.model';
-import { createDbConnection } from './database/helpers/database';
-
-import { getResolvers } from './schema/resolvers';
-import { animeTypeDefs } from './schema/types/anime-types';
-import { settingsTypeDefs } from './schema/types/settings-types';
-
-import { AnimesController } from './database/controllers/animes/animes-controller';
-import { SettingsController } from './database/controllers/settings/settings-controller';
+import {
+  animesDatabaseFilename,
+  appDatabaseDirectoryPath,
+  settingsDatabaseFilename,
+} from './config/db';
+import { createDbConnection } from './graphql/helpers/database';
 
 import { blockDevices } from 'systeminformation';
 
 import servingFilesRoutes from './routes/serving-files';
 
-import * as env from './environment';
+import * as env from './config/env';
+import Database from 'better-sqlite3';
 
-export class ApplicationServer {
-  private readonly app = express();
-  private readonly httpServer = http.createServer(this.app);
+import { animesTypeDefs } from './graphql/schema/animes/animes.typeDefs';
+import { settingsTypeDefs } from './graphql/schema/settings/settings.typeDefs';
+import { AnimesDbModel } from './graphql/models/animes/animesModel';
+import { SettingsDbModel } from './graphql/models/settings/settingsModel';
+import { animeViewerTypeDefs } from './graphql/schema/anime-viewer/anime-viewer.typeDefs';
+import { animeResolver } from './graphql/schema/animes/animes.resolver';
+import { settingsResolver } from './graphql/schema/settings/settings.resolver';
+import { animeViewerResolver } from './graphql/schema/anime-viewer/anime-viewer.resolver';
 
-  private apolloServer?: ApolloServer;
+interface StandaloneServerContextFunctionArgument {
+  req: http.IncomingMessage;
+  res: http.ServerResponse;
+}
 
-  async start(): Promise<void> {
-    const animeDatabaseConnection = await createDbConnection(
-      DBModel.appDatabaseDirectoryPath,
-      DBModel.animeDatabaseFilename
+type DatabaseConnections = { [databaseName: string]: Database.Database };
+
+export class ApplicationServer implements APPLICATION_SERVER {
+  private readonly app: express.Express = express();
+  private readonly httpServer: http.Server = http.createServer(this.app);
+  private apolloServer?: ApolloServer<TContext>;
+  private databasesConnections: DatabaseConnections = {};
+
+  async start(): Promise<http.Server> {
+    await this.createDatabaseConnections();
+    await this.createApolloServer();
+    await this.apolloServer?.start();
+    await this.registerAllRequiredFiles();
+    this.addRoutes();
+
+    return this.httpServer.listen({ port: env.severPort }, () => {
+      console.log(`🚀 Server ready at http://localhost:${env.severPort}`);
+    });
+  }
+
+  private async createDatabaseConnections(): Promise<DatabaseConnections> {
+    this.databasesConnections.animes = await createDbConnection(
+      appDatabaseDirectoryPath,
+      animesDatabaseFilename
     );
 
-    const settingsDatabaseConnection = await createDbConnection(
-      DBModel.appDatabaseDirectoryPath,
-      DBModel.settingsDatabaseFilename
+    this.databasesConnections.settings = await createDbConnection(
+      appDatabaseDirectoryPath,
+      settingsDatabaseFilename
     );
 
-    const animesController = new AnimesController(animeDatabaseConnection);
-    const settingsController = new SettingsController(
-      settingsDatabaseConnection
-    );
+    return {
+      animesDbConnection: this.databasesConnections.animes,
+      settingsDbConnection: this.databasesConnections.settings,
+    };
+  }
 
-    const resolvers = getResolvers(animesController, settingsController);
-    const typeDefs = [animeTypeDefs, settingsTypeDefs];
+  private async createApolloServer(): Promise<void> {
+    const typeDefs = [animesTypeDefs, settingsTypeDefs, animeViewerTypeDefs];
+    const resolvers = _.merge({}, animeResolver, settingsResolver, animeViewerResolver);
 
-    this.apolloServer = new ApolloServer({
+    this.apolloServer = new ApolloServer<TContext>({
       typeDefs,
       resolvers,
       plugins: [
         ApolloServerPluginDrainHttpServer({ httpServer: this.httpServer }),
       ],
     });
+  }
 
-    await this.apolloServer.start();
+  private async registerAllRequiredFiles(): Promise<void> {
+    this.registerSPAFiles();
+    await this.registerDevicePartitionsFiles();
+  }
+  private registerSPAFiles(): void {
+    this.app.use(express.static(path.join(__dirname, '..', 'views')));
+  }
+  private async registerDevicePartitionsFiles(): Promise<void> {
+    const devices = await blockDevices();
+
+    devices
+      // For Security purposes Access to C directory is prohibited
+      .filter(device => !device.mount.startsWith('C'))
+      .forEach(dir => {
+        this.app.use(express.static(path.join(dir.mount)));
+      });
+  }
+
+  private addRoutes(): void {
+    this.addGraphqlRoute();
+    this.registerServePicturesRoutes();
+    this.registerSPARoutes();
+  }
+  private addGraphqlRoute(): void {
+    const context: ContextFunction<
+      [StandaloneServerContextFunctionArgument],
+      TContext
+    > = async () => ({
+      animesDbModel: new AnimesDbModel(this.databasesConnections.animes!),
+      settingsDbModel: new SettingsDbModel(this.databasesConnections.settings!),
+    });
 
     this.app.use(
       '/graphql',
       cors<cors.CorsRequest>({ origin: [`http://localhost:${env.severPort}`] }),
       express.json(),
-      expressMiddleware(this.apolloServer)
+      expressMiddleware(this.apolloServer!, { context })
     );
-
-    this.app.use(express.static(path.join(__dirname, '..', 'views')));
-
-    const devices = await blockDevices();
-
-    devices
-      .filter(device => !device.mount.startsWith('C'))
-      .forEach(dir => {
-        this.app.use(express.static(path.join(dir.mount)));
-      });
-
+  }
+  private registerServePicturesRoutes(): void {
     this.app.use('/serve', servingFilesRoutes);
-
-    this.app.use('/*', (req, res, next) => {
+  }
+  private registerSPARoutes(): void {
+    this.app.use('*', (req, res, next) => {
       const FrontEndPath = path.join(
         __dirname,
         '..',
@@ -87,17 +142,13 @@ export class ApplicationServer {
       );
       res.sendFile(FrontEndPath);
     });
-
-    return new Promise<void>(resolve => {
-      this.httpServer.listen({ port: env.severPort }, resolve);
-    }).then(() => {
-      console.log(`🚀 Server ready at http://localhost:${env.severPort}/`);
-    });
   }
 
-  async stop(): Promise<void> {
+  async close(): Promise<void> {
     if (this.httpServer && this.apolloServer) {
       await this.apolloServer.stop();
+      this.databasesConnections.animes?.close();
+      this.databasesConnections.settings?.close();
       this.httpServer.close(() => {
         console.log('Apollo Server and Express server have been stopped');
       });

@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { servePictures } from '../handlers/serve-pictures';
+import { servePictures } from '../controllers/serve-pictures';
 
 const router = express.Router();
 

@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as handlers from './handlers';
 
 import { ApplicationServer } from './server/app';
-import * as env from './server/environment';
+import { severPort } from './server/config/env';
 
 const applicationServer = new ApplicationServer();
 
@@ -39,7 +39,7 @@ const createWindow = () => {
   setTimeout(() => {
     mainWindow.focus();
   }, 1000);
-  mainWindow.loadURL(`http://localhost:${env.severPort}/`);
+  mainWindow.loadURL(`http://localhost:${severPort}/`);
   return mainWindow;
 };
 
@@ -64,7 +64,7 @@ electron.app.on('ready', () => {
       mainWindow.webContents.openDevTools();
     });
     electron.globalShortcut.register('Alt+F4', () => {
-      applicationServer.stop().then(() => {
+      applicationServer.close().then(() => {
         electron.app.quit();
       });
     });
@@ -76,7 +76,7 @@ electron.app.on('ready', () => {
 // explicitly with Cmd + Q.
 electron.app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    applicationServer.stop().then(() => {
+    applicationServer.close().then(() => {
       electron.app.quit();
     });
   }

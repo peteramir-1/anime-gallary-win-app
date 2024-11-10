@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { v4 } from 'uuid';
 
-interface AnimeFF {
+export interface AnimeFF {
   id: string;
   type: 'serie' | 'movie';
   name: string;

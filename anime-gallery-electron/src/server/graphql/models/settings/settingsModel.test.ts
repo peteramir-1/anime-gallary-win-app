@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals';
-import { SettingsController } from '../settings/settings-controller';
-import { createDbConnection } from '../../../common/utils';
-import { appDatabaseDirectoryPath } from '../../models/db.model';
+import { SettingsController } from './settingsModel';
+import { createDbConnection } from '../../helpers/database';
+import { appDatabaseDirectoryPath } from '../../../config/db';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as BetterSqlite3 from 'better-sqlite3';
@@ -41,14 +41,21 @@ describe('Anime Database Controller', () => {
   });
 
   test('update Settings', () => {
-    settingsController.updateSettings({
-      theme: 'custom-theme-1',
-    });
-    const previousSettings = settingsController.getAllSettings();
-    expect(previousSettings.theme).toBe('custom-theme-1');
-    const currentSettings = settingsController.updateSettings({
-      theme: 'vjs-theme-city',
-    });
-    expect(currentSettings.theme).toBe('vjs-theme-city');
+    settingsController
+      .updateSettings({
+        theme: 'custom-theme-1',
+      })
+      .then(() => {
+        return settingsController.getAllSettings();
+      })
+      .then(previousSettings => {
+        expect(previousSettings.theme).toBe('custom-theme-1');
+        return settingsController.updateSettings({
+          theme: 'vjs-theme-city',
+        });
+      })
+      .then((currentSettings) => {
+        expect(currentSettings.theme).toBe('vjs-theme-city');
+      });
   });
 });

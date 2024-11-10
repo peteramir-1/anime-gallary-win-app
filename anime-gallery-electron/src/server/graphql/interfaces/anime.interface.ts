@@ -1,10 +1,5 @@
-// Helper type
-type NumberFields<T> = {
-  [P in keyof T]: number;
-};
-export type Nullable<T> = {
-  [P in keyof T]: T[P] | null;
-};
+import { Nullable, NumberFields } from "./helpers";
+
 type RequiredField<T, K extends keyof T, Y extends keyof T> = Omit<
   Omit<Nullable<Omit<T, K>> & Required<Pick<T, K>>, BooleanBDAnimeFields>,
   'createdAt' | 'updatedAt'

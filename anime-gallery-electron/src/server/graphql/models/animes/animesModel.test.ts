@@ -1,10 +1,10 @@
 import { expect, test } from '@jest/globals';
-import { createDbConnection } from '../../../common/utils';
-import { appDatabaseDirectoryPath } from '../../models/db.model';
+import { createDbConnection } from '../../helpers/database';
+import { appDatabaseDirectoryPath } from '../../../config/db';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as BetterSqlite3 from 'better-sqlite3';
-import { AnimesController } from './animes-controller';
+import { AnimesController } from './animesModel';
 
 const testAnimeDatabaseFilename = 'anime.test.sqlite';
 const testAnimeDatabaseDir = path.join(
@@ -14,7 +14,10 @@ const testAnimeDatabaseDir = path.join(
 
 describe('Database Connection Functions', () => {
   test('create Database file and folder if not existed', async () => {
-    await createDbConnection(appDatabaseDirectoryPath, testAnimeDatabaseFilename);
+    await createDbConnection(
+      appDatabaseDirectoryPath,
+      testAnimeDatabaseFilename
+    );
     expect(fs.existsSync(testAnimeDatabaseDir)).toBe(true);
   });
 });
@@ -37,8 +40,8 @@ describe('Anime Database Controller', () => {
     expect(animes).toBeTruthy();
   });
 
-  test('Get Anime By Id', () => {
-    const anime = animeController.createAnime({
+  test('Get Anime By Id', async () => {
+    const anime = await animeController.createAnime({
       name: 'test',
       description: 'test',
       numOfEpisodes: 1,
@@ -57,8 +60,8 @@ describe('Anime Database Controller', () => {
     else throw new Error('Not Created');
   });
 
-  test('Create Anime', () => {
-    const anime = animeController.createAnime({
+  test('Create Anime', async () => {
+    const anime = await animeController.createAnime({
       name: 'test',
       description: 'test',
       numOfEpisodes: 1,
@@ -98,9 +101,9 @@ describe('Anime Database Controller', () => {
     else throw new Error('Not Created');
   });
 
-  test('Update Anime', () => {
+  test('Update Anime', async () => {
     const updatedAt = new Date().toLocaleDateString('en-CA');
-    const anime = animeController.createAnime({
+    const anime = await animeController.createAnime({
       name: 'test',
       description: 'test',
       numOfEpisodes: 1,
@@ -162,8 +165,8 @@ describe('Anime Database Controller', () => {
     } else throw new Error('Not Created');
   });
 
-  test('Delete Anime', () => {
-    const anime = animeController.createAnime({
+  test('Delete Anime', async () => {
+    const anime = await animeController.createAnime({
       name: 'test',
       description: 'test',
       numOfEpisodes: 1,

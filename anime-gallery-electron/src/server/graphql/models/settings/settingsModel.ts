@@ -6,7 +6,7 @@ import {
 import * as statements from './settings-sql';
 import { GraphQLError } from 'graphql';
 
-export class SettingsController {
+export class SettingsDbModel {
   private booleanFields = [
     'darkMode',
     'enableMute',

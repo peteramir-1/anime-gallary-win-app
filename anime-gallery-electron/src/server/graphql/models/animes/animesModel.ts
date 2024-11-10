@@ -1,26 +1,26 @@
 import { Database } from 'better-sqlite3';
-import * as statusments from './animes-sql';
+import * as statements from '../../models/animes/animes-sql';
 import { v4 } from 'uuid';
 import {
   Anime,
   DBAnime,
   DBEpisode,
   Episode,
-  Nullable,
 } from '../../interfaces/anime.interface';
 import { GraphQLError } from 'graphql';
+import { Nullable } from '../../interfaces/helpers';
 
-export class AnimesController {
+export class AnimesDbModel {
   constructor(private DatabaseConnection: Database) {
     this.prepareDB();
   }
 
   private prepareDB(): void {
     this.DatabaseConnection.prepare(
-      statusments.CREATE_ANIME_TABLE_IF_NOT_EXISTED
+      statements.CREATE_ANIME_TABLE_IF_NOT_EXISTED
     ).run();
     this.DatabaseConnection.prepare(
-      statusments.CREATE_ANIME_EPISODES_TABLE_IF_NOT_EXISTED
+      statements.CREATE_ANIME_EPISODES_TABLE_IF_NOT_EXISTED
     ).run();
     this.DatabaseConnection.pragma('journal_mode = WAL');
   }
@@ -31,7 +31,7 @@ export class AnimesController {
       try {
         const animesWithoutEpisodes: DBAnime[] =
           this.DatabaseConnection.prepare(
-            statusments.GET_ANIMES
+            statements.GET_ANIMES
           ).all() as DBAnime[];
         const episodesRecords = this.groupByProperty(
           episodes,
@@ -73,7 +73,7 @@ export class AnimesController {
     return new Promise<DBEpisode[]>((resolve, reject) => {
       try {
         const animeEpisodes = this.DatabaseConnection.prepare(
-          statusments.GET_ANIME_EPISODES
+          statements.GET_ANIME_EPISODES
         ).all() as DBEpisode[];
         resolve(animeEpisodes);
       } catch (error) {
@@ -115,7 +115,7 @@ export class AnimesController {
     return new Promise<Anime>((resolve, reject) => {
       try {
         const anime: DBAnime = this.DatabaseConnection.prepare(
-          statusments.GET_ANIME_BY_ID
+          statements.GET_ANIME_BY_ID
         ).get({ id }) as DBAnime;
         const targetedAnime = {
           ...anime,
@@ -139,7 +139,7 @@ export class AnimesController {
     return new Promise<string[]>((resolve, reject) => {
       try {
         const animeEpisodes = this.DatabaseConnection.prepare(
-          statusments.GET_ANIME_EPISODES_BY_ANIME_ID
+          statements.GET_ANIME_EPISODES_BY_ANIME_ID
         ).all(id) as DBEpisode[];
         resolve(animeEpisodes.map((episode: DBEpisode) => episode.link));
       } catch (error) {
@@ -178,7 +178,7 @@ export class AnimesController {
           liked: anime.liked === undefined ? 0 : Number(anime.liked),
           createdAt: createdAt,
         };
-        this.DatabaseConnection.prepare(statusments.INSERT_ANIME_DETAILS).run(
+        this.DatabaseConnection.prepare(statements.INSERT_ANIME_DETAILS).run(
           DBAnime
         );
 
@@ -236,13 +236,13 @@ export class AnimesController {
           updatedAt,
           id: updatedAnime.id,
         };
-        this.DatabaseConnection.prepare(statusments.UPDATE_ANIME_BY_ID).run(
+        this.DatabaseConnection.prepare(statements.UPDATE_ANIME_BY_ID).run(
           DBAnime
         );
 
         if (updatedAnime.episodes) {
           this.DatabaseConnection.prepare(
-            statusments.DELETE_ANIME_EPISODES_BY_ID
+            statements.DELETE_ANIME_EPISODES_BY_ID
           ).run({ id: updatedAnime.id });
           if (updatedAnime.type === 'movie') {
             this.insertAnimeEpisodesTransaction(updatedAnime.id, [
@@ -286,7 +286,7 @@ export class AnimesController {
   private insertAnimeEpisodesTransaction = this.DatabaseConnection.transaction(
     (id: string, episodes: Episode[]) => {
       for (const link of episodes) {
-        this.DatabaseConnection.prepare(statusments.INSERT_ANIME_EPISODES).run({
+        this.DatabaseConnection.prepare(statements.INSERT_ANIME_EPISODES).run({
           anime_id: id,
           link,
         });
@@ -298,7 +298,7 @@ export class AnimesController {
     return new Promise<number>((resolve, reject) => {
       try {
         const deletionOperation = this.DatabaseConnection.prepare(
-          statusments.DELETE_ANIME_BY_ID
+          statements.DELETE_ANIME_BY_ID
         ).run({
           id,
         });
