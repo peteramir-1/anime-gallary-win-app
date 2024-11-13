@@ -11,20 +11,20 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$anime-gallery-frontend-primary: mat.define-palette(mat.$blue-palette);
-$anime-gallery-frontend-accent: mat.define-palette(
-  mat.$teal-palette,
+$anime-gallery-frontend-primary: mat.m2-define-palette(mat.$m2-blue-palette);
+$anime-gallery-frontend-accent: mat.m2-define-palette(
+  mat.$m2-teal-palette,
   A200,
   A100,
   A400
 );
 
 // The warn palette is optional (defaults to red).
-$anime-gallery-frontend-warn: mat.define-palette(mat.$red-palette);
+$anime-gallery-frontend-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$anime-gallery-frontend-theme: mat.define-light-theme(
+$anime-gallery-frontend-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $anime-gallery-frontend-primary,
@@ -32,7 +32,7 @@ $anime-gallery-frontend-theme: mat.define-light-theme(
       warn: $anime-gallery-frontend-warn,
     ),
     typography:
-      mat.define-typography-config(
+      mat.m2-define-typography-config(
         $font-family: theme('fontFamily.roboto'),
       ),
     density: 0,
