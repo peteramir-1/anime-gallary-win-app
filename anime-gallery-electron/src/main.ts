@@ -1,6 +1,6 @@
-import * as electron from 'electron';
-import * as customElectronTitleBar from 'custom-electron-titlebar/main';
-import * as path from 'path';
+import electron from 'electron';
+import { setupTitlebar} from 'custom-electron-titlebar/main';
+import path from 'path';
 import * as handlers from './handlers';
 
 import { ApplicationServer } from './server/app';
@@ -9,7 +9,7 @@ import { severPort } from './server/config/env';
 const applicationServer = new ApplicationServer();
 
 // Electron titlebar
-customElectronTitleBar.setupTitlebar();
+setupTitlebar();
 electron.Menu?.setApplicationMenu(null);
 
 const createWindow = () => {

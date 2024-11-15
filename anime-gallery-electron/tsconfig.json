@@ -1,21 +1,26 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "es6",
-    "module": "commonjs",
-    "lib": ["esnext", "DOM"],
-    "strict": true,
-    "sourceMap": true,
-    "declaration": true,
-    "declarationDir": "./app/typings",
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "outDir": "./app",
-    "typeRoots": ["./node_modules/@types"]
+    "target": "ES6", // Transpile TypeScript to ECMAScript 6
+    "module": "commonjs", // Use CommonJS module system (for Node.js)
+    "outDir": "./app", // Output compiled JavaScript files to the "app" folder
+    "rootDir": "./src", // Specifies the root directory of TypeScript source files
+    "strict": true, // Enable all strict type-checking options
+    "esModuleInterop": true, // Enable compatibility for importing non-ES module packages
+    "skipLibCheck": true, // Skip type checking of declaration files (faster compilation)
+    "forceConsistentCasingInFileNames": true, // Enforces consistent casing for file names (helps avoid issues on case-sensitive file systems)
+    "resolveJsonModule": true, // Allow importing .json files as modules
+    "moduleResolution": "node", // Use Node.js module resolution strategy
+    "lib": ["es6", "dom"], // Include ES6 and DOM libraries (required for Electron's renderer process)
+    "noImplicitAny": true, // Ensure no variables are implicitly typed as "any"
+    "noUnusedLocals": true, // Raise error on unused local variables
+    "noUnusedParameters": true, // Raise error on unused function parameters
+    "strictNullChecks": true // Enable strict null checks (null/undefined are only allowed in specific cases)
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modues", "src/**/*.test.ts"]
+  "include": [
+    "src/**/*.ts" // Include all TypeScript files in the src folder
+  ],
+  "exclude": [
+    "src/**/*.spec.ts", // Exclude test files
+    "src/**/*.test.ts", // Exclude test files
+  ]
 }
