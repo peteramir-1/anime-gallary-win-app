@@ -1,5 +1,5 @@
 import { GraphQLError } from 'graphql';
-import { AnimeViewrModel } from '../../models/anime-viewer/anime-viewer.model';
+import { AnimeViewerModel } from '../../models/anime-viewer/anime-viewer.model';
 
 export const animeViewerResolver = {
   Query: {
@@ -8,7 +8,7 @@ export const animeViewerResolver = {
       { mainFolderPath }: { mainFolderPath: string }
     ) => {
       try {
-        const animeViewerModel = new AnimeViewrModel(mainFolderPath);
+        const animeViewerModel = new AnimeViewerModel(mainFolderPath);
         await animeViewerModel.readMainFolder();
         return animeViewerModel.animes;
       } catch (error) {

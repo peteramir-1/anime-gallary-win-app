@@ -2,9 +2,9 @@ import { expect, test } from '@jest/globals';
 import { SettingsController } from './settingsModel';
 import { createDbConnection } from '../../helpers/database';
 import { appDatabaseDirectoryPath } from '../../../config/db';
-import * as path from 'path';
-import * as fs from 'fs';
-import * as BetterSqlite3 from 'better-sqlite3';
+import path from 'path';
+import fs from 'fs';
+import BetterSqlite3 from 'better-sqlite3';
 
 const testSettingsDatabaseFilename = 'settings-test.sqlite';
 const testDatabaseFilePath = path.join(

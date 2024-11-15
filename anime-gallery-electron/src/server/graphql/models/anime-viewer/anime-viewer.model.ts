@@ -1,8 +1,8 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 import { v4 } from 'uuid';
 import { GraphQLError } from 'graphql';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { readDirectoriesRecursively } from '../../helpers/models';
 
 /**

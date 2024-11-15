@@ -1,6 +1,5 @@
-import * as express from 'express';
+import express, { Router } from 'express';
 import { servePictures } from '../controllers/serve-pictures';
-import { Router } from 'express';
 
 const router: Router = express.Router();
 

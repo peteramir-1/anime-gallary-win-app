@@ -2,7 +2,7 @@ import * as electron from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
 
-export const selectFolder = async (events: any, args: any) => {
+export const selectFolder = async (_: any, __: any) => {
   const { canceled, filePaths } = await electron.dialog.showOpenDialog({
     properties: ['openDirectory'],
   });
@@ -12,7 +12,7 @@ export const selectFolder = async (events: any, args: any) => {
 };
 
 export const selectFile = async (
-  events: electron.IpcMainInvokeEvent,
+  _: electron.IpcMainInvokeEvent,
   extensions: any
 ) => {
   const { canceled, filePaths } = await electron.dialog.showOpenDialog({
@@ -28,8 +28,8 @@ export const selectFile = async (
 };
 
 export const selectFilesFromFolder = async (
-  events: electron.IpcMainInvokeEvent,
-  args: any
+  _: electron.IpcMainInvokeEvent,
+  __: any
 ) => {
   const { canceled, filePaths } = await electron.dialog.showOpenDialog({
     properties: ['openDirectory'],
