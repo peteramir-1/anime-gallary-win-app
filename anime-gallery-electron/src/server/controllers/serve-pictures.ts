@@ -18,25 +18,40 @@ const mime: { [string: string]: string } = {
  * @throws 404 if the file does not exist
  */
 export const servePictures = (req: any, res: any) => {
-  if (req.query.path) {
-    try {
-        const file = path.join(req.query.path);
-        const extension = path.extname(file).slice(1);
-        if (!Object.keys(mime).includes(extension)) {
-            return res.status(403).end('Forbidden');
-        }
-        const type = mime[extension];
-        const s = fs.createReadStream(file);
-        s.on('open', () => {
-          res.set('Content-Type', type);
-          s.pipe(res);
-        });
-        s.on('error', () => {
-          res.set('Content-Type', 'text/plain');
-          res.status(404).end('Not found');
-        });
-    } catch {
-        res.status(400).end('file path cannot been processed');
-    }
+  const filePath = req.query.path;
+
+  // Check if path query parameter exists
+  if (!filePath) {
+    return res.status(400).send('File path is required');
   }
+
+  // Resolve the file path and ensure it's an absolute path
+  const resolvedPath = path.resolve(filePath);
+
+  // Check if the file exists and is within the allowed directory
+  fs.stat(resolvedPath, (err, stats) => {
+    if (err || !stats.isFile()) {
+      return res.status(404).send('File not found');
+    }
+
+    // Get the file extension and validate it
+    const extension = path.extname(resolvedPath).slice(1).toLowerCase();
+    const mimeType = mime[extension];
+
+    if (!mimeType) {
+      return res.status(415).send('Unsupported media type');
+    }
+
+    // Create a stream and pipe it to the response
+    const fileStream = fs.createReadStream(resolvedPath);
+    
+    fileStream.on('open', () => {
+      res.set('Content-Type', mimeType);
+      fileStream.pipe(res);
+    });
+
+    fileStream.on('error', () => {
+      res.status(500).send('Error reading the file');
+    });
+  });
 };
