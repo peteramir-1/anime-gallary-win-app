@@ -32,9 +32,9 @@ import { animeResolver } from './graphql/schema/animes/animes.resolver';
 import { settingsResolver } from './graphql/schema/settings/settings.resolver';
 import { animeViewerResolver } from './graphql/schema/anime-viewer/anime-viewer.resolver';
 
-interface StandaloneServerContextFunctionArgument {
-  req: http.IncomingMessage;
-  res: http.ServerResponse;
+interface ExpressContextFunctionArgument {
+  req: express.Request;
+  res: express.Response;
 }
 
 type DatabaseConnections = { [databaseName: string]: Database.Database };
@@ -160,7 +160,7 @@ export class ApplicationServer implements APPLICATION_SERVER {
      * `animesDbModel` and `settingsDbModel` instances.
      */
     const context: ContextFunction<
-      [StandaloneServerContextFunctionArgument],
+      [ExpressContextFunctionArgument],
       TContext
     > = async () => ({
       animesDbModel: new AnimesDbModel(this.databasesConnections.animes!),
