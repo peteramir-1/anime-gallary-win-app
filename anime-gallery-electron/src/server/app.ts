@@ -1,6 +1,6 @@
+import cors from 'cors';
 import express from 'express';
 import http from 'http';
-import cors from 'cors';
 import path from 'path';
 
 import _ from 'lodash';
@@ -8,8 +8,8 @@ import _ from 'lodash';
 import { APPLICATION_SERVER, TContext } from './app.interfaces';
 
 import { ApolloServer, ContextFunction } from '@apollo/server';
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 
 import {
   animesDatabaseFilename,
@@ -20,17 +20,17 @@ import { createDbConnection } from './graphql/helpers/database';
 
 import servingFilesRoutes from './routes/serving-files';
 
-import * as env from './config/env';
 import Database from 'better-sqlite3';
+import * as env from './config/env';
 
-import { animesTypeDefs } from './graphql/schema/animes/animes.typeDefs';
-import { settingsTypeDefs } from './graphql/schema/settings/settings.typeDefs';
 import { AnimesDbModel } from './graphql/models/animes/animesModel';
 import { SettingsDbModel } from './graphql/models/settings/settingsModel';
+import { animeViewerResolver } from './graphql/schema/anime-viewer/anime-viewer.resolver';
 import { animeViewerTypeDefs } from './graphql/schema/anime-viewer/anime-viewer.typeDefs';
 import { animeResolver } from './graphql/schema/animes/animes.resolver';
+import { animesTypeDefs } from './graphql/schema/animes/animes.typeDefs';
 import { settingsResolver } from './graphql/schema/settings/settings.resolver';
-import { animeViewerResolver } from './graphql/schema/anime-viewer/anime-viewer.resolver';
+import { settingsTypeDefs } from './graphql/schema/settings/settings.typeDefs';
 
 interface ExpressContextFunctionArgument {
   req: express.Request;
