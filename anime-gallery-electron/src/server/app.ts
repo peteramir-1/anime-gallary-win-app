@@ -18,8 +18,6 @@ import {
 } from './config/db';
 import { createDbConnection } from './graphql/helpers/database';
 
-import { blockDevices } from 'systeminformation';
-
 import servingFilesRoutes from './routes/serving-files';
 
 import * as env from './config/env';
@@ -51,7 +49,7 @@ export class ApplicationServer implements APPLICATION_SERVER {
     await this.createDatabaseConnections();
     await this.createApolloServer();
     await this.apolloServer?.start();
-    await this.registerAllRequiredFiles();
+    this.registerSPAFiles();
     this.addRoutes();
 
     return this.httpServer.listen({ port: env.severPort }, () => {
@@ -94,22 +92,8 @@ export class ApplicationServer implements APPLICATION_SERVER {
     });
   }
 
-  private async registerAllRequiredFiles(): Promise<void> {
-    this.registerSPAFiles();
-    await this.registerDevicePartitionsFiles();
-  }
   private registerSPAFiles(): void {
     this.app.use(express.static(path.join(__dirname, '..', 'views')));
-  }
-  private async registerDevicePartitionsFiles(): Promise<void> {
-    const devices = await blockDevices();
-
-    devices
-      // For Security purposes Access to C directory is prohibited
-      .filter(device => !device.mount.startsWith('C'))
-      .forEach(dir => {
-        this.app.use(express.static(path.join(dir.mount)));
-      });
   }
 
   private addRoutes(): void {
