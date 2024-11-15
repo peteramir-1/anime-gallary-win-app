@@ -1,88 +1,56 @@
 import path from 'path';
 import fs from 'fs';
+import { RequestHandler } from 'express';
+import { validatePath } from '../helpers/path-vallidation';
 
 // Supported file types
-const mime: { [string: string]: string } = {
-  gif: 'image/gif',
-  jpg: 'image/jpeg',
-  png: 'image/png',
+const picturesMimeTypes: { [string: string]: string } = {
+  '.gif': 'image/gif',
+  '.jpg': 'image/jpeg',
+  '.png': 'image/png',
 };
 
 /**
- * Serves a picture from the given path.
- *
- * The route requires a "path" query parameter with the file path of the
- * picture to be served. The file path is validated by resolving it to an
- * absolute path and normalizing it. The file must exist and be within the
- * allowed directory. The file type must be one of the supported types.
- *
- * @param {Object} req Express.js request object
- * @param {Object} res Express.js response object
- *
- * @throws 400 if the file path cannot be processed
- * @throws 403 if the file type is not supported
- * @throws 404 if the file does not exist
+ * Serves an image based on the provided file path.
+ * Validates the file path and checks if the file exists.
+ * Ensures the file type is supported before sending.
+ * Streams the image file to the response.
+ * 
+ * @param {Object} req - Express.js request object
+ * @param {Object} res - Express.js response object
+ * @throws {Error} if the file does not exist or the media type is unsupported
  */
-export const servePictures = (req: any, res: any) => {
-  const filepath = validateRoute(req, res);
+export const servePicture: RequestHandler = (req, res) => {
+  const filepath = validatePath(req, res);
+  if (typeof filepath === 'object') return;
 
-  // Check if the file exists and is within the allowed directory
+  // Get the file stats
   fs.stat(filepath, (err, stats) => {
+    // Check if the file exists
     if (err || !stats.isFile()) {
-      // File does not exist
       return res.status(404).send('File not found');
     }
 
     // Get the file extension and validate it
-    const extension = path.extname(filepath).slice(1).toLowerCase();
-    const mimeType = mime[extension];
+    const extension = path.extname(filepath).toLowerCase();
 
-    if (!mimeType) {
-      // File type is not supported
+    // Check if the file type is supported
+    if (!picturesMimeTypes[extension]) {
       return res.status(415).send('Unsupported media type');
     }
 
     // Create a stream and pipe it to the response
     const fileStream = fs.createReadStream(filepath);
 
+    // Send the file
     fileStream.on('open', () => {
-      res.set('Content-Type', mimeType);
+      res.set('Content-Type', picturesMimeTypes[extension]);
       fileStream.pipe(res);
     });
 
+    // Handle errors
     fileStream.on('error', () => {
-      // Error reading the file
       res.status(500).send('Error reading the file');
     });
   });
-};
-
-
-/**
- * Validates a given route by resolving the absolute path and normalizing it.
- * Ensures the route does not start with C: and that the file exists.
- * @param {Object} req Express.js request object
- * @param {Object} res Express.js response object
- * @returns {string} normalized path
- * @throws {Error} if the route is invalid
- */
-const validateRoute = (req: any, res: any): string => {
-  // Check if path query parameter exists
-  if (!req.query.path) {
-    return res.status(400).send('File path is required');
-  }
-
-  // Resolve the absolute path
-  const resolvedPath = path.resolve(req.query.path as string);
-
-  // Normalize the path to prevent directory traversal
-  const normalizedPath = path.normalize(resolvedPath);
-
-  // Disallow access to C: drive
-  if (normalizedPath.toLocaleLowerCase().startsWith('c:')) {
-    return res.status(403).send('Access Denied!');
-  }
-
-  // Return the validated and normalized path
-  return normalizedPath;
 };
