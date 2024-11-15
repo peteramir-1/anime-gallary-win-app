@@ -7,6 +7,16 @@ const mime: { [string: string]: string } = {
   png: 'image/png',
 };
 
+/**
+ * Serves a picture from the given path.
+ *
+ * @param {Object} req Express.js request object
+ * @param {Object} res Express.js response object
+ *
+ * @throws 400 if the file path cannot be processed
+ * @throws 403 if the file type is not supported
+ * @throws 404 if the file does not exist
+ */
 export const servePictures = (req: any, res: any) => {
   if (req.query.path) {
     try {
