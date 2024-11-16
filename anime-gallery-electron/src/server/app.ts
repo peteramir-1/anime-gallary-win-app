@@ -1,9 +1,9 @@
-import * as express from 'express';
-import * as http from 'http';
-import * as cors from 'cors';
-import * as path from 'path';
+import express from 'express';
+import http from 'http';
+import cors from 'cors';
+import path from 'path';
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { APPLICATION_SERVER, TContext } from './app.interfaces';
 
@@ -78,7 +78,12 @@ export class ApplicationServer implements APPLICATION_SERVER {
 
   private async createApolloServer(): Promise<void> {
     const typeDefs = [animesTypeDefs, settingsTypeDefs, animeViewerTypeDefs];
-    const resolvers = _.merge({}, animeResolver, settingsResolver, animeViewerResolver);
+    const resolvers = _.merge(
+      {},
+      animeResolver,
+      settingsResolver,
+      animeViewerResolver
+    );
 
     this.apolloServer = new ApolloServer<TContext>({
       typeDefs,
@@ -132,7 +137,7 @@ export class ApplicationServer implements APPLICATION_SERVER {
     this.app.use('/serve', servingFilesRoutes);
   }
   private registerSPARoutes(): void {
-    this.app.use('*', (req, res, next) => {
+    this.app.use('*', (_, res) => {
       const FrontEndPath = path.join(
         __dirname,
         '..',

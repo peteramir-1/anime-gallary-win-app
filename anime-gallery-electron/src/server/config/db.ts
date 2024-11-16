@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import { appPath } from '../config/env';
 
 export const appDatabaseDirectoryPath = path.join(
