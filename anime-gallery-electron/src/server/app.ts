@@ -200,7 +200,6 @@ export class ApplicationServer implements APPLICATION_SERVER {
       const FrontEndPath = path.join(
         __dirname,
         '..',
-        '..',
         'views',
         'index.html'
       );
