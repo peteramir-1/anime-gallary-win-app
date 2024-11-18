@@ -4,7 +4,7 @@ import path from 'path';
 import * as handlers from './handlers';
 
 import { ApplicationServer } from './server/app';
-import { severPort } from './server/config/env';
+import { serverPort } from './server/config/env';
 
 const applicationServer = new ApplicationServer();
 
@@ -39,7 +39,7 @@ const createWindow = () => {
   setTimeout(() => {
     mainWindow.focus();
   }, 1000);
-  mainWindow.loadURL(`http://localhost:${severPort}/`);
+  mainWindow.loadURL(`http://localhost:${serverPort}/`);
   return mainWindow;
 };
 

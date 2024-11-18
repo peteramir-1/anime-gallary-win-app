@@ -57,8 +57,8 @@ export class ApplicationServer implements APPLICATION_SERVER {
     this.registerSPAFiles();
     this.addRoutes();
 
-    return this.httpServer.listen({ port: env.severPort }, () => {
-      console.log(`🚀 Server ready at http://localhost:${env.severPort}`);
+    return this.httpServer.listen({ port: env.serverPort }, () => {
+      console.log(`🚀 Server ready at http://localhost:${env.serverPort}`);
     });
   }
 
@@ -169,7 +169,7 @@ export class ApplicationServer implements APPLICATION_SERVER {
 
     this.app.use(
       '/graphql',
-      cors<cors.CorsRequest>({ origin: [`http://localhost:${env.severPort}`] }),
+      cors<cors.CorsRequest>({ origin: [`http://localhost:${env.serverPort}`] }),
       express.json(),
       expressMiddleware(this.apolloServer!, { context })
     );
