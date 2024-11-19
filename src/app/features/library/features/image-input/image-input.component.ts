@@ -9,7 +9,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ElectronService } from 'src/app/core/services/electron.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UtilsService } from 'src/app/core/services/utils.service';
+import { FileServingService } from 'src/app/core/services/file-serving.service';
 
 @Component({
   selector: 'image-input',
@@ -31,15 +31,17 @@ export class ImageInputComponent implements ControlValueAccessor {
   @HostBinding('attr.aria-label') private readonly ariaLabel =
     'fieldset for file path input';
 
+  private readonly fileServingService = inject(FileServingService);
   private readonly allowedFileExtension = ['bmp', 'png', 'jpg', 'gif', 'jpeg'];
 
   readonly id = `dropzone-file-${
     Math.floor(Math.random() * 1000) - Math.floor(Math.random() * 2000)
   }`;
   readonly value = signal<string | undefined>(undefined);
-  readonly background = computed(
-    () => this.value() && `background-image: url("${this.value()}")`
-  );
+  readonly background = computed(() => {
+    const image = this.fileServingService.convertPathToImage(this.value());
+    return image.exists ? image.style : undefined;
+  });
 
   private readonly snackbar = inject(MatSnackBar);
 
@@ -49,7 +51,6 @@ export class ImageInputComponent implements ControlValueAccessor {
 
   constructor(
     private electronService: ElectronService,
-    private utilsService: UtilsService
   ) {}
 
   writeValue(path: any): void {
@@ -84,8 +85,7 @@ export class ImageInputComponent implements ControlValueAccessor {
       .selectFile(this.allowedFileExtension)
       .subscribe((path: string | false) => {
         if (!path) return;
-        const validPath = this.utilsService.convertPathToValidPath(path);
-        this.setValue(validPath);
+        this.setValue(path);
       });
   }
 
@@ -107,11 +107,10 @@ export class ImageInputComponent implements ControlValueAccessor {
     notAllowedFileExtensionError.name = 'notAllowedFileExtensionError';
 
     try {
-      const validPath = this.utilsService.convertPathToValidPath(path);
-      const [_, extension] = /\.(\w+?)$/i.exec(validPath);
+      const [_, extension] = /\.(\w+?)$/i.exec(path);
 
       if (this.allowedFileExtension.includes(extension)) {
-        this.setValue(validPath);
+        this.setValue(path);
         this._windowRestore();
       } else {
         throw notAllowedFileExtensionError;

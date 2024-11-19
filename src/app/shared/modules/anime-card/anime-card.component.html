@@ -5,7 +5,9 @@
   <section class="relative aspect-[3_/_4] w-full shadow-inner-lg">
     <img
       [alt]="anime.name + 'image'"
-      [ngSrc]="anime.thumbnail"
+      [ngSrc]="
+        animeThumbnail.exists ? animeThumbnail.url : animeThumbnail.default
+      "
       priority
       draggable="false"
       fill />

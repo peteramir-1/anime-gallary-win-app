@@ -11,11 +11,13 @@
   <img
     class="h-full w-full object-cover"
     [ngClass]="{
-      'no-image': anime?.thumbnail === 'assets/pictures/no-image.webp',
-      'object-bottom': anime?.thumbnail === 'assets/pictures/no-image.webp',
-      'object-top': anime?.thumbnail !== 'assets/pictures/no-image.webp'
+      'no-image': !animeThumbnail.exists,
+      'object-bottom': !animeThumbnail.exists,
+      'object-top': animeThumbnail.exists
     }"
-    [src]="anime?.thumbnail" />
+    [src]="
+      animeThumbnail.exists ? animeThumbnail.url : animeThumbnail.default
+    " />
 </article>
 
 <article class="flex flex-auto flex-col gap-7">

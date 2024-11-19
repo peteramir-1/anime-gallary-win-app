@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { ElectronService } from 'src/app/core/services/electron.service';
-import { FileServingService } from 'src/app/core/services/file-serving.service';
 import { GetAnimesFromFolderGQL } from 'src/app/core/services/graphql.service';
 import { AnimeFf } from 'src/app/core/services/graphql.service';
 
@@ -35,8 +34,6 @@ export class AnimeViewerComponent implements OnInit {
   private readonly prevAnimeFolder = signal(undefined);
   private readonly electronService = inject(ElectronService);
   private readonly getAnimesFromFolderGQL = inject(GetAnimesFromFolderGQL);
-  private readonly fileServingService = inject(FileServingService);
-  private readonly defaultThumbnail = '../../../assets/pictures/no-image.webp';
 
   private readonly destroyed = inject(DestroyRef).onDestroy(() => {
     this.animesFolderSubscribtion.unsubscribe();
@@ -82,19 +79,7 @@ export class AnimeViewerComponent implements OnInit {
   fetchAnimes(): any {
     return this.getAnimesFromFolderGQL
       .fetch({ folderPath: this.animesFolder.value })
-      .pipe(
-        map(res => {
-          return (
-            res?.data?.animesFromFolder.map(anime => ({
-              ...anime,
-              thumbnail:
-                this.fileServingService.convertPictureToFileServingPath(
-                  anime.thumbnail
-                ) || this.defaultThumbnail,
-            })) || []
-          );
-        })
-      );
+      .pipe(map(res => res?.data?.animesFromFolder || []));
   }
 
   orderAnimes<T>(animes: T[]): T[][] {
