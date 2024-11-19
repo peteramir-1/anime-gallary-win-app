@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  inject,
   OnDestroy,
   ViewEncapsulation,
 } from '@angular/core';
@@ -12,6 +13,7 @@ import {
   Playlist,
   VideoPlayerSettings,
 } from 'src/app/shared/interfaces/video-player.interface';
+import { FileServingService } from 'src/app/core/services/file-serving.service';
 
 @Component({
   selector: 'app-anime-watch',
@@ -20,6 +22,7 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
+  private readonly fileServingService = inject(FileServingService);
   private episodeIndex: number =
     +this.activeRoute.snapshot.queryParams.episodeIndex;
   get currentEpisode() {
@@ -40,9 +43,13 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
       .pipe(
         map(res => res.data.settings),
         tap(settings => {
+          const thumbnail = this.fileServingService.convertPathToImage(
+            this.anime.thumbnail
+          );
+
           this.videoPlayerService.videoJsInit(
             'main-video-js',
-            this.anime.thumbnail,
+            thumbnail.exists ? thumbnail.url : thumbnail.default,
             settings as VideoPlayerSettings
           );
           this.videoPlayerService.videoJsPlaylistInit(
@@ -96,54 +103,26 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
    * @returns Video-js playlist
    */
   private getPlaylist(): Playlist {
-    return this.anime.episodes.map((episode, i) => ({
-      sources: [
-        {
-          src:
-            'http://localhost:8020/' + episode.split('\\').slice(1).join('/'),
-          type: this.getVideoMimeType(episode),
-        },
-      ],
-      thumbnail: this.anime.thumbnail,
-      name: `Episode ${i + 1}`,
-    }));
-  }
+    const animeImage = this.fileServingService.convertPathToImage(
+      this.anime.thumbnail
+    );
+    return this.anime.episodes.map((episode: string, i) => {
+      const video = this.fileServingService.convertPathToVideo(
+        episode,
+        animeImage.exists ? animeImage.url : animeImage.default
+      );
 
-  /**
-   * Get the Mime type from a video url
-   * @param videoUrl String represents the url of a video
-   * @returns mime type of a video
-   */
-  private getVideoMimeType(videoUrl: string): string | undefined {
-    const episodeExtension = videoUrl.toLowerCase().split('.')[
-      videoUrl.split('.').length - 1
-    ];
-    switch (episodeExtension) {
-      case 'flv':
-        return 'video/x-flv';
-      case 'mwv':
-        return 'video/x-matroska';
-      case 'mp4':
-        return 'video/mp4';
-      case 'avi':
-        return 'video/x-msvideo';
-      case 'mpeg':
-        return 'video/mpeg';
-      case 'webm':
-        return 'video/webm';
-      case '3gp':
-        return ' video/3gpp';
-      case 'ogv':
-        return ' video/ogg';
-      case 'm3u8':
-        return 'application/x-mpegURL';
-      case 'ts':
-        return ' video/MP2T';
-      case 'mov':
-        return ' video/quicktime';
-      default:
-        return undefined;
-    }
+      return {
+        sources: [
+          {
+            src: video.url,
+            type: video.exists ? video.mimeType : 'video/mp4',
+          },
+        ],
+        thumbnail: video.thumbnail,
+        name: `Episode ${i + 1}`,
+      };
+    });
   }
 
   ngOnDestroy(): void {
