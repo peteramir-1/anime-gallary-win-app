@@ -23,6 +23,23 @@ export class VideoPlayerService {
     controlBar: {
       remainingTimeDisplay: { displayNegative: false },
     },
+    html5: {
+      xhr: (options: {
+        headers: { [key: string]: string };
+      }): { headers: { [key: string]: string } } => {
+        // Adjust the range limit after the current byte
+        const rangeHeader = options.headers['Range'];
+        if (rangeHeader) {
+          const match = rangeHeader.match(/bytes=(\d+)-/);
+          if (match) {
+            const start = parseInt(match[1], 10);
+            const end = start + 20 * 1024 * 1024 - 1; // Set range to 20MB chunk
+            options.headers['Range'] = `bytes=${start}-${end}`;
+          }
+        }
+        return options;
+      },
+    },
     preload: 'auto',
   };
 

@@ -21,6 +21,7 @@ export interface StaticConfigurations {
   controlBar?: {
     remainingTimeDisplay?: { displayNegative: boolean };
   };
+  html5: any;
   preload?: string;
 }
 
