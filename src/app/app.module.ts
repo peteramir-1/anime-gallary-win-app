@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -15,9 +18,11 @@ import { WidgetContainerModule } from './shared/directives/widget-container/widg
 import { ScrollableModule } from './shared/directives/scrollable/scrollable.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ButtonModule } from './shared/directives/button/button.module';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 @NgModule({
   declarations: [AppComponent, SidenavComponent, LayoutComponent],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -30,13 +35,15 @@ import { ButtonModule } from './shared/directives/button/button.module';
       heroMoon,
     }),
     AppRoutingModule,
-    HttpClientModule,
     GraphQLModule,
     ScrollableModule,
     WidgetContainerModule,
     ButtonModule,
+    NgxUiLoaderModule,
   ],
-  providers: [provideAnimationsAsync()],
-  bootstrap: [AppComponent],
+  providers: [
+    provideAnimationsAsync(),
+    provideHttpClient(withInterceptorsFromDi()),
+  ],
 })
 export class AppModule {}

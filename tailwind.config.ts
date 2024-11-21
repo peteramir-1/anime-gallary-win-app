@@ -1,7 +1,6 @@
 import type { Config } from 'tailwindcss';
 import * as defaultTheme from 'tailwindcss/defaultTheme';
 import colors from 'tailwindcss/colors';
-import * as postcssImport from 'postcss-import';
 import typography from '@tailwindcss/typography';
 import * as tailwindcssAnimated from 'tailwindcss-animated';
 import GlobalPlugin from './src/tailwind-plugins/global/global';
@@ -103,7 +102,6 @@ export default {
   },
   darkMode: 'class',
   plugins: [
-    postcssImport,
     typography,
     tailwindcssAnimated,
     GlobalPlugin,

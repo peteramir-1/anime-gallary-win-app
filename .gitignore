@@ -90,6 +90,7 @@ typings/
 
 # Electron-Forge
 out/
+anime-gallery-electron/app/
 
 # Angular
 .angular
@@ -98,6 +99,7 @@ views/
 
 # vscode
 .vscode/
+*.code-workspace
 
 # Database files
 *.sqlite

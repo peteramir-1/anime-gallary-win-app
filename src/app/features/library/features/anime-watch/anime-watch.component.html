@@ -1,0 +1,50 @@
+<div appWidgetContainer width="full">
+  <article class="flex flex-col gap-8" appScrollable>
+    <header class="flex flex-row items-center gap-5">
+      <button appButton [routerLink]="['/library', 'details', animeId]">
+        <ng-icon class="text-white" size="1rem" name="heroArrowLeft"></ng-icon>
+      </button>
+      <h3
+        class="text-xl font-semibold text-neutral-900 dark:text-white"
+        tabindex="1">
+        {{ animeName }}
+      </h3>
+    </header>
+    <article
+      class="flex h-[calc(100vh_-_16rem_+_5px)] flex-row justify-between gap-5">
+      <section class="flex h-full basis-3/4 flex-col gap-4">
+        <section #videoJSContainer>
+          <video
+            id="main-video-js"
+            class="video-js vjs-16-9 aspect-video overflow-hidden text-xs"></video>
+        </section>
+        <section class="flex flex-row items-center justify-between">
+          <button
+            appButton
+            class="gap-3"
+            [disabled]="currentEpisode === 1"
+            (click)="previous()">
+            <ng-icon size="1.25rem" name="heroArrowSmallLeft"></ng-icon>
+            Previous
+          </button>
+          <h2 class="text-neutral-590 text-base font-bold dark:text-white">
+            {{ currentEpisode }} of {{ animeEpisodesLength }}
+          </h2>
+          <button
+            appButton
+            class="gap-3"
+            [disabled]="currentEpisode === animeEpisodesLength"
+            (click)="next()">
+            Next <ng-icon size="1.25rem" name="heroArrowSmallRight"></ng-icon>
+          </button>
+        </section>
+      </section>
+      <section
+        id="vjs-playlist-ui-container"
+        class="h-full w-[25%] overflow-auto border dark:border-teal-300"
+        #playlistUI>
+        <div class="vjs-playlist"></div>
+      </section>
+    </article>
+  </article>
+</div>

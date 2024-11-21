@@ -1,13 +1,15 @@
-import * as electron from 'electron';
-import * as customElectronTitleBar from 'custom-electron-titlebar/main';
-import * as path from 'path';
+import electron from 'electron';
+import { setupTitlebar} from 'custom-electron-titlebar/main';
+import path from 'path';
 import * as handlers from './handlers';
 
-// Express servers imports
-import * as app from './servers/frontend/app';
+import { ApplicationServer } from './server/app';
+import { serverPort } from './server/config/env';
+
+const applicationServer = new ApplicationServer();
 
 // Electron titlebar
-customElectronTitleBar.setupTitlebar();
+setupTitlebar();
 electron.Menu?.setApplicationMenu(null);
 
 const createWindow = () => {
@@ -25,19 +27,19 @@ const createWindow = () => {
   mainWindow.maximize();
   mainWindow.setResizable(false);
   mainWindow.setMovable(false);
-  mainWindow.addListener('will-move', (event) => {
+  mainWindow.addListener('will-move', event => {
     event.preventDefault();
-  })
+  });
   mainWindow.addListener('move', () => {
-    mainWindow.maximize()
-  })
+    mainWindow.maximize();
+  });
   mainWindow.addListener('moved', () => {
-    mainWindow.maximize()
-  })
+    mainWindow.maximize();
+  });
   setTimeout(() => {
     mainWindow.focus();
   }, 1000);
-  mainWindow.loadURL(`http://localhost:${app.PORT}/`);
+  mainWindow.loadURL(`http://localhost:${serverPort}/`);
   return mainWindow;
 };
 
@@ -53,7 +55,7 @@ electron.app.on('ready', () => {
     'selectFilesFromFolder',
     handlers.selectFilesFromFolder
   );
-  app.startFrontendServer(() => {
+  applicationServer.start().then(() => {
     const mainWindow = createWindow();
     electron.globalShortcut.register('Control+R', () => {
       mainWindow.reload();
@@ -62,8 +64,9 @@ electron.app.on('ready', () => {
       mainWindow.webContents.openDevTools();
     });
     electron.globalShortcut.register('Alt+F4', () => {
-      (0, app.closeFrontendServer)();
-      electron.app.quit();
+      applicationServer.close().then(() => {
+        electron.app.quit();
+      });
     });
   });
 });
@@ -73,8 +76,9 @@ electron.app.on('ready', () => {
 // explicitly with Cmd + Q.
 electron.app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.closeFrontendServer();
-    electron.app.quit();
+    applicationServer.close().then(() => {
+      electron.app.quit();
+    });
   }
 });
 

@@ -1,11 +1,11 @@
-import * as electron from 'electron';
-import * as customElectronTitlebar from 'custom-electron-titlebar';
+import electron from 'electron';
+import  { Titlebar, TitlebarColor } from 'custom-electron-titlebar';
 
 window.addEventListener('DOMContentLoaded', () => {
   // Title bar implementation
-  new customElectronTitlebar.Titlebar({
+  new Titlebar({
     containerOverflow: 'auto',
-    backgroundColor: customElectronTitlebar.TitlebarColor.fromHex('#171717'),
+    backgroundColor: TitlebarColor.fromHex('#171717'),
     tooltips: {
       minimize: 'Minimize',
       maximize: 'Maximize',

@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -10,6 +10,11 @@ import {
   LikeAnimeGQL,
   UnlikeAnimeGQL,
 } from 'src/app/core/services/graphql.service';
+import {
+  FileServingService,
+  IMAGE,
+  NO_IMAGE,
+} from 'src/app/core/services/file-serving.service';
 
 @Component({
   selector: 'app-anime-details-header',
@@ -19,9 +24,11 @@ import {
     class: 'flex flex-initial flex-row gap-5',
   },
 })
-export class AnimeDetailsHeaderComponent {
+export class AnimeDetailsHeaderComponent implements OnInit {
   @Input({required: true}) anime: any;
   private readonly router = inject(Router);
+
+  private readonly fileServingService = inject(FileServingService);
 
   private readonly clipboard = inject(Clipboard);
   private readonly snackbar = inject(MatSnackBar);
@@ -29,6 +36,14 @@ export class AnimeDetailsHeaderComponent {
   private readonly likeAnimeGQL = inject(LikeAnimeGQL);
   private readonly unlikeAnimeGQL = inject(UnlikeAnimeGQL);
   private readonly deleteAnimeGQL = inject(DeleteAnimeGQL);
+
+  animeThumbnail: IMAGE | NO_IMAGE;
+
+  ngOnInit(): void {
+    this.animeThumbnail = this.fileServingService.convertPathToImage(
+      this.anime?.thumbnail
+    );
+  }
 
   copyAnimeName() {
     const operationSuccessfull = this.clipboard.copy(this.anime.name);

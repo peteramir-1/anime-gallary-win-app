@@ -8,7 +8,7 @@ export class ScrollableDirective {
 
   @HostBinding('class') get class() {
     let elementDefaultClasses =
-      'h-full w-auto overflow-y-auto overflow-x-hidden';
+      'h-full w-auto overflow-y-auto py-2 overflow-x-hidden';
     // Padding class addition
     if (this.paddingX === undefined) elementDefaultClasses += ` px-8`;
     else elementDefaultClasses += ` px-${this.paddingX}`;

@@ -1,23 +1,30 @@
 <article
-  class="flex w-auto select-none flex-col overflow-hidden rounded-md shadow-lg"
+  class="flex w-[180px] select-none flex-col overflow-hidden rounded-md shadow-lg"
   (click)="navigateToAnimePage(anime.id)"
   [ngClass]="{ 'cursor-pointer': navigatable }">
-  <section class="relative h-[350px] w-full shadow-inner-lg">
+  <section class="relative aspect-[3_/_4] w-full shadow-inner-lg">
     <img
       [alt]="anime.name + 'image'"
-      [ngSrc]="anime.thumbnail"
+      [ngSrc]="
+        animeThumbnail.exists ? animeThumbnail.url : animeThumbnail.default
+      "
       priority
       draggable="false"
       fill />
   </section>
-  <footer class="relative h-fit flex-initial bg-teal-800 p-3 shadow-md">
+  <footer class="relative h-fit flex-initial bg-teal-800 px-3 py-2 shadow-md">
     <div
-      class="absolute -top-6 right-4 z-10 rounded-sm bg-teal-600 px-3 py-2 text-center text-xs font-bold text-gray-100 shadow-lg">
+      class="absolute -top-4 right-4 z-10 rounded-sm bg-teal-600 px-2 py-1 text-center text-xs text-gray-100 shadow-lg">
       {{ anime.type | titlecase }}
     </div>
     <h5
-      class="line-clamp-1 overflow-hidden text-ellipsis text-start text-sm font-semibold leading-7 text-white">
-      {{ anime.name | titlecase }}
+      class="line-clamp-1 overflow-hidden text-ellipsis text-start text-xs font-semibold leading-7 text-white">
+      <span
+        matTooltipPosition="above"
+        matTooltip="{{ anime.name }}"
+        matTooltipDisabled="{{ anime.name.length < 25 }}">
+        {{ anime.name | titlecase }}
+      </span>
     </h5>
   </footer>
 </article>

@@ -2,9 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { LibraryComponent } from '../library.component';
-import { AddAnimeComponent } from '../components/add-anime/add-anime.component';
 import { AnimeDetailsComponent } from '../components/anime-details/anime-details.component';
-import { AnimeWatchComponent } from '../components/anime-watch/anime-watch.component';
 
 import { AnimeExistsGuard } from '../guards/anime-exists.guard';
 
@@ -36,11 +34,17 @@ const routes: Routes = [
           anime: AnimeResolver,
         },
         canActivate: [AnimeExistsGuard],
-        component: AnimeWatchComponent,
+        loadChildren: () =>
+          import('../features/anime-watch/anime-watch.module').then(
+            m => m.AnimeWatchModule
+          ),
       },
       {
         path: 'edit/:id',
-        component: AddAnimeComponent,
+        loadChildren: () =>
+          import('../features/add-anime/add-anime.module').then(
+            m => m.AddAnimeModule
+          ),
         resolve: {
           anime: AnimeResolver,
         },
@@ -48,10 +52,12 @@ const routes: Routes = [
       },
       {
         path: 'add',
-        component: AddAnimeComponent,
+        loadChildren: () =>
+          import('../features/add-anime/add-anime.module').then(
+            m => m.AddAnimeModule
+          ),
       },
-    
-    ]
+    ],
   },
 ];
 

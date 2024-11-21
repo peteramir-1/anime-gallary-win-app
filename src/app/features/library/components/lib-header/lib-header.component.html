@@ -3,20 +3,18 @@
     <ng-icon name="heroPlus"></ng-icon>
   </button>
 </section>
-<section class="basis-1/2">
+<section class="flex-auto">
   <input
     type="text"
     name="search"
     class="!p-3"
     placeholder="Search Example: Demon Slayer"
-    [(ngModel)]="searchResult"
-    [ngModelOptions]="{ standalone: true }"
-    (ngModelChange)="searchByName($event)"
+    [formControl]="searchResultControl"
     appInput />
 </section>
-<section class="flex flex-auto items-center justify-between">
+<section class="grid grid-cols-10 gap-x-2">
   <!-- Filter By Like/Love/Favorite -->
-  <section class="flex-initial">
+  <section class="col-span-1 flex items-center justify-center">
     @if (!likedFilter.getValue()) {
     <ng-icon
       class="cursor-pointer align-text-top"
@@ -46,7 +44,7 @@
   </section>
 
   <!-- Filter By Status of the anime incomplete/complete/all -->
-  <section class="min-w-28 flex-initial">
+  <section class="col-span-2">
     <app-select
       class="min-w-28"
       name="status"
@@ -65,7 +63,7 @@
   </section>
 
   <!-- Filter By Anime Season autumn/summer/winter/spring/all -->
-  <section class="min-w-28 flex-initial">
+  <section class="col-span-2">
     <app-select
       class="w-full"
       name="season"
@@ -90,7 +88,7 @@
   </section>
 
   <!-- Filter By Anime Release Date -->
-  <section class="min-w-28 flex-initial">
+  <section class="col-span-2">
     <app-select
       class="w-full"
       name="releaseDate"
@@ -104,6 +102,20 @@
         {{ year }}
       </app-option>
       }
+    </app-select>
+  </section>
+
+  <section class="col-span-3">
+    <app-select
+      class="w-full"
+      name="orderBy"
+      placeholder="order by"
+      [(ngModel)]="orderByControl"
+      [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="setOrderBy($event)">
+      <app-option value="name">Name</app-option>
+      <app-option value="released">Released Date</app-option>
+      <app-option value="season">Season</app-option>
     </app-select>
   </section>
 </section>
