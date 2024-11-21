@@ -43,13 +43,26 @@ export class AnimeWatchComponent implements AfterViewInit {
 
   private episodeIndex: number =
     +this.activeRoute.snapshot.queryParams.episodeIndex;
+  
+  /**
+   * Gets the current episode number based on the episode index.
+   *
+   * @returns {number} The current episode number, which is the episode index plus one.
+   */
   get currentEpisode() {
     return this.episodeIndex + 1;
   }
+  
   anime = this.activeRoute.snapshot.data.anime;
 
   constructor() {}
 
+  /**
+   * Initializes the VideoJS player after the component's view has been initialized.
+   *
+   * It sets up the VideoJS player with the anime's thumbnail as the poster and
+   * the anime episodes as the playlist.
+   */
   ngAfterViewInit(): void {
     this.setupVideoJS();
   }
@@ -96,18 +109,30 @@ export class AnimeWatchComponent implements AfterViewInit {
       .subscribe();
   }
 
-  /**
-   * Apply Video Player theme
-   * @returns void
-   */
-  private applyVideoPlayerTheme(theme: string): void {
+/**
+ * Applies a CSS theme class to the VideoJS player element.
+ *
+ * This method adds the specified CSS class to the VideoJS player element,
+ * allowing the player's appearance to be customized according to the theme.
+ *
+ * @param themeClass The CSS class to apply to the VideoJS player element.
+ * @returns void
+ */
+  private applyVideoPlayerTheme(themeClass: string): void {
     const videoJSElement = this.videoJSContainer.nativeElement.firstElementChild;
-    this.renderer.addClass(videoJSElement, theme);
+    this.renderer.addClass(videoJSElement, themeClass);
   }
 
   /**
-   * Listen to playlist UI selected video changes and make changes to the UI accordingly
-   * @returns void
+   * Listens to the VideoJS player's 'playlistitem' event and
+   * updates the URL's query parameter to the newly selected episode index.
+   *
+   * This method is used to update the URL when the user selects a new episode
+   * from the playlist menu. This allows the user to bookmark a specific episode
+   * of an anime and navigate to it later.
+   *
+   * @private
+   * @returns {void}
    */
   private listenToPlaylistMenuUiEpisodeChange(): void {
     this.videoPlayerService.on('playlistitem', () => {
@@ -123,7 +148,10 @@ export class AnimeWatchComponent implements AfterViewInit {
   }
 
   /**
-   * Scroll to the current episode position in playlist menu
+   * Scrolls the playlist menu to the specified episode index.
+   *
+   * @param episodeIndex The index of the episode to scroll to.
+   * @returns void
    */
   private scrollPlaylistMenuTo(episodeIndex: number) {
     this.playlistUI.nativeElement.scrollTo({
@@ -132,8 +160,14 @@ export class AnimeWatchComponent implements AfterViewInit {
   }
 
   /**
-   * Get video player Playlist
-   * @returns Video-js playlist
+   * Creates a VideoJS Playlist object from the anime episodes.
+   *
+   * This method takes the anime episodes and creates a VideoJS Playlist object
+   * out of them. The Playlist object is an array of objects where each object
+   * represents an episode of the anime. Each episode object contains the URL of
+   * the episode video, the thumbnail URL of the anime, and the name of the episode.
+   *
+   * @returns {Playlist} A VideoJS Playlist object.
    */
   private getPlaylist(): Playlist {
     const animeImage = this.fileServingService.convertPathToImage(
@@ -159,17 +193,19 @@ export class AnimeWatchComponent implements AfterViewInit {
   }
 
   /**
-   * Play next video in the playlist
-   * @returns void
+   * Plays the next episode in the playlist.
+   *
+   * This method calls the next() method on the video player service.
    */
   next(): void {
     this.videoPlayerService.next();
   }
 
-  /**
-   * Play previous video in the playlist
-   * @returns void
-   */
+/**
+ * Plays the previous episode in the playlist.
+ *
+ * This method calls the previous() method on the video player service.
+ */
   previous(): void {
     this.videoPlayerService.previous();
   }
