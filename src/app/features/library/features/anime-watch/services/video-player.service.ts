@@ -9,10 +9,20 @@ import {
   VideoPlayerConfigurations,
 } from 'src/app/shared/interfaces/video-player.interface';
 import { VideoPlayerSettings } from 'src/app/shared/interfaces/video-player.interface';
+import Player from 'video.js/dist/types/player';
+
+interface playlist extends Function {
+  (playlist: Playlist, episodeIndex: number): void;
+  autoadvance: (_: number) => void;
+  next: () => void;
+  previous: () => void;
+}
 
 @Injectable()
 export class VideoPlayerService {
-  player: any;
+  player!: Player & { playlistUi?: (_: { el: Element | null }) => void } & {
+    playlist?: playlist;
+  };
   readonly configurations: StaticConfigurations = {
     controlBar: {
       remainingTimeDisplay: { displayNegative: false },
@@ -36,7 +46,7 @@ export class VideoPlayerService {
     element: string | HTMLVideoElement,
     poster: string,
     configs: VideoPlayerSettings
-  ) {
+  ): void {
     this.removeDynamicVjsStyles();
     // Initiate Video Player Instance
     this.player = videojs(element, this.getConfigurations(configs, poster));
@@ -51,7 +61,7 @@ export class VideoPlayerService {
    * VideoJS from generating these styles, allowing us to customize the player's
    * appearance as we see fit.
    */
-  private removeDynamicVjsStyles() {
+  private removeDynamicVjsStyles(): void {
     (window as any).VIDEOJS_NO_DYNAMIC_STYLE = true;
   }
 
@@ -107,7 +117,7 @@ export class VideoPlayerService {
    * @param playlist The Playlist object containing the episodes to be played.
    * @param episodeIndex The index of the episode to start playing from.
    */
-  videoJsPlaylistInit(playlist: Playlist, episodeIndex: number) {
+  videoJsPlaylistInit(playlist: Playlist, episodeIndex: number): void {
     this.player.playlist(playlist, episodeIndex);
     this.player.playlist.autoadvance(0);
   }
@@ -121,7 +131,7 @@ export class VideoPlayerService {
    *
    * @param playlistUiId The id of the HTML element to be used as the playlist UI container.
    */
-  videoJsPlaylistUiInit(playlistUiId: string) {
+  videoJsPlaylistUiInit(playlistUiId: string): void {
     this.player.playlistUi({
       el: document.getElementById(playlistUiId),
     });
@@ -136,7 +146,7 @@ export class VideoPlayerService {
    * @param event The event to listen to. Please refer to the Video.js documentation for a list of events.
    * @param callback The callback function to be called when the event is triggered.
    */
-  on(event: string, callback: () => void) {
+  on(event: string, callback: () => void): void {
     this.player.on(event, callback);
   }
 
@@ -146,7 +156,7 @@ export class VideoPlayerService {
    * This method calls the {@link VideoPlaylist#next} method on the video player.
    * If the current episode is the last episode in the playlist, this method does nothing.
    */
-  next() {
+  next(): void {
     this.player.playlist.next();
   }
 
@@ -156,7 +166,7 @@ export class VideoPlayerService {
    * This method calls the {@link VideoPlaylist#previous} method on the video player.
    * If the current episode is the first episode in the playlist, this method does nothing.
    */
-  previous() {
+  previous(): void {
     this.player.playlist.previous();
   }
 
@@ -167,7 +177,7 @@ export class VideoPlayerService {
    * and any associated DOM elements. It should be called when the video player is
    * no longer needed to free up resources and avoid memory leaks.
    */
-  dispose() {
+  dispose(): void {
     this.player.dispose();
   }
 }
