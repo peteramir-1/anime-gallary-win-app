@@ -7,24 +7,17 @@ import {
   Playlist,
   StaticConfigurations,
   VideoPlayerConfigurations,
-} from 'src/app/shared/interfaces/video-player.interface';
+  VideoJsPlaylist,
+} from '../interfaces/video-player.interface';
 import { VideoPlayerSettings } from 'src/app/shared/interfaces/video-player.interface';
 import Player from 'video.js/dist/types/player';
-
-interface playlist extends Function {
-  (playlist: Playlist, episodeIndex: number): void;
-  autoadvance: (_: number) => void;
-  next: () => void;
-  previous: () => void;
-  currentIndex: () => number;
-}
 
 @Injectable()
 export class VideoPlayerService {
   private player!: Player & {
     playlistUi?: (_: { el: Element | null }) => void;
   } & {
-    playlist?: playlist;
+    playlist?: VideoJsPlaylist;
   };
   private readonly configurations: StaticConfigurations = {
     controlBar: {

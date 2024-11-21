@@ -13,10 +13,8 @@ import { finalize, map, tap } from 'rxjs/operators';
 import { FileServingService } from 'src/app/core/services/file-serving.service';
 import { GetVideoPlayerSettingsGQL } from 'src/app/core/services/graphql.service';
 import { VideoPlayerService } from 'src/app/features/library/features/anime-watch/services/video-player.service';
-import {
-  Playlist,
-  VideoPlayerSettings,
-} from 'src/app/shared/interfaces/video-player.interface';
+import { VideoPlayerSettings } from 'src/app/shared/interfaces/video-player.interface';
+import { Playlist } from './interfaces/video-player.interface';
 
 @Component({
   selector: 'app-anime-watch',
@@ -72,7 +70,7 @@ export class AnimeWatchComponent implements AfterViewInit {
   get animeId() {
     return this.anime.id;
   }
-  
+
   /**
    * Returns the name of the anime.
    *
