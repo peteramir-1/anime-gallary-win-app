@@ -41,7 +41,7 @@ export class AnimeWatchComponent implements AfterViewInit {
     this.videoPlayerService.dispose();
   });
 
-  private episodeIndex: number =
+  private readonly episodeIndex: number =
     +this.activeRoute.snapshot.queryParams.episodeIndex;
 
   /**
@@ -53,7 +53,34 @@ export class AnimeWatchComponent implements AfterViewInit {
     return this.episodeIndex + 1;
   }
 
-  anime = this.activeRoute.snapshot.data.anime;
+  private readonly anime = this.activeRoute.snapshot.data.anime;
+
+  /**
+   * Returns the number of episodes in the anime.
+   *
+   * @returns {number} The number of episodes in the anime.
+   */
+  get animeEpisodesLength() {
+    return this.anime.episodes.length;
+  }
+
+  /**
+   * The ID of the anime.
+   *
+   * @returns {number} The anime's ID.
+   */
+  get animeId() {
+    return this.anime.id;
+  }
+  
+  /**
+   * Returns the name of the anime.
+   *
+   * @returns {string} The name of the anime.
+   */
+  get animeName() {
+    return this.anime.name;
+  }
 
   constructor() {}
 

@@ -1,13 +1,13 @@
 <div appWidgetContainer width="full">
   <article class="flex flex-col gap-8" appScrollable>
     <header class="flex flex-row items-center gap-5">
-      <button appButton [routerLink]="['/library', 'details', anime.id]">
+      <button appButton [routerLink]="['/library', 'details', animeId]">
         <ng-icon class="text-white" size="1rem" name="heroArrowLeft"></ng-icon>
       </button>
       <h3
         class="text-xl font-semibold text-neutral-900 dark:text-white"
         tabindex="1">
-        {{ anime.name }}
+        {{ animeName }}
       </h3>
     </header>
     <article
@@ -28,12 +28,12 @@
             Previous
           </button>
           <h2 class="text-neutral-590 text-base font-bold dark:text-white">
-            {{ currentEpisode }} of {{ anime.episodes.length }}
+            {{ currentEpisode }} of {{ animeEpisodesLength }}
           </h2>
           <button
             appButton
             class="gap-3"
-            [disabled]="currentEpisode === anime.episodes.length"
+            [disabled]="currentEpisode === animeEpisodesLength"
             (click)="next()">
             Next <ng-icon size="1.25rem" name="heroArrowSmallRight"></ng-icon>
           </button>
