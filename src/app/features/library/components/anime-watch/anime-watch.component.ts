@@ -1,19 +1,22 @@
 import {
   AfterViewInit,
   Component,
+  DestroyRef,
+  ElementRef,
   inject,
-  OnDestroy,
+  Renderer2,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VideoPlayerService } from 'src/app/features/library/services/video-player.service';
+import { finalize, map, tap } from 'rxjs/operators';
+import { FileServingService } from 'src/app/core/services/file-serving.service';
 import { GetVideoPlayerSettingsGQL } from 'src/app/core/services/graphql.service';
-import { map, tap } from 'rxjs/operators';
+import { VideoPlayerService } from 'src/app/features/library/services/video-player.service';
 import {
   Playlist,
   VideoPlayerSettings,
 } from 'src/app/shared/interfaces/video-player.interface';
-import { FileServingService } from 'src/app/core/services/file-serving.service';
 
 @Component({
   selector: 'app-anime-watch',
@@ -21,8 +24,23 @@ import { FileServingService } from 'src/app/core/services/file-serving.service';
   styleUrls: ['./anime-watch.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
+export class AnimeWatchComponent implements AfterViewInit {  
+  @ViewChild('playlistUI') playlistUI!: ElementRef;
+  @ViewChild('videoJSContainer') videoJSContainer!: ElementRef;
+
+  private readonly activeRoute = inject(ActivatedRoute);
   private readonly fileServingService = inject(FileServingService);
+  private readonly getVideoPlayerSettingsGQL = inject(
+    GetVideoPlayerSettingsGQL
+  );
+  private readonly renderer = inject(Renderer2);
+  private readonly router = inject(Router);
+  private readonly videoPlayerService = inject(VideoPlayerService);
+
+  private readonly onDestroy = inject(DestroyRef).onDestroy(() => {
+    this.videoPlayerService.dispose();
+  });
+
   private episodeIndex: number =
     +this.activeRoute.snapshot.queryParams.episodeIndex;
   get currentEpisode() {
@@ -30,18 +48,28 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
   }
   anime = this.activeRoute.snapshot.data.anime;
 
-  constructor(
-    private getVideoPlayerSettingsGQL: GetVideoPlayerSettingsGQL,
-    private router: Router,
-    private activeRoute: ActivatedRoute,
-    private videoPlayerService: VideoPlayerService
-  ) {}
+  constructor() {}
 
   ngAfterViewInit(): void {
+    this.setupVideoJS();
+  }
+
+  /**
+   * Initializes the VideoJS player with the provided settings and playlist.
+   *
+   * This method fetches video player settings from a GraphQL query and applies them
+   * to initialize the VideoJS player. It converts the anime thumbnail path to an image
+   * URL and uses it as the poster for the video player. The method sets up the playlist
+   * and its UI, applies the video player theme, and listens for changes in the playlist
+   * menu UI.
+   *
+   * @returns void
+   */
+  private setupVideoJS(): void {
     this.getVideoPlayerSettingsGQL
       .fetch()
       .pipe(
-        map(res => res.data.settings),
+        map(({ data: { settings } }) => settings as VideoPlayerSettings),
         tap(settings => {
           const thumbnail = this.fileServingService.convertPathToImage(
             this.anime.thumbnail
@@ -50,19 +78,22 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
           this.videoPlayerService.videoJsInit(
             'main-video-js',
             thumbnail.exists ? thumbnail.url : thumbnail.default,
-            settings as VideoPlayerSettings
+            settings
           );
+        }),
+        tap(() => {
           this.videoPlayerService.videoJsPlaylistInit(
             this.getPlaylist(),
             this.episodeIndex
           );
           this.videoPlayerService.videoJsPlaylistUiInit('vjs-playlist');
-        })
+        }),
+        tap(settings => {
+          this.applyVideoPlayerTheme(settings.theme);
+        }),
+        finalize(() => this.listenToPlaylistMenuUiEpisodeChange())
       )
-      .subscribe(settings => {
-        this.applyVideoPlayerTheme(settings.theme);
-        this.listenToPlaylistMenuUiEpisodeChange();
-      });
+      .subscribe();
   }
 
   /**
@@ -70,7 +101,8 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
    * @returns void
    */
   private applyVideoPlayerTheme(theme: string): void {
-    document.getElementById('main-video-js').classList.add(theme);
+    const videoJSElement = this.videoJSContainer.nativeElement.firstElementChild;
+    this.renderer.addClass(videoJSElement, theme);
   }
 
   /**
@@ -79,12 +111,13 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
    */
   private listenToPlaylistMenuUiEpisodeChange(): void {
     this.videoPlayerService.on('playlistitem', () => {
-      this.episodeIndex =
+      const episodeIndex =
         this.videoPlayerService.player.playlist.currentIndex();
-      this.scrollPlaylistMenuToCurrentEpisode();
+      
+      this.scrollPlaylistMenuTo(episodeIndex);
       this.router.navigate([], {
         relativeTo: this.activeRoute,
-        queryParams: { episodeIndex: this.episodeIndex },
+        queryParams: { episodeIndex },
       });
     });
   }
@@ -92,10 +125,10 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
   /**
    * Scroll to the current episode position in playlist menu
    */
-  private scrollPlaylistMenuToCurrentEpisode() {
-    document
-      .querySelector('#vjs-playlist-ui-container')
-      .scrollTo(0, 117 * this.episodeIndex);
+  private scrollPlaylistMenuTo(episodeIndex: number) {
+    this.playlistUI.nativeElement.scrollTo({
+      top: 117 * episodeIndex,
+    });
   }
 
   /**
@@ -106,7 +139,7 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
     const animeImage = this.fileServingService.convertPathToImage(
       this.anime.thumbnail
     );
-    return this.anime.episodes.map((episode: string, i) => {
+    return this.anime.episodes.map((episode: string, i: number) => {
       const video = this.fileServingService.convertPathToVideo(
         episode,
         animeImage.exists ? animeImage.url : animeImage.default
@@ -123,10 +156,6 @@ export class AnimeWatchComponent implements AfterViewInit, OnDestroy {
         name: `Episode ${i + 1}`,
       };
     });
-  }
-
-  ngOnDestroy(): void {
-    this.videoPlayerService.dispose();
   }
 
   /**

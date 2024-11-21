@@ -13,7 +13,7 @@
     <article
       class="flex h-[calc(100vh_-_16rem_+_5px)] flex-row justify-between gap-5">
       <section class="flex h-full basis-3/4 flex-col gap-4">
-        <section>
+        <section #videoJSContainer>
           <video
             id="main-video-js"
             class="video-js vjs-16-9 aspect-video overflow-hidden text-xs"></video>
@@ -41,7 +41,8 @@
       </section>
       <section
         id="vjs-playlist-ui-container"
-        class="h-full w-[25%] overflow-auto border dark:border-teal-300">
+        class="h-full w-[25%] overflow-auto border dark:border-teal-300"
+        #playlistUI>
         <div class="vjs-playlist"></div>
       </section>
     </article>
