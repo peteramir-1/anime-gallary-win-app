@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LibraryComponent } from '../library.component';
 import { AnimeDetailsComponent } from '../components/anime-details/anime-details.component';
-import { AnimeWatchComponent } from '../components/anime-watch/anime-watch.component';
 
 import { AnimeExistsGuard } from '../guards/anime-exists.guard';
 
@@ -35,7 +34,10 @@ const routes: Routes = [
           anime: AnimeResolver,
         },
         canActivate: [AnimeExistsGuard],
-        component: AnimeWatchComponent,
+        loadChildren: () =>
+          import('../features/anime-watch/anime-watch.module').then(
+            m => m.AnimeWatchModule
+          ),
       },
       {
         path: 'edit/:id',

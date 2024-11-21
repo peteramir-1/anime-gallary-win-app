@@ -6,7 +6,6 @@ import { AnimeDetailsComponent } from './components/anime-details/anime-details.
 import { AnimeDetailsHeaderComponent } from './components/anime-details/components/anime-details-header/anime-details-header.component';
 import { AnimeDetailsSpecComponent } from './components/anime-details/components/anime-details-spec/anime-details-spec.component';
 import { AnimeDetailsWatchComponent } from './components/anime-details/components/anime-details-watch/anime-details-watch.component';
-import { AnimeWatchComponent } from './components/anime-watch/anime-watch.component';
 import { LibraryWrapperComponent } from './library-wrapper.component';
 
 import { LibraryRoutingModule } from './routes/library.routing';
@@ -24,8 +23,6 @@ import { lucideLeaf, lucideFlower2 } from '@ng-icons/lucide';
 import {
   heroPlus,
   heroArrowLeft,
-  heroArrowSmallRight,
-  heroArrowSmallLeft,
 } from '@ng-icons/heroicons/outline';
 import { jamHeartF, jamHeart } from '@ng-icons/jam-icons';
 
@@ -36,15 +33,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { APP_SNACK_BAR_DEFAULT_OPTIONS } from 'src/app/shared/models/app-snackbar.model';
 
-import { VideoPlayerService } from './services/video-player.service';
-
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InputModule } from 'src/app/shared/directives/input/inputs.module';
 import { SelectModule } from 'src/app/shared/modules/inputs/select/select.module';
 
 @NgModule({
   declarations: [
-    AnimeWatchComponent,
     AnimeDetailsComponent,
     AnimeDetailsHeaderComponent,
     AnimeDetailsSpecComponent,
@@ -59,8 +53,6 @@ import { SelectModule } from 'src/app/shared/modules/inputs/select/select.module
 
     NgIconsModule.withIcons({
       heroPlus, // +
-      heroArrowSmallRight,
-      heroArrowSmallLeft,
       heroArrowLeft,
       jamHeart, // love outlined
       jamHeartF, // love solid
@@ -89,7 +81,6 @@ import { SelectModule } from 'src/app/shared/modules/inputs/select/select.module
     SharedModule,
   ],
   providers: [
-    VideoPlayerService,
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: APP_SNACK_BAR_DEFAULT_OPTIONS,

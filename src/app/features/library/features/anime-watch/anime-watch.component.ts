@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, map, tap } from 'rxjs/operators';
 import { FileServingService } from 'src/app/core/services/file-serving.service';
 import { GetVideoPlayerSettingsGQL } from 'src/app/core/services/graphql.service';
-import { VideoPlayerService } from 'src/app/features/library/services/video-player.service';
+import { VideoPlayerService } from 'src/app/features/library/features/anime-watch/services/video-player.service';
 import {
   Playlist,
   VideoPlayerSettings,
