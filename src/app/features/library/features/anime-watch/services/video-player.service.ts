@@ -9,8 +9,8 @@ import {
   VideoPlayerConfigurations,
   VideoJsPlaylist,
 } from '../interfaces/video-player.interface';
-import { VideoPlayerSettings } from 'src/app/shared/interfaces/video-player.interface';
 import Player from 'video.js/dist/types/player';
+import { GetVideoPlayerSettingsQuery } from 'src/app/core/services/graphql.service';
 
 @Injectable()
 export class VideoPlayerService {
@@ -60,12 +60,13 @@ export class VideoPlayerService {
    *                for the video player.
    * @param poster  A URL of an image to display before the video begins
    *                playing.
-   * @param configs Video player settings as a VideoPlayerSettings object.
+   * @param configs - The settings for the video player, fetched from a GraphQL query.
+   * @returns void
    */
   videoJsInit(
     element: string | HTMLVideoElement,
     poster: string,
-    configs: VideoPlayerSettings
+    configs: GetVideoPlayerSettingsQuery['settings']
   ): void {
     this.removeDynamicVjsStyles();
     // Initiate Video Player Instance
@@ -92,13 +93,13 @@ export class VideoPlayerService {
    * a VideoPlayerConfigurations object that combines the static player configurations with
    * the dynamic player settings and poster.
    *
-   * @param configs The VideoPlayerSettings object containing the dynamic player settings.
+   * @param configs - The settings for the video player, fetched from a GraphQL query.
    * @param poster  The URL of the poster image to display before the video begins playing.
-   * @returns A VideoPlayerConfigurations object containing the combined static and dynamic
-   *          player configurations and the poster URL.
+   * @returns The configurations for the video player, which include the poster and video
+   *          player settings.
    */
   private getConfigurations(
-    configs: VideoPlayerSettings,
+    configs: GetVideoPlayerSettingsQuery['settings'],
     poster: string
   ): VideoPlayerConfigurations {
     return {
