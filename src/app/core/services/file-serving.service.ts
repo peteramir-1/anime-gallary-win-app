@@ -27,6 +27,7 @@ export interface VIDEO {
 export interface NO_VIDEO {
   exists: false;
   url: undefined;
+  mimeType: 'video/mp4';
   thumbnail: string | undefined;
 }
 
@@ -101,6 +102,7 @@ export class FileServingService {
       return {
         exists: false,
         url: undefined,
+        mimeType: 'video/mp4',
         thumbnail,
       };
     }

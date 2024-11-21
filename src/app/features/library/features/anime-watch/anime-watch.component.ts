@@ -149,7 +149,7 @@ export class AnimeWatchComponent implements AfterViewInit {
         sources: [
           {
             src: video.url,
-            type: video.exists ? video.mimeType : 'video/mp4',
+            type: video.mimeType,
           },
         ],
         thumbnail: video.thumbnail,
