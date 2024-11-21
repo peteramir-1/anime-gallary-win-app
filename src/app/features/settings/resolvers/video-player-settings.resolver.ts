@@ -4,9 +4,7 @@ import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { GetVideoPlayerSettingsGQL } from 'src/app/core/services/graphql.service';
-
-import { VideoPlayerSettings } from 'src/app/shared/interfaces/video-player.interface';
+import { GetVideoPlayerSettingsGQL, GetVideoPlayerSettingsQuery } from 'src/app/core/services/graphql.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +15,9 @@ export class VideoPlayerSettingsResolver  {
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<VideoPlayerSettings> {
+  ): Observable<GetVideoPlayerSettingsQuery['settings']> {
     return this.getVideoPlayerSettingGQL
       .fetch()
-      .pipe(map(res => (res.data.settings as VideoPlayerSettings)));
+      .pipe(map(res => (res.data.settings)));
   }
 }
