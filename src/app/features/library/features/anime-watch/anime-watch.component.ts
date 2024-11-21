@@ -24,7 +24,7 @@ import {
   styleUrls: ['./anime-watch.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AnimeWatchComponent implements AfterViewInit {  
+export class AnimeWatchComponent implements AfterViewInit {
   @ViewChild('playlistUI') playlistUI!: ElementRef;
   @ViewChild('videoJSContainer') videoJSContainer!: ElementRef;
 
@@ -43,7 +43,7 @@ export class AnimeWatchComponent implements AfterViewInit {
 
   private episodeIndex: number =
     +this.activeRoute.snapshot.queryParams.episodeIndex;
-  
+
   /**
    * Gets the current episode number based on the episode index.
    *
@@ -52,7 +52,7 @@ export class AnimeWatchComponent implements AfterViewInit {
   get currentEpisode() {
     return this.episodeIndex + 1;
   }
-  
+
   anime = this.activeRoute.snapshot.data.anime;
 
   constructor() {}
@@ -109,17 +109,18 @@ export class AnimeWatchComponent implements AfterViewInit {
       .subscribe();
   }
 
-/**
- * Applies a CSS theme class to the VideoJS player element.
- *
- * This method adds the specified CSS class to the VideoJS player element,
- * allowing the player's appearance to be customized according to the theme.
- *
- * @param themeClass The CSS class to apply to the VideoJS player element.
- * @returns void
- */
+  /**
+   * Applies a CSS theme class to the VideoJS player element.
+   *
+   * This method adds the specified CSS class to the VideoJS player element,
+   * allowing the player's appearance to be customized according to the theme.
+   *
+   * @param themeClass The CSS class to apply to the VideoJS player element.
+   * @returns void
+   */
   private applyVideoPlayerTheme(themeClass: string): void {
-    const videoJSElement = this.videoJSContainer.nativeElement.firstElementChild;
+    const videoJSElement =
+      this.videoJSContainer.nativeElement.firstElementChild;
     this.renderer.addClass(videoJSElement, themeClass);
   }
 
@@ -136,9 +137,8 @@ export class AnimeWatchComponent implements AfterViewInit {
    */
   private listenToPlaylistMenuUiEpisodeChange(): void {
     this.videoPlayerService.on('playlistitem', () => {
-      const episodeIndex =
-        this.videoPlayerService.currentIndex;
-      
+      const episodeIndex = this.videoPlayerService.currentIndex;
+
       this.scrollPlaylistMenuTo(episodeIndex);
       this.router.navigate([], {
         relativeTo: this.activeRoute,
@@ -201,11 +201,11 @@ export class AnimeWatchComponent implements AfterViewInit {
     this.videoPlayerService.next();
   }
 
-/**
- * Plays the previous episode in the playlist.
- *
- * This method calls the previous() method on the video player service.
- */
+  /**
+   * Plays the previous episode in the playlist.
+   *
+   * This method calls the previous() method on the video player service.
+   */
   previous(): void {
     this.videoPlayerService.previous();
   }
