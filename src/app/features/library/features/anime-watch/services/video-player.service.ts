@@ -16,19 +16,30 @@ interface playlist extends Function {
   autoadvance: (_: number) => void;
   next: () => void;
   previous: () => void;
+  currentIndex: () => number;
 }
 
 @Injectable()
 export class VideoPlayerService {
-  player!: Player & { playlistUi?: (_: { el: Element | null }) => void } & {
+  private player!: Player & {
+    playlistUi?: (_: { el: Element | null }) => void;
+  } & {
     playlist?: playlist;
   };
-  readonly configurations: StaticConfigurations = {
+  private readonly configurations: StaticConfigurations = {
     controlBar: {
       remainingTimeDisplay: { displayNegative: false },
     },
     preload: 'auto',
   };
+
+  /**
+   * Returns the index of the currently playing episode in the playlist.
+   * @returns The index of the currently playing episode.
+   */
+  get currentIndex() {
+    return this.player.playlist.currentIndex();
+  }
 
   /**
    * Initializes a video player instance with the given element,

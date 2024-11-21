@@ -112,7 +112,7 @@ export class AnimeWatchComponent implements AfterViewInit {
   private listenToPlaylistMenuUiEpisodeChange(): void {
     this.videoPlayerService.on('playlistitem', () => {
       const episodeIndex =
-        this.videoPlayerService.player.playlist.currentIndex();
+        this.videoPlayerService.currentIndex;
       
       this.scrollPlaylistMenuTo(episodeIndex);
       this.router.navigate([], {
