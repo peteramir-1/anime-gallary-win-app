@@ -94,7 +94,7 @@ export class VideoPlayerService {
       muted: configs.muted,
       plugins: configs.hotkeys
         ? {
-          hotkeys: {
+            hotkeys: {
               volumeStep: configs.volumeStep,
               seekStep: configs.seekStep,
               enableMute: configs.enableMute,
