@@ -29,7 +29,6 @@ export class VideoPlayerService {
     },
     preload: 'auto',
   };
-  constructor() {}
 
   /**
    * Initializes a video player instance with the given element,
