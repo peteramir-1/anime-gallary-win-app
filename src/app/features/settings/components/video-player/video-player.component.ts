@@ -100,7 +100,6 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   toggleDisableForHotkeyControls(hotkeysEnabled: boolean): void {
-    console.log(hotkeysEnabled);
     if (!hotkeysEnabled) {
       Object.values(this.optionsForm.controls.hotkeys.controls).forEach(
         (control, i) => {
