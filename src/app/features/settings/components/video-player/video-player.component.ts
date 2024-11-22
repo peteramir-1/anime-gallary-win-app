@@ -1,9 +1,4 @@
-import {
-  Component,
-  DestroyRef,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -31,11 +26,11 @@ export class VideoPlayerComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   readonly themes = themes;
-  
+
   private savedSettings = this.activeRoute.snapshot.data.settings;
-  
-  isSaveButtonDisabled = true;
-  
+
+  readonly isSaveButtonDisabled = signal<boolean>(true);
+
   readonly optionsForm = this.fb.group({
     general: this.fb.group({
       theme: this.fb.control<string>(this.savedSettings?.theme),
@@ -97,10 +92,12 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   private toggleDisableForSavedButton(newOptionFomValue: any): void {
-    this.isSaveButtonDisabled =
-      JSON.stringify(newOptionFomValue) === JSON.stringify(this.savedSettings);
-    this.isSaveButtonDisabled =
-      this.isSaveButtonDisabled || !this.optionsForm.dirty;
+    this.isSaveButtonDisabled.set(
+      JSON.stringify(newOptionFomValue) === JSON.stringify(this.savedSettings)
+    );
+    this.isSaveButtonDisabled.update(
+      isSaveButtonDisabled => isSaveButtonDisabled || !this.optionsForm.dirty
+    );
   }
 
   toggleDisableForHotkeyControls(hotkeysEnabled: boolean): void {
@@ -127,7 +124,7 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   save(): void {
-    if(this.isSaveButtonDisabled === true) return;
+    if (this.isSaveButtonDisabled() === true) return;
     this.updateSettingsGQL
       .mutate(
         {

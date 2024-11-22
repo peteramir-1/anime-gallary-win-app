@@ -6,7 +6,7 @@
       appButton
       type="submit"
       class="ml-auto py-2"
-      [disabled]="isSaveButtonDisabled"
+      [disabled]="isSaveButtonDisabled()"
       (click)="save()">
       {{ 'save' | titlecase }}
     </button>
