@@ -90,9 +90,9 @@ export class VideoPlayerComponent implements OnInit {
       });
   }
 
-  private setIsSaveButtonDisabled(newOptionFomValue: any): void {
+  private setIsSaveButtonDisabled(newOptionFormValue: any): void {
     this.isSaveButtonDisabled.set(
-      JSON.stringify(newOptionFomValue) === JSON.stringify(this.savedSettings)
+      JSON.stringify(newOptionFormValue) === JSON.stringify(this.savedSettings)
     );
     this.isSaveButtonDisabled.update(
       isSaveButtonDisabled => isSaveButtonDisabled || !this.optionsForm.dirty
