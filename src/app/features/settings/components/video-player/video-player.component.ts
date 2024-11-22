@@ -90,6 +90,14 @@ export class VideoPlayerComponent implements OnInit {
       });
   }
 
+  /**
+   * Updates the save button's disabled state based on the comparison
+   * between the current options form value and the saved settings.
+   *
+   * @private
+   * @param {any} newOptionFormValue - The current value of the options form.
+   * @returns {void}
+   */
   private setIsSaveButtonDisabled(newOptionFormValue: any): void {
     this.isSaveButtonDisabled.set(
       JSON.stringify(newOptionFormValue) === JSON.stringify(this.savedSettings)
@@ -99,6 +107,15 @@ export class VideoPlayerComponent implements OnInit {
     );
   }
 
+  /**
+   * Disables/enables the options form controls for the hotkey settings based on
+   * the provided boolean value. If the value is false, all hotkey controls except
+   * the first one (the hotkeys toggle switch) are disabled. If the value is true,
+   * all hotkey controls except the first one are enabled.
+   *
+   * @param {boolean} hotkeysEnabled - The value of the hotkeys toggle switch.
+   * @returns {void}
+   */
   toggleHotkeyControls(hotkeysEnabled: boolean): void {
     if (!hotkeysEnabled) {
       Object.values(this.optionsForm.controls.hotkeys.controls).forEach(
@@ -117,6 +134,10 @@ export class VideoPlayerComponent implements OnInit {
     }
   }
 
+  /**
+   * Updates the video player settings with the values from the options form.
+   * @returns {void}
+   */
   save(): void {
     if (this.isSaveButtonDisabled() === true) return;
     this.updateSettingsGQL
