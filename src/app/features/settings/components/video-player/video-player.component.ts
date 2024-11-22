@@ -24,6 +24,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./video-player.component.scss'],
 })
 export class VideoPlayerComponent implements OnInit, OnDestroy {
+  private readonly snackbar = inject(MatSnackBar);
+  private readonly fb = inject(FormBuilder);
+  private readonly activeRoute = inject(ActivatedRoute);
+  private readonly updateSettingsGQL = inject(UpdateSettingsGQL);
+
   private readonly destroyed$ = new Subject<void>();
   private savedSettings = this.activeRoute.snapshot.data.settings;
   readonly optionsForm = this.fb.group({
@@ -76,12 +81,8 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
   readonly themes = themes;
   isSaveButtonDisabled = true;
 
-  private readonly snackbar = inject(MatSnackBar);
 
   constructor(
-    private fb: FormBuilder,
-    private activeRoute: ActivatedRoute,
-    private updateSettingsGQL: UpdateSettingsGQL
   ) {}
 
   ngOnInit(): void {
