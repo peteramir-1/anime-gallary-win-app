@@ -86,11 +86,11 @@ export class VideoPlayerComponent implements OnInit {
     this.optionsForm.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(value => {
-        this.toggleDisableForSavedButton(value);
+        this.setIsSaveButtonDisabled(value);
       });
   }
 
-  private toggleDisableForSavedButton(newOptionFomValue: any): void {
+  private setIsSaveButtonDisabled(newOptionFomValue: any): void {
     this.isSaveButtonDisabled.set(
       JSON.stringify(newOptionFomValue) === JSON.stringify(this.savedSettings)
     );
@@ -99,7 +99,7 @@ export class VideoPlayerComponent implements OnInit {
     );
   }
 
-  toggleDisableForHotkeyControls(hotkeysEnabled: boolean): void {
+  toggleHotkeyControls(hotkeysEnabled: boolean): void {
     if (!hotkeysEnabled) {
       Object.values(this.optionsForm.controls.hotkeys.controls).forEach(
         (control, i) => {
