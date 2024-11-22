@@ -30,7 +30,12 @@ export class VideoPlayerComponent implements OnInit {
   private readonly updateSettingsGQL = inject(UpdateSettingsGQL);
   private readonly destroyRef = inject(DestroyRef);
 
+  readonly themes = themes;
+  
   private savedSettings = this.activeRoute.snapshot.data.settings;
+  
+  isSaveButtonDisabled = true;
+  
   readonly optionsForm = this.fb.group({
     general: this.fb.group({
       theme: this.fb.control<string>(this.savedSettings?.theme),
@@ -78,9 +83,6 @@ export class VideoPlayerComponent implements OnInit {
       ),
     }),
   });
-  readonly themes = themes;
-  isSaveButtonDisabled = true;
-
 
   constructor(
   ) {}
