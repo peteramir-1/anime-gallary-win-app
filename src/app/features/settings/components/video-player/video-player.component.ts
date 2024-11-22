@@ -117,10 +117,6 @@ export class VideoPlayerComponent implements OnInit {
     }
   }
 
-  themeTrackByFn(_, theme: { value: string }): string {
-    return theme.value;
-  }
-
   save(): void {
     if (this.isSaveButtonDisabled() === true) return;
     this.updateSettingsGQL
