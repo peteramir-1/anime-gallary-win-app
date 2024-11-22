@@ -79,8 +79,7 @@ export class VideoPlayerComponent implements OnInit {
     }),
   });
 
-  constructor(
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.savedSettings = this.optionsForm.getRawValue();
