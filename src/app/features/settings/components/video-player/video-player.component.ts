@@ -1,13 +1,14 @@
 import {
   Component,
-  OnDestroy,
+  DestroyRef,
   OnInit,
   inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
   GetVideoPlayerSettingsDocument,
@@ -15,7 +16,6 @@ import {
 } from 'src/app/core/services/graphql.service';
 
 import { themes } from 'src/app/features/settings/models/video-player-settings.model';
-import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -23,13 +23,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './video-player.component.html',
   styleUrls: ['./video-player.component.scss'],
 })
-export class VideoPlayerComponent implements OnInit, OnDestroy {
+export class VideoPlayerComponent implements OnInit {
   private readonly snackbar = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
   private readonly activeRoute = inject(ActivatedRoute);
   private readonly updateSettingsGQL = inject(UpdateSettingsGQL);
+  private readonly destroyRef = inject(DestroyRef);
 
-  private readonly destroyed$ = new Subject<void>();
   private savedSettings = this.activeRoute.snapshot.data.settings;
   readonly optionsForm = this.fb.group({
     general: this.fb.group({
@@ -88,7 +88,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.savedSettings = this.optionsForm.getRawValue();
     this.optionsForm.valueChanges
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(value => {
         this.toggleDisableForSavedButton(value);
       });
@@ -147,10 +147,5 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
   }
 }
