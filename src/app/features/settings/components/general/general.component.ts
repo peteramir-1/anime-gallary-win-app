@@ -16,6 +16,6 @@ export class GeneralComponent {
    * using the DarkModeService.
    */
   toggleTheme(): void {
-    this.darkModeService.toggleTheme()
+    this.darkModeService.toggleTheme();
   }
 }
