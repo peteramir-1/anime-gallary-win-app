@@ -104,17 +104,17 @@ export class VideoPlayerComponent implements OnInit {
     );
 
     // Toggle hotkey controls based on initial hotkey settings
-    this.toggleHotkeyControls(!this.routerReceivedSettings.hotkeys);
+    this.toggleHotkeyControls(this.routerReceivedSettings.hotkeys);
 
     // Subscribe to form value changes to manage the save button's state
     this.optionsForm.valueChanges
       .pipe(
         takeUntilDestroyed(this.destroyRef), // Ensure subscription is cleaned up on component destruction
-        tap(() => {
+        tap(optionsForm => {
           // Update the save button's disabled state by comparing form values
           this.isSaveButtonDisabled.set(
             this.helperService.compareObjectsValues(
-              this.optionsForm.value,
+              optionsForm,
               this.savedOptionsForm
             )
           );
@@ -132,26 +132,42 @@ export class VideoPlayerComponent implements OnInit {
   private convertSettingsToFormValues(
     settings: GetVideoPlayerSettingsQuery['settings']
   ): OptionForm {
-    return {
-      general: {
+    const generalFormValues = {
         autoplay: settings.autoplay,
         theme: settings.theme,
         loop: settings.loop,
         muted: settings.muted,
         pip: settings.pip,
         controls: settings.controls,
-      },
-      hotkeys: {
-        hotkeys: !settings.hotkeys,
-        enableNumbers: !settings.enableNumbers,
-        enableVolumeScroll: !settings.enableVolumeScroll,
-        enableModifiersForNumbers: !settings.enableModifiersForNumbers,
-        enableMute: !settings.enableMute,
-        enableFullscreen: !settings.enableFullscreen,
-        seekStep: settings.seekStep,
-        volumeStep: settings.volumeStep,
-      },
     };
+    const isHotkeysDisabled = !settings.hotkeys;
+   
+    if (isHotkeysDisabled) {
+      return {
+        general: {
+          ...generalFormValues,
+        },
+        hotkeys: {
+          hotkeys: false
+        },
+      }
+    } else {
+      return {
+        general: {
+          ...generalFormValues,
+        },
+        hotkeys: {
+          hotkeys: true,
+          enableNumbers: !!settings.enableNumbers,
+          enableVolumeScroll: !!settings.enableVolumeScroll,
+          enableModifiersForNumbers: !!settings.enableModifiersForNumbers,
+          enableMute: !!settings.enableMute,
+          enableFullscreen: !!settings.enableFullscreen,
+          seekStep: settings.seekStep,
+          volumeStep: settings.volumeStep
+        }
+      }
+    }
   }
 
   /**
