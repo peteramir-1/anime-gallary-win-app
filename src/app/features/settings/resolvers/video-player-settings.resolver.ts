@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 
 import { Observable } from 'rxjs';
@@ -10,8 +10,7 @@ import { GetVideoPlayerSettingsGQL, GetVideoPlayerSettingsQuery } from 'src/app/
   providedIn: 'root',
 })
 export class VideoPlayerSettingsResolver  {
-  constructor(private getVideoPlayerSettingGQL: GetVideoPlayerSettingsGQL) {}
-
+  private getVideoPlayerSettingGQL = inject(GetVideoPlayerSettingsGQL);
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
