@@ -16,6 +16,7 @@ import { NumberInputModule } from 'src/app/shared/modules/inputs/number-input/nu
 import { RadioWrapperModule } from 'src/app/shared/modules/inputs/radio-wrapper/radio-wrapper.module';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { SETTINGS_SNACK_BAR_DEFAULT_OPTIONS } from './models/settings-snackbar.model';
+import { VideoPlayerSettingsResolver } from './resolvers/video-player-settings.resolver';
 
 @NgModule({
   declarations: [
@@ -37,9 +38,12 @@ import { SETTINGS_SNACK_BAR_DEFAULT_OPTIONS } from './models/settings-snackbar.m
 
     SharedModule,
   ],
-  providers: [{
-    provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-    useValue: SETTINGS_SNACK_BAR_DEFAULT_OPTIONS,
-  }],
+  providers: [
+    VideoPlayerSettingsResolver,
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: SETTINGS_SNACK_BAR_DEFAULT_OPTIONS,
+    },
+  ],
 })
 export class SettingsModule {}

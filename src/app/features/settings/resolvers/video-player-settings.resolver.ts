@@ -8,9 +8,7 @@ import {
   GetVideoPlayerSettingsQuery,
 } from 'src/app/core/services/graphql.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class VideoPlayerSettingsResolver {
   private getVideoPlayerSettingGQL = inject(GetVideoPlayerSettingsGQL);
 
