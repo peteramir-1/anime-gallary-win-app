@@ -1,4 +1,4 @@
-import { theme } from "../interfaces/video-player-settings.interface";
+import { theme } from "../interfaces/video-player.interface";
 
 const themePrefix = 'vjs-theme-';
 

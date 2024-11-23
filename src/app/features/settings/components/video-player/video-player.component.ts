@@ -11,7 +11,7 @@ import {
   UpdateSettingsGQL,
 } from 'src/app/core/services/graphql.service';
 
-import { themes } from 'src/app/features/settings/models/video-player-settings.model';
+import { themes } from 'src/app/features/settings/components/video-player/models/video-player.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 type OptionForm = Partial<{
