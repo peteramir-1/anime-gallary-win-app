@@ -104,7 +104,7 @@ export class VideoPlayerComponent implements OnInit {
     );
 
     // Toggle hotkey controls based on initial hotkey settings
-    this.toggleHotkeyControls(this.routerReceivedSettings.hotkeys);
+    this.toggleHotkeyControls(!this.routerReceivedSettings.hotkeys);
 
     // Subscribe to form value changes to manage the save button's state
     this.optionsForm.valueChanges
