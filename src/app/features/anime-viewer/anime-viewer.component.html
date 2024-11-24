@@ -5,7 +5,7 @@
       <button
         class="flex-initial"
         type="button"
-        (click)="selectAnimeFolder()"
+        (click)="getAnimeData()"
         appButton
         matTooltip="Select Anime Folder">
         <ng-icon name="matFolder"></ng-icon>
@@ -13,7 +13,7 @@
 
       <input
         type="text"
-        [disabled]="!!error() || !animesFolder.value"
+        [disabled]="!!error() || !animesFolderPath"
         [(ngModel)]="searchText"
         placeholder="Search"
         appInput />
@@ -23,7 +23,7 @@
   <section class="row-span-6 h-[calc(100%_-_1.75rem)]">
     <header
       class="block h-7 w-full rounded-t-md bg-teal-500 p-2 text-xs font-bold text-white">
-      {{ animesFolder.value }}
+      {{ animesFolderPath() }}
     </header>
     <section class="!rounded-t-none !py-2" appWidgetContainer>
       <section appScrollable>
@@ -50,7 +50,7 @@
               }
             </section>
           </div> </cdk-virtual-scroll-viewport
-        >} @else if(animesFolder.value === '') {
+        >} @else if(animesFolderPath() === '') {
         <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
           Please Select Anime Folder to View Animes
         </h3>
