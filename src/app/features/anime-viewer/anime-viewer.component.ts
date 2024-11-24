@@ -22,18 +22,19 @@ import { AnimeFf } from 'src/app/core/services/graphql.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeViewerComponent implements OnInit {
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly electronService = inject(ElectronService);
+  private readonly getAnimesFromFolderGQL = inject(GetAnimesFromFolderGQL);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly destroyRef = inject(DestroyRef);
+
   readonly animesFolder = this.formBuilder.control<string | undefined>(
     undefined
   );
-
+  
+  private readonly prevAnimeFolder = signal(undefined);
+  
   readonly animes = signal<AnimeFf[]>([]);
   readonly error = signal<string | undefined>(undefined);
-
-  private readonly prevAnimeFolder = signal(undefined);
-  private readonly electronService = inject(ElectronService);
-  private readonly getAnimesFromFolderGQL = inject(GetAnimesFromFolderGQL);
 
   searchText = '';
 
