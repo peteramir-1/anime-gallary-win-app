@@ -6,8 +6,8 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder } from '@angular/forms';
-import { Subscription } from 'rxjs';
 
 import { map, tap } from 'rxjs/operators';
 
@@ -22,6 +22,7 @@ import { AnimeFf } from 'src/app/core/services/graphql.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeViewerComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly formBuilder = inject(FormBuilder);
   readonly animesFolder = this.formBuilder.control<string | undefined>(
     undefined
@@ -35,17 +36,12 @@ export class AnimeViewerComponent implements OnInit {
   private readonly electronService = inject(ElectronService);
   private readonly getAnimesFromFolderGQL = inject(GetAnimesFromFolderGQL);
 
-  private readonly destroyed = inject(DestroyRef).onDestroy(() => {
-    this.animesFolderSubscribtion.unsubscribe();
-  });
-  animesFolderSubscribtion: Subscription;
-
   name = '';
 
   ngOnInit(): void {
-    this.animesFolderSubscribtion = this.animesFolder.valueChanges.subscribe(
-      () => this.updateAnimesList()
-    );
+    this.animesFolder.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.updateAnimesList());
   }
 
   selectAnimeFolder(): void {
