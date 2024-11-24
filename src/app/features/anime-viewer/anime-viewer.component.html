@@ -37,8 +37,9 @@
             <section
               class="flex flex-1 flex-row"
               *cdkVirtualFor="
-                let animeRow of orderAnimes(
-                  animes() | filterBy : ['name'] : searchText
+                let animeRow of divideArrayIntoSubarrays(
+                  animes() | filterBy : ['name'] : searchText,
+                  4
                 )
               ">
               @for (anime of animeRow; track anime.name) {

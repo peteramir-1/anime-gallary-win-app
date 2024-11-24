@@ -14,6 +14,7 @@ import { map } from 'rxjs/operators';
 import { ElectronService } from 'src/app/core/services/electron.service';
 import { GetAnimesFromFolderGQL } from 'src/app/core/services/graphql.service';
 import { AnimeFf } from 'src/app/core/services/graphql.service';
+import { HelperService } from 'src/app/shared/services/helper.service';
 
 @Component({
   selector: 'app-anime-viewer',
@@ -26,7 +27,7 @@ export class AnimeViewerComponent implements OnInit {
   private readonly getAnimesFromFolderGQL = inject(GetAnimesFromFolderGQL);
   private readonly formBuilder = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
-
+  
   readonly animesFolder = this.formBuilder.control<string | undefined>(
     undefined
   );
@@ -73,17 +74,5 @@ export class AnimeViewerComponent implements OnInit {
       .pipe(map(res => res?.data?.animesFromFolder || []));
   }
 
-  orderAnimes<T>(animes: T[]): T[][] {
-    const animesList = [];
-    let row = [];
-    animes.forEach((anime, index) => {
-      row.push(anime);
-
-      if (row.length === 4 || animes.length - 1 === index) {
-        animesList.push(row);
-        row = [];
-      }
-    });
-    return animesList;
-  }
+  readonly divideArrayIntoSubarrays = inject(HelperService).divideArrayIntoSubarrays; 
 }
