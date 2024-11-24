@@ -9,7 +9,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder } from '@angular/forms';
 
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { ElectronService } from 'src/app/core/services/electron.service';
 import { GetAnimesFromFolderGQL } from 'src/app/core/services/graphql.service';
@@ -29,7 +29,6 @@ export class AnimeViewerComponent implements OnInit {
   );
 
   readonly animes = signal<AnimeFf[]>([]);
-  readonly loading = signal(false);
   readonly error = signal<string | undefined>(undefined);
 
   private readonly prevAnimeFolder = signal(undefined);
@@ -53,21 +52,16 @@ export class AnimeViewerComponent implements OnInit {
 
   private updateAnimesList(): void {
     if (this.animesFolder.value !== this.prevAnimeFolder()) {
-      this.fetchAnimes()
-        .pipe(tap(() => this.loading.set(true)))
-        .subscribe(
-          (animes: AnimeFf[]) => {
-            this.error.set(undefined);
-            this.animes.set(animes);
-          },
-          err => {
-            this.error.set(err.message);
-            this.animes.set([]);
-          },
-          () => {
-            this.loading.set(false);
-          }
-        );
+      this.fetchAnimes().subscribe(
+        (animes: AnimeFf[]) => {
+          this.error.set(undefined);
+          this.animes.set(animes);
+        },
+        err => {
+          this.error.set(err.message);
+          this.animes.set([]);
+        }
+      );
     }
     this.prevAnimeFolder.set(this.animesFolder.value);
   }

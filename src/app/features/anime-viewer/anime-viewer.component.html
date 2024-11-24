@@ -13,7 +13,7 @@
 
       <input
         type="text"
-        [disabled]="!!loading() || !!error() || !animesFolder.value"
+        [disabled]="!!error() || !animesFolder.value"
         [(ngModel)]="searchText"
         placeholder="Search"
         appInput />
@@ -27,16 +27,7 @@
     </header>
     <section class="!rounded-t-none !py-2" appWidgetContainer>
       <section appScrollable>
-        @if(loading()) {
-        <section class="relative top-1/2 m-auto -translate-y-1/2 text-center">
-          <ng-icon
-            class="animate-bounce"
-            size="3rem"
-            color="#3b82f6"
-            name="matfVideoColored"></ng-icon>
-          <h3>Loading<span class="tracking-wide">...</span></h3>
-        </section>
-        } @else { @if (animes().length !== 0) {
+        @if (animes().length !== 0) {
         <cdk-virtual-scroll-viewport
           class="h-full"
           [minBufferPx]="452 * 2"
@@ -68,7 +59,7 @@
         <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
           No Anime was Found
         </h3>
-        } }
+        }
       </section>
     </section>
   </section>
