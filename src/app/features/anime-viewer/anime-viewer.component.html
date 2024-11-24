@@ -14,7 +14,7 @@
       <input
         type="text"
         [disabled]="!!loading() || !!error() || !animesFolder.value"
-        [(ngModel)]="name"
+        [(ngModel)]="searchText"
         placeholder="Search"
         appInput />
     </section>
@@ -47,7 +47,7 @@
               class="flex flex-1 flex-row"
               *cdkVirtualFor="
                 let animeRow of orderAnimes(
-                  animes() | filterBy : ['name'] : name
+                  animes() | filterBy : ['name'] : searchText
                 )
               ">
               @for (anime of animeRow; track anime.name) {

@@ -36,7 +36,7 @@ export class AnimeViewerComponent implements OnInit {
   private readonly electronService = inject(ElectronService);
   private readonly getAnimesFromFolderGQL = inject(GetAnimesFromFolderGQL);
 
-  name = '';
+  searchText = '';
 
   ngOnInit(): void {
     this.animesFolder.valueChanges
