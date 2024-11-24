@@ -45,13 +45,6 @@ export class AnimeViewerComponent implements OnInit {
       .subscribe(() => this.updateAnimesList());
   }
 
-  selectAnimeFolder(): void {
-    this.electronService.selectFolder().subscribe((path: string | false) => {
-      if (!path || path === '') return;
-      this.animesFolder.setValue(path);
-    });
-  }
-
   private updateAnimesList(): void {
     if (this.animesFolder.value !== this.prevAnimeFolder()) {
       this.fetchAnimes().subscribe(
@@ -72,6 +65,13 @@ export class AnimeViewerComponent implements OnInit {
     return this.getAnimesFromFolderGQL
       .fetch({ folderPath: this.animesFolder.value })
       .pipe(map(res => res?.data?.animesFromFolder || []));
+  }
+
+  selectAnimeFolder(): void {
+    this.electronService.selectFolder().subscribe((path: string | false) => {
+      if (!path || path === '') return;
+      this.animesFolder.setValue(path);
+    });
   }
 
   readonly divideArrayIntoSubarrays = inject(HelperService).divideArrayIntoSubarrays; 
