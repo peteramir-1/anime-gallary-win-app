@@ -47,24 +47,21 @@ export class AnimeViewerComponent implements OnInit {
 
   private updateAnimesList(): void {
     if (this.animesFolder.value !== this.prevAnimeFolder()) {
-      this.fetchAnimes().subscribe(
-        (animes: AnimeFf[]) => {
-          this.error.set(undefined);
-          this.animes.set(animes);
-        },
-        err => {
-          this.error.set(err.message);
-          this.animes.set([]);
-        }
-      );
+      this.getAnimesFromFolderGQL
+        .fetch({ folderPath: this.animesFolder.value })
+        .pipe(map(res => res?.data?.animesFromFolder || []))
+        .subscribe(
+          (animes: AnimeFf[]) => {
+            this.error.set(undefined);
+            this.animes.set(animes);
+          },
+          err => {
+            this.error.set(err.message);
+            this.animes.set([]);
+          }
+        );
     }
     this.prevAnimeFolder.set(this.animesFolder.value);
-  }
-
-  fetchAnimes(): any {
-    return this.getAnimesFromFolderGQL
-      .fetch({ folderPath: this.animesFolder.value })
-      .pipe(map(res => res?.data?.animesFromFolder || []));
   }
 
   selectAnimeFolder(): void {
