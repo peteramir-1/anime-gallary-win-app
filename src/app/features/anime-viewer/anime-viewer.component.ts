@@ -27,13 +27,13 @@ export class AnimeViewerComponent implements OnInit {
   private readonly getAnimesFromFolderGQL = inject(GetAnimesFromFolderGQL);
   private readonly formBuilder = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
-  
+
   readonly animesFolder = this.formBuilder.control<string | undefined>(
     undefined
   );
-  
+
   private readonly prevAnimeFolder = signal(undefined);
-  
+
   readonly animes = signal<AnimeFf[]>([]);
   readonly error = signal<string | undefined>(undefined);
 
@@ -71,5 +71,6 @@ export class AnimeViewerComponent implements OnInit {
     });
   }
 
-  readonly divideArrayIntoSubarrays = inject(HelperService).divideArrayIntoSubarrays; 
+  readonly divideArrayIntoSubarrays =
+    inject(HelperService).divideArrayIntoSubarrays;
 }
