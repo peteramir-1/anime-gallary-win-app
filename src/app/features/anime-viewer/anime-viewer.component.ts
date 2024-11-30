@@ -28,20 +28,31 @@ export class AnimeViewerComponent {
 
   searchText = '';
 
+  readonly divideArrayIntoSubarrays =
+    inject(HelperService).divideArrayIntoSubarrays;
+
+  /**
+   * Fetches anime data from the selected folder path.
+   *
+   * This method uses the ElectronService to prompt the user to select a folder.
+   * If a valid folder path is selected, it fetches the animes from the folder
+   * using the GraphQL query GetAnimesFromFolderGQL.
+   *
+   * Updates the component state with the fetched anime data and folder path.
+   * In case of an error, it sets the error message and clears the anime list.
+   */
   getAnimeData(): void {
     this.electronService
       .selectFolder()
       .pipe(
         filter(folderPath => !!folderPath && folderPath !== ''),
         switchMap(folderPath =>
-          this.getAnimesFromFolderGQL
-            .fetch({ folderPath })
-            .pipe(
-              map(res => ({
-                folderPath,
-                animes: res?.data?.animesFromFolder || [],
-              }))
-            )
+          this.getAnimesFromFolderGQL.fetch({ folderPath }).pipe(
+            map(res => ({
+              folderPath,
+              animes: res?.data?.animesFromFolder || [],
+            }))
+          )
         )
       )
       .subscribe(
@@ -56,7 +67,4 @@ export class AnimeViewerComponent {
         }
       );
   }
-
-  readonly divideArrayIntoSubarrays =
-    inject(HelperService).divideArrayIntoSubarrays;
 }
