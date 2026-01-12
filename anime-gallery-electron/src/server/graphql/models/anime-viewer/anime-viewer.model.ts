@@ -113,7 +113,7 @@ export class AnimeViewerModel {
         .map<AnimeFF>(directory => ({
           id: v4(),
           name: directory.name,
-          directoryPath: path.join(directory.path, directory.name),
+          directoryPath: path.join(directory.parentPath, directory.name),
           thumbnail: undefined,
           episodes: [],
           type: 'movie',

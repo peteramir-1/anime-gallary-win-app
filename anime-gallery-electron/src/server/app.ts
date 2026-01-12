@@ -8,7 +8,10 @@ import _ from 'lodash';
 import { APPLICATION_SERVER, TContext } from './app.interfaces';
 
 import { ApolloServer, ContextFunction } from '@apollo/server';
-import { expressMiddleware } from '@apollo/server/express4';
+import {
+  ExpressContextFunctionArgument,
+  expressMiddleware,
+} from '@as-integrations/express5';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 
 import {
@@ -31,11 +34,6 @@ import { animeResolver } from './graphql/schema/animes/animes.resolver';
 import { animesTypeDefs } from './graphql/schema/animes/animes.typeDefs';
 import { settingsResolver } from './graphql/schema/settings/settings.resolver';
 import { settingsTypeDefs } from './graphql/schema/settings/settings.typeDefs';
-
-interface ExpressContextFunctionArgument {
-  req: express.Request;
-  res: express.Response;
-}
 
 type DatabaseConnections = { [databaseName: string]: Database.Database };
 
@@ -169,7 +167,9 @@ export class ApplicationServer implements APPLICATION_SERVER {
 
     this.app.use(
       '/graphql',
-      cors<cors.CorsRequest>({ origin: [`http://localhost:${env.serverPort}`] }),
+      cors<cors.CorsRequest>({
+        origin: [`http://localhost:${env.serverPort}`],
+      }),
       express.json(),
       expressMiddleware(this.apolloServer!, { context })
     );
@@ -186,7 +186,7 @@ export class ApplicationServer implements APPLICATION_SERVER {
   private registerServePicturesRoutes(): void {
     this.app.use('/serve', servingFilesRoutes);
   }
-  
+
   /**
    * Registers a catch-all route to serve the Angular Single Page Application (SPA).
    * This route sends the `index.html` file located in the `views` directory for
@@ -196,13 +196,8 @@ export class ApplicationServer implements APPLICATION_SERVER {
    * @returns {void}
    */
   private registerSPARoutes(): void {
-    this.app.use('*', (_, res) => {
-      const FrontEndPath = path.join(
-        __dirname,
-        '..',
-        'views',
-        'index.html'
-      );
+    this.app.use((_, res) => {
+      const FrontEndPath = path.join(__dirname, '..', 'views', 'index.html');
       res.sendFile(FrontEndPath);
     });
   }
