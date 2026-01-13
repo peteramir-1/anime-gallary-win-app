@@ -54,15 +54,17 @@ export class OptionComponent<T = any> {
         {{ value() | titlecase }}
       </mat-select-trigger>
       @for(option of options; track option.value) {
-      <mat-option [value]="option.value">
-        {{ option.viewValue }}
-      </mat-option>
+        <mat-option [value]="option.value">
+          {{ option.viewValue }}
+        </mat-option>
       }
     </mat-select>
-    <div class="hidden" *ngIf="viewNGContent()">
-      <ng-content select="app-option"></ng-content>
-    </div>
-  `,
+    @if (viewNGContent()) {
+      <div class="hidden">
+        <ng-content select="app-option"></ng-content>
+      </div>
+    }
+    `,
     styles: [
         `
       .mat-mdc-select-trigger {
