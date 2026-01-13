@@ -1,7 +1,8 @@
 import { Directive, HostBinding, Input } from '@angular/core';
 
 @Directive({
-  selector: '[appScrollable]',
+    selector: '[appScrollable]',
+    standalone: false
 })
 export class ScrollableDirective {
   @Input('padding') paddingX?: number;

@@ -16,10 +16,11 @@ import { VideoPlayerService } from 'src/app/features/library/features/anime-watc
 import { Playlist } from './interfaces/video-player.interface';
 
 @Component({
-  selector: 'app-anime-watch',
-  templateUrl: './anime-watch.component.html',
-  styleUrls: ['./anime-watch.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-anime-watch',
+    templateUrl: './anime-watch.component.html',
+    styleUrls: ['./anime-watch.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class AnimeWatchComponent implements AfterViewInit {
   @ViewChild('playlistUI') playlistUI!: ElementRef;

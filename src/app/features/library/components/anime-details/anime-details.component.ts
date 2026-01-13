@@ -4,9 +4,10 @@ import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-anime-details',
-  templateUrl: './anime-details.component.html',
-  styleUrls: ['./anime-details.component.scss'],
+    selector: 'app-anime-details',
+    templateUrl: './anime-details.component.html',
+    styleUrls: ['./anime-details.component.scss'],
+    standalone: false
 })
 export class AnimeDetailsComponent implements OnInit, OnDestroy {
   anime: any;

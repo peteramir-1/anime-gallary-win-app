@@ -5,8 +5,9 @@ import { CommonModule } from '@angular/common';
 import { InputModule } from './inputs.module';
 
 @Component({
-  selector: 'test-element',
-  template: `<input type="text" [appInput] />`,
+    selector: 'test-element',
+    template: `<input type="text" [appInput] />`,
+    standalone: false
 })
 class testComponent {
   @ViewChild(InputDirective) directive: InputDirective;

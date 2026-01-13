@@ -17,12 +17,13 @@ import {
 } from 'src/app/core/services/file-serving.service';
 
 @Component({
-  selector: 'app-anime-details-header',
-  templateUrl: './anime-details-header.component.html',
-  styleUrl: './anime-details-header.component.scss',
-  host: {
-    class: 'flex flex-initial flex-row gap-5',
-  },
+    selector: 'app-anime-details-header',
+    templateUrl: './anime-details-header.component.html',
+    styleUrl: './anime-details-header.component.scss',
+    host: {
+        class: 'flex flex-initial flex-row gap-5',
+    },
+    standalone: false
 })
 export class AnimeDetailsHeaderComponent implements OnInit {
   @Input({required: true}) anime: any;

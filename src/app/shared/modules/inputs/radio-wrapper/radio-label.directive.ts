@@ -7,6 +7,7 @@ import { TitleCasePipe } from '@angular/common';
     class:
       'appearance-none input-checked-label:bg-blue-500 input-disabled-label:cursor-default input-checked-label:text-white input-checked-label:hover:bg-blue-400 input-checked-label:focus:bg-blue-400 input-checked-label:dark:bg-blue-600 input-checked-label:dark:hover:bg-blue-500 input-checked-label:dark:focus:bg-blue-500 input-disabled-label:text-neutral-500 input-disabled-label:hover:bg-neutral-200 input-disabled-checked-label:text-neutral-300  input-disabled-checked-label:bg-neutral-500 input-disabled-checked-label:hover:bg-neutral-500 ',
   },
+  standalone: false,
 })
 export class RadioInputDirective implements OnInit {
   private readonly element: HTMLInputElement = inject(ElementRef).nativeElement;

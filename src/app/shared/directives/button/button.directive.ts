@@ -13,10 +13,11 @@ type ButtonColor = 'primary' | 'secondary' | 'gray' | 'danger';
 type ButtonShape = 'default' | 'outline';
 
 @Directive({
-  selector: '[appButton]',
-  host: {
-    class: `flex select-none items-center self-start rounded-lg text-center text-sm font-medium transition-all duration-300`,
-  },
+    selector: '[appButton]',
+    host: {
+        class: `flex select-none items-center self-start rounded-lg text-center text-sm font-medium transition-all duration-300`,
+    },
+    standalone: false
 })
 export class ButtonDirective implements OnInit, OnChanges {
   @HostBinding('class') _customClasses = '';

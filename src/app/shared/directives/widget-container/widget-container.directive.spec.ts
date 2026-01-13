@@ -11,8 +11,9 @@ import { WidgetContainerModule } from './widget-container.module';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'test-element',
-  template: `<div [appWidgetContainer]></div>`,
+    selector: 'test-element',
+    template: `<div [appWidgetContainer]></div>`,
+    standalone: false
 })
 class testComponent {
   @ViewChild(WidgetContainerDirective) directive: WidgetContainerDirective;

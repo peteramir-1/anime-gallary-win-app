@@ -21,10 +21,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, map, take, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-add-anime',
-  templateUrl: './add-anime.component.html',
-  styleUrls: ['./add-anime.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-add-anime',
+    templateUrl: './add-anime.component.html',
+    styleUrls: ['./add-anime.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AddAnimeComponent implements OnInit {
   private readonly snackbar = inject(MatSnackBar);

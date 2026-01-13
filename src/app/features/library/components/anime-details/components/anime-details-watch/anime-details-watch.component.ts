@@ -6,13 +6,14 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-anime-details-watch',
-  templateUrl: './anime-details-watch.component.html',
-  styleUrl: './anime-details-watch.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'flex flex-initial flex-col gap-5',
-  },
+    selector: 'app-anime-details-watch',
+    templateUrl: './anime-details-watch.component.html',
+    styleUrl: './anime-details-watch.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        class: 'flex flex-initial flex-col gap-5',
+    },
+    standalone: false
 })
 export class AnimeDetailsWatchComponent implements OnInit {
   @Input({ required: true }) anime;

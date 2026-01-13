@@ -12,16 +12,17 @@ import { ElectronService } from 'src/app/core/services/electron.service';
 import { ENTER } from '@angular/cdk/keycodes';
 
 @Component({
-  selector: 'app-filepath-input',
-  templateUrl: './filepath-input.component.html',
-  styleUrls: ['./filepath-input.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: FilepathInputComponent,
-      multi: true,
-    },
-  ],
+    selector: 'app-filepath-input',
+    templateUrl: './filepath-input.component.html',
+    styleUrls: ['./filepath-input.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: FilepathInputComponent,
+            multi: true,
+        },
+    ],
+    standalone: false
 })
 export class FilepathInputComponent implements ControlValueAccessor {
   @ViewChild('button') buttonElement: ElementRef;

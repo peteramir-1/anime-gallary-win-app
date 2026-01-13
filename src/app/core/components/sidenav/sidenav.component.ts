@@ -9,9 +9,10 @@ import { sidenav } from '../../models/sidenav';
 import { DarkModeService } from 'src/app/core/services/dark-mode.service';
 
 @Component({
-  selector: 'app-sidenav',
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss'],
+    selector: 'app-sidenav',
+    templateUrl: './sidenav.component.html',
+    styleUrls: ['./sidenav.component.scss'],
+    standalone: false
 })
 export class SidenavComponent implements OnInit {
   sidenav = sidenav;

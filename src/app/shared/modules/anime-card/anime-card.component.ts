@@ -14,10 +14,11 @@ import {
 import { Anime, AnimeFf } from 'src/app/core/services/graphql.service';
 
 @Component({
-  selector: 'app-anime-card',
-  templateUrl: './anime-card.component.html',
-  styleUrls: ['./anime-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-anime-card',
+    templateUrl: './anime-card.component.html',
+    styleUrls: ['./anime-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AnimeCardComponent implements OnInit {
   @Input() anime: Omit<Anime, 'createdAt' | 'updatedAt'> | AnimeFf;

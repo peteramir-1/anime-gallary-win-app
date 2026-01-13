@@ -17,13 +17,14 @@ type SEASONS = 'summer' | 'autumn' | 'winter' | 'spring' | null;
 type STATUS = 'complete' | 'incomplete' | null;
 
 @Component({
-  selector: 'app-lib-header',
-  templateUrl: './lib-header.component.html',
-  styleUrl: './lib-header.component.scss',
-  providers: [OrderByPipe],
-  host: {
-    class: 'flex content-stretch items-center gap-5 min-h-12',
-  },
+    selector: 'app-lib-header',
+    templateUrl: './lib-header.component.html',
+    styleUrl: './lib-header.component.scss',
+    providers: [OrderByPipe],
+    host: {
+        class: 'flex content-stretch items-center gap-5 min-h-12',
+    },
+    standalone: false
 })
 export class LibHeaderComponent implements OnInit {
   private readonly orderByPipe = inject(OrderByPipe);

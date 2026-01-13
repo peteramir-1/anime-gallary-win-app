@@ -3,18 +3,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Component({
-  selector: 'app-number-input',
-  templateUrl: './number-input.component.html',
-  host: {
-    class: 'flex flex-1 min-h-[1.5rem] max-w-xs cursor-pointer divide-x-2 divide-transparent bg-transparent text-xs font-bold overflow-hidden rounded-lg'
-  },
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: NumberInputComponent,
-      multi: true,
+    selector: 'app-number-input',
+    templateUrl: './number-input.component.html',
+    host: {
+        class: 'flex flex-1 min-h-[1.5rem] max-w-xs cursor-pointer divide-x-2 divide-transparent bg-transparent text-xs font-bold overflow-hidden rounded-lg'
     },
-  ],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: NumberInputComponent,
+            multi: true,
+        },
+    ],
+    standalone: false
 })
 export class NumberInputComponent implements ControlValueAccessor {
   readonly buttonClass =

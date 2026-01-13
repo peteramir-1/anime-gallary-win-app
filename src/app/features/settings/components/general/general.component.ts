@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { DarkModeService } from 'src/app/core/services/dark-mode.service';
 
 @Component({
-  selector: 'app-general',
-  templateUrl: './general.component.html',
-  styleUrls: ['./general.component.scss'],
+    selector: 'app-general',
+    templateUrl: './general.component.html',
+    styleUrls: ['./general.component.scss'],
+    standalone: false
 })
 export class GeneralComponent {
   darkMode = this.darkModeService.darkMode.value;

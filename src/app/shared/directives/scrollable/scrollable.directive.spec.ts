@@ -11,8 +11,9 @@ import { ScrollableDirective } from './scrollable.directive';
 import { ScrollableModule } from './scrollable.module';
 
 @Component({
-  selector: 'test-element',
-  template: `<div [appScrollable]></div>`,
+    selector: 'test-element',
+    template: `<div [appScrollable]></div>`,
+    standalone: false
 })
 class testComponent {
   @ViewChild(ScrollableDirective) directive: ScrollableDirective;

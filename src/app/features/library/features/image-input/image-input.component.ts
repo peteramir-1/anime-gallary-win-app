@@ -12,17 +12,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FileServingService } from 'src/app/core/services/file-serving.service';
 
 @Component({
-  selector: 'image-input',
-  templateUrl: './image-input.component.html',
-  styleUrl: './image-input.component.scss',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: ImageInputComponent,
-      multi: true,
-    },
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'image-input',
+    templateUrl: './image-input.component.html',
+    styleUrl: './image-input.component.scss',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: ImageInputComponent,
+            multi: true,
+        },
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ImageInputComponent implements ControlValueAccessor {
   @HostBinding('class') private readonly class =

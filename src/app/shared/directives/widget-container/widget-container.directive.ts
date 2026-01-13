@@ -4,7 +4,8 @@ type width = 'auto' | 'fit' | 'full' | 'screen';
 type height = 'auto' | 'fit' | 'full' | 'screen';
 
 @Directive({
-  selector: '[appWidgetContainer]',
+    selector: '[appWidgetContainer]',
+    standalone: false
 })
 export class WidgetContainerDirective {
   @Input('padding') paddingY?: number;

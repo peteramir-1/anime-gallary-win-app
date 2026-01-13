@@ -7,10 +7,11 @@ import {
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-form-field',
-  templateUrl: './form-field.component.html',
-  styleUrl: './form-field.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-form-field',
+    templateUrl: './form-field.component.html',
+    styleUrl: './form-field.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class FormFieldComponent {
   @Input({ required: true }) label = 'Empty label';

@@ -3,8 +3,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CricleAnimation } from './on-off-input.animation';
 
 @Component({
-  selector: 'on-off-input',
-  template: `
+    selector: 'on-off-input',
+    template: `
     <div
       [attr.tabindex]="isDisabled ? -1 : !!tabindex ? +tabindex : 0"
       class="relative h-6 w-12 rounded-full p-1 transition-colors"
@@ -31,15 +31,16 @@ import { CricleAnimation } from './on-off-input.animation';
         }"></div>
     </div>
   `,
-  host: { class: 'height: fit-content' },
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: OnOffInputComponent,
-      multi: true,
-    },
-  ],
-  animations: [CricleAnimation],
+    host: { class: 'height: fit-content' },
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: OnOffInputComponent,
+            multi: true,
+        },
+    ],
+    animations: [CricleAnimation],
+    standalone: false
 })
 export class OnOffInputComponent implements ControlValueAccessor {
   @Input() tabindex = '0';
