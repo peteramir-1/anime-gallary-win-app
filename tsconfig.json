@@ -20,11 +20,6 @@
       "mocha",
       "video.js"
     ],
-    "lib": [
-      "es2018",
-      "dom",
-      "esnext.asynciterable"
-    ],
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
