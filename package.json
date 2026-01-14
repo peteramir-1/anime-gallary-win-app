@@ -78,13 +78,13 @@
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
-    "@types/jasmine": "~3.6.0",
     "@types/jest": "^29.5.11",
     "@types/mocha": "^10.0.6",
-    "@types/node": "^12.20.55",
+    "@types/node": "^25.0.8",
     "@types/video.js": "^7.3.58",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
+    "@vitest/ui": "^4.0.17",
     "autoprefixer": "^10.4.18",
     "eslint": "^8.57.0",
     "eslint-config-google": "^0.14.0",
@@ -93,12 +93,7 @@
     "eslint-plugin-jsdoc": "^43.0.5",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-prettier": "^4.2.1",
-    "jasmine-core": "~3.8.0",
-    "karma": "~6.3.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.0.3",
-    "karma-jasmine": "~4.0.0",
-    "karma-jasmine-html-reporter": "^1.7.0",
+    "jsdom": "^27.4.0",
     "postcss": "^8.4.36",
     "postcss-import": "^16.0.1",
     "prettier": "^2.6.2",
@@ -106,6 +101,7 @@
     "prettier-plugin-tailwindcss": "^0.3.0",
     "tailwindcss": "^3.4.1",
     "tailwindcss-animated": "^1.0.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.17"
   }
 }
