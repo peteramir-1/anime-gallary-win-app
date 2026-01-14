@@ -1,7 +1,8 @@
 {
   "root": true,
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "project": ["tsconfig.json"]
   },
   "env": {
     "es6": true
@@ -13,21 +14,63 @@
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:prettier/recommended"
-      ]
+      ],
+      "rules": {
+        "no-restricted-globals": [
+          "error",
+          {
+            "name": "jasmine",
+            "message": "Jasmine is not allowed. Migrate this test to Vitest."
+          }
+        ]
+      }
     },
-    // NOTE: WE ARE NOT APPLYING PRETTIER IN THIS OVERRIDE, ONLY @ANGULAR-ESLINT/TEMPLATE
+
+    /* =========================
+       VITEST OVERRIDE (KEY PART)
+       ========================= */
+    {
+      "files": ["**/*.spec.ts"],
+      "env": {
+        "vitest/globals": true
+      },
+      "plugins": ["vitest"],
+      "extends": ["plugin:vitest/recommended"],
+      "rules": {
+        /* Prevent accidental Jasmine usage */
+        "no-restricted-globals": [
+          "error",
+          {
+            "name": "jasmine",
+            "message": "Jasmine API detected. Use Vitest equivalents instead."
+          }
+        ],
+
+        /* Encourage modern async testing */
+        "vitest/no-done-callback": "warn",
+
+        /* Avoid focused tests leaking */
+        "vitest/no-focused-tests": "error",
+
+        /* Allow Angular patterns */
+        "vitest/expect-expect": "off"
+      }
+    },
+
+    /* =========================
+       ANGULAR TEMPLATES
+       ========================= */
     {
       "files": ["./**/*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
     },
-    // NOTE: WE ARE NOT APPLYING @ANGULAR-ESLINT/TEMPLATE IN THIS OVERRIDE, ONLY PRETTIER
+
     {
       "files": ["./**/*.html"],
       "excludedFiles": ["*inline-template-*.component.html"],
       "extends": ["plugin:prettier/recommended"],
       "rules": {
-        // NOTE: WE ARE OVERRIDING THE DEFAULT CONFIG TO ALWAYS SET THE PARSER TO ANGULAR
         "prettier/prettier": [
           "error",
           { "endOfLine": "auto", "parser": "angular" }
