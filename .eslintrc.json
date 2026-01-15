@@ -34,8 +34,8 @@
       "env": {
         "vitest/globals": true
       },
-      "plugins": ["vitest"],
-      "extends": ["plugin:vitest/recommended"],
+      "plugins": ["@vitest"],
+      "extends": ["plugin:@vitest/recommended"],
       "rules": {
         /* Prevent accidental Jasmine usage */
         "no-restricted-globals": [
@@ -47,13 +47,13 @@
         ],
 
         /* Encourage modern async testing */
-        "vitest/no-done-callback": "warn",
+        "@vitest/no-done-callback": "warn",
 
         /* Avoid focused tests leaking */
-        "vitest/no-focused-tests": "error",
+        "@vitest/no-focused-tests": "error",
 
         /* Allow Angular patterns */
-        "vitest/expect-expect": "off"
+        "@vitest/expect-expect": "off"
       }
     },
 
