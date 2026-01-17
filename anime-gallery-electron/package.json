@@ -61,6 +61,7 @@
   "devDependencies": {
     "@electron-forge/cli": "^7.11.1",
     "@electron-forge/maker-squirrel": "^7.11.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.11.1",
     "@types/babel-generator": "^6.25.8",
     "@types/better-sqlite3": "^7.6.13",
     "@types/cors": "^2.8.19",
