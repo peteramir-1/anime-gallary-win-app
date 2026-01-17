@@ -1,6 +1,7 @@
 {
   "name": "anime_gallery",
   "version": "1.0.0",
+  "type": "module",
   "description": "FrontEnd Angular application for anime-gallery-electron project",
   "scripts": {
     "frontend:start": "ng serve",
@@ -12,7 +13,7 @@
     "frontend:lint": "tsc --noEmit && eslint . --ext js,ts,json --quiet --fix",
     "frontend:codegen": "graphql-codegen --config codegen.ts",
     "backend:start:electron": "npm run frontend:dev:build && cd ./anime-gallery-electron && npm run start:electron",
-    "backend:start:apollo": "npm run frontend:dev:build && cd ./anime-gallery-electron && npm run start:apollo",
+    "backend:start:server": "cd ./anime-gallery-electron && npm run start:server",
     "backend:test": "cd ./anime-gallery-electron && npm run publish",
     "compile": "cd ./anime-gallery-electron && npm run compile",
     "package": "cd ./anime-gallery-electron && npm run package",

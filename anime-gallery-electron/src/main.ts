@@ -1,5 +1,5 @@
 import electron from 'electron';
-import { setupTitlebar} from 'custom-electron-titlebar/main';
+import { setupTitlebar } from 'custom-electron-titlebar/main';
 import path from 'path';
 import * as handlers from './handlers';
 

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6", // Transpile TypeScript to ECMAScript 6
+    "target": "es2020", // Transpile TypeScript to ECMAScript 6
     "module": "commonjs", // Use CommonJS module system (for Node.js)
     "outDir": "./app", // Output compiled JavaScript files to the "app" folder
     "rootDir": "./src", // Specifies the root directory of TypeScript source files
@@ -21,6 +21,6 @@
   ],
   "exclude": [
     "src/**/*.spec.ts", // Exclude test files
-    "src/**/*.test.ts", // Exclude test files
+    "src/**/*.test.ts" // Exclude test files
   ]
 }

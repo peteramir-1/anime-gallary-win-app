@@ -17,16 +17,16 @@ import {
 } from 'src/app/core/services/file-serving.service';
 
 @Component({
-    selector: 'app-anime-details-header',
-    templateUrl: './anime-details-header.component.html',
-    styleUrl: './anime-details-header.component.scss',
-    host: {
-        class: 'flex flex-initial flex-row gap-5',
-    },
-    standalone: false
+  selector: 'app-anime-details-header',
+  templateUrl: './anime-details-header.component.html',
+  styleUrl: './anime-details-header.component.scss',
+  host: {
+    class: 'flex flex-initial flex-row gap-5',
+  },
+  standalone: false,
 })
 export class AnimeDetailsHeaderComponent implements OnInit {
-  @Input({required: true}) anime: any;
+  @Input({ required: true }) anime: any;
   private readonly router = inject(Router);
 
   private readonly fileServingService = inject(FileServingService);
@@ -57,10 +57,12 @@ export class AnimeDetailsHeaderComponent implements OnInit {
 
   likeAnime(): void {
     this.likeAnimeGQL
-      .mutate(
-        { id: this.anime.id },
-        { refetchQueries: [{ query: GetAllAnimesDocument }] }
-      )
+      .mutate({
+        variables: {
+          id: this.anime.id,
+        },
+        refetchQueries: [{ query: GetAllAnimesDocument }],
+      })
       .subscribe(updatedAt => {
         this.anime = { ...this.anime, liked: true };
       });
@@ -68,10 +70,10 @@ export class AnimeDetailsHeaderComponent implements OnInit {
 
   unlikeAnime(): void {
     this.unlikeAnimeGQL
-      .mutate(
-        { id: this.anime.id },
-        { refetchQueries: [{ query: GetAllAnimesDocument }] }
-      )
+      .mutate({
+        variables: { id: this.anime.id },
+        refetchQueries: [{ query: GetAllAnimesDocument }],
+      })
       .subscribe(updatedAt => {
         this.anime = { ...this.anime, liked: false };
       });
@@ -79,10 +81,12 @@ export class AnimeDetailsHeaderComponent implements OnInit {
 
   remove() {
     this.deleteAnimeGQL
-      .mutate(
-        { id: this.anime?.id },
-        { refetchQueries: [{ query: GetAllAnimesDocument }] }
-      )
+      .mutate({
+        variables: {
+          id: this.anime?.id,
+        },
+        refetchQueries: [{ query: GetAllAnimesDocument }],
+      })
       .subscribe(() => {
         setTimeout(() => {
           this.router.navigate(['/library']).then(() => {

@@ -5,10 +5,7 @@ import {
   GetAllAnimesDocument,
   GetAnimeByIdDocument,
 } from 'src/app/core/services/graphql.service';
-import {
-  CreatedAnime,
-  UpdatedAnime,
-} from '../interfaces/add-anime.interface';
+import { CreatedAnime, UpdatedAnime } from '../interfaces/add-anime.interface';
 import { ElectronService } from 'src/app/core/services/electron.service';
 import { episodesExtensions } from '../models/add-anime.model';
 import { from, Observable } from 'rxjs';
@@ -28,16 +25,14 @@ export class AddAnimeService {
    * @returns {*}
    */
   public createAnime(createdAnime: CreatedAnime) {
-    return this.createAnimeGql.mutate(
-      {
+    return this.createAnimeGql.mutate({
+      variables: {
         createAnimeInput: {
           ...createdAnime,
         },
       },
-      {
-        refetchQueries: [{ query: GetAllAnimesDocument }],
-      }
-    );
+      refetchQueries: [{ query: GetAllAnimesDocument }],
+    });
   }
 
   /**
@@ -48,21 +43,19 @@ export class AddAnimeService {
    * @returns {*}
    */
   public editAnime(updatedAnime: UpdatedAnime) {
-    return this.updateAnimeGql.mutate(
-      {
+    return this.updateAnimeGql.mutate({
+      variables: {
         updateAnimeInput: {
           ...updatedAnime,
         },
       },
-      {
-        refetchQueries: [
-          {
-            query: GetAnimeByIdDocument,
-            variables: { animeId: updatedAnime.id },
-          },
-        ],
-      }
-    );
+      refetchQueries: [
+        {
+          query: GetAnimeByIdDocument,
+          variables: { animeId: updatedAnime.id },
+        },
+      ],
+    });
   }
 
   /**

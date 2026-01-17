@@ -13,11 +13,11 @@ import { AnimeFf } from 'src/app/core/services/graphql.service';
 import { HelperService } from 'src/app/shared/services/helper.service';
 
 @Component({
-    selector: 'app-anime-viewer',
-    templateUrl: './anime-viewer.component.html',
-    styleUrl: './anime-viewer.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-anime-viewer',
+  templateUrl: './anime-viewer.component.html',
+  styleUrl: './anime-viewer.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AnimeViewerComponent {
   private readonly electronService = inject(ElectronService);
@@ -48,7 +48,7 @@ export class AnimeViewerComponent {
       .pipe(
         filter(folderPath => !!folderPath && folderPath !== ''),
         switchMap(folderPath =>
-          this.getAnimesFromFolderGQL.fetch({ folderPath }).pipe(
+          this.getAnimesFromFolderGQL.fetch({ variables: { folderPath } }).pipe(
             map(res => ({
               folderPath,
               animes: res?.data?.animesFromFolder || [],

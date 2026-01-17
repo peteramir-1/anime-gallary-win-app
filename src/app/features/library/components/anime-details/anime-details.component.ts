@@ -1,23 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
-    selector: 'app-anime-details',
-    templateUrl: './anime-details.component.html',
-    styleUrls: ['./anime-details.component.scss'],
-    standalone: false
+  selector: 'app-anime-details',
+  templateUrl: './anime-details.component.html',
+  styleUrls: ['./anime-details.component.scss'],
+  standalone: false,
 })
-export class AnimeDetailsComponent implements OnInit, OnDestroy {
+export class AnimeDetailsComponent implements OnInit {
   anime: any;
-  private destroy$ = new Subject();
-  constructor(private activeRoute: ActivatedRoute) {}
+  private readonly activeRoute = inject(ActivatedRoute);
+  private readonly destroyed = inject(DestroyRef);
 
   ngOnInit(): void {
     this.activeRoute.data
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyed),
         map(data => data.anime)
       )
       .subscribe(anime => {
@@ -30,10 +30,5 @@ export class AnimeDetailsComponent implements OnInit, OnDestroy {
               : anime.description,
         };
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.next();
   }
 }

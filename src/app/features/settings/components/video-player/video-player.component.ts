@@ -38,10 +38,10 @@ type OptionForm = Partial<{
 }>;
 
 @Component({
-    selector: 'app-video-player',
-    templateUrl: './video-player.component.html',
-    styleUrls: ['./video-player.component.scss'],
-    standalone: false
+  selector: 'app-video-player',
+  templateUrl: './video-player.component.html',
+  styleUrls: ['./video-player.component.scss'],
+  standalone: false,
 })
 export class VideoPlayerComponent implements OnInit {
   private readonly snackbar = inject(MatSnackBar);
@@ -134,24 +134,24 @@ export class VideoPlayerComponent implements OnInit {
     settings: GetVideoPlayerSettingsQuery['settings']
   ): OptionForm {
     const generalFormValues = {
-        autoplay: settings.autoplay,
-        theme: settings.theme,
-        loop: settings.loop,
-        muted: settings.muted,
-        pip: settings.pip,
-        controls: settings.controls,
+      autoplay: settings.autoplay,
+      theme: settings.theme,
+      loop: settings.loop,
+      muted: settings.muted,
+      pip: settings.pip,
+      controls: settings.controls,
     };
     const isHotkeysDisabled = !settings.hotkeys;
-   
+
     if (isHotkeysDisabled) {
       return {
         general: {
           ...generalFormValues,
         },
         hotkeys: {
-          hotkeys: false
+          hotkeys: false,
         },
-      }
+      };
     } else {
       return {
         general: {
@@ -165,9 +165,9 @@ export class VideoPlayerComponent implements OnInit {
           enableMute: !!settings.enableMute,
           enableFullscreen: !!settings.enableFullscreen,
           seekStep: settings.seekStep,
-          volumeStep: settings.volumeStep
-        }
-      }
+          volumeStep: settings.volumeStep,
+        },
+      };
     }
   }
 
@@ -205,15 +205,15 @@ export class VideoPlayerComponent implements OnInit {
   save(): void {
     if (this.isSaveButtonDisabled() === true) return;
     this.updateSettingsGQL
-      .mutate(
-        {
+      .mutate({
+        variables: {
           updateSettings: {
             ...this.optionsForm.get('general').value,
             ...this.optionsForm.get('hotkeys').value,
           },
         },
-        { refetchQueries: [{ query: GetVideoPlayerSettingsDocument }] }
-      )
+        refetchQueries: [{ query: GetVideoPlayerSettingsDocument }],
+      })
       .pipe(
         filter(() => this.optionsForm.valid),
         tap(() => {

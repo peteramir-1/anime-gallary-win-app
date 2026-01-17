@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GetAnimeByIdGQL } from 'src/app/core/services/graphql.service';
@@ -7,7 +12,7 @@ import { GetAnimeByIdGQL } from 'src/app/core/services/graphql.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AnimeExistsGuard  {
+export class AnimeExistsGuard {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -17,7 +22,7 @@ export class AnimeExistsGuard  {
     | boolean
     | UrlTree {
     return this.getAnimeByIdGQL
-      .fetch({ animeId: route.params.id })
+      .fetch({ variables: { animeId: route.params.id } })
       .pipe(
         map(res => !!res.data.anime || this.router.createUrlTree(['error']))
       );

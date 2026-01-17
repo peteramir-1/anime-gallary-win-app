@@ -12,24 +12,24 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FileServingService } from 'src/app/core/services/file-serving.service';
 
 @Component({
-    selector: 'image-input',
-    templateUrl: './image-input.component.html',
-    styleUrl: './image-input.component.scss',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: ImageInputComponent,
-            multi: true,
-        },
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'image-input',
+  templateUrl: './image-input.component.html',
+  styleUrl: './image-input.component.scss',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: ImageInputComponent,
+      multi: true,
+    },
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ImageInputComponent implements ControlValueAccessor {
-  @HostBinding('class') private readonly class =
+  @HostBinding('class') readonly class =
     'flex w-full items-center justify-center';
-  @HostBinding('attr.role') private readonly role = 'group';
-  @HostBinding('attr.aria-label') private readonly ariaLabel =
+  @HostBinding('attr.role') readonly role = 'group';
+  @HostBinding('attr.aria-label') readonly ariaLabel =
     'fieldset for file path input';
 
   private readonly fileServingService = inject(FileServingService);
@@ -50,9 +50,7 @@ export class ImageInputComponent implements ControlValueAccessor {
   onTouched: () => void;
   isDisabled: boolean = false;
 
-  constructor(
-    private electronService: ElectronService,
-  ) {}
+  constructor(private electronService: ElectronService) {}
 
   writeValue(path: any): void {
     this.value.set(path);

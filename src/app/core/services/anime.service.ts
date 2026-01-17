@@ -28,7 +28,7 @@ export class AnimeService {
   }
 
   getAnimeById(id: string) {
-    return this.getAnimbeByIdGql.fetch({ animeId: id }).pipe(
+    return this.getAnimbeByIdGql.fetch({ variables: { animeId: id } }).pipe(
       // TODO: Handle Errors in an interceptor.
       catchError(err => {
         console.log(err);

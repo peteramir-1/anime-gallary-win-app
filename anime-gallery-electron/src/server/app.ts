@@ -221,3 +221,9 @@ export class ApplicationServer implements APPLICATION_SERVER {
     }
   }
 }
+
+const mode = process.env.mode;
+
+if (mode === 'server') {
+  new ApplicationServer().start();
+}

@@ -36,6 +36,7 @@ export interface Anime {
 
 export interface AnimeFf {
   __typename?: 'AnimeFF';
+  directoryPath?: Maybe<Scalars['String']['output']>;
   episodes: Array<Maybe<Scalars['String']['output']>>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
