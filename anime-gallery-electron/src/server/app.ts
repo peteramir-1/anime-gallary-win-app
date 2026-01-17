@@ -121,7 +121,9 @@ export class ApplicationServer implements APPLICATION_SERVER {
    * @returns {void}
    */
   private registerSPAFiles(): void {
-    this.app.use(express.static(path.join(__dirname, '..', 'views')));
+    this.app.use(
+      express.static(path.join(__dirname, '..', 'views', 'browser'))
+    );
   }
 
   /**
@@ -197,7 +199,13 @@ export class ApplicationServer implements APPLICATION_SERVER {
    */
   private registerSPARoutes(): void {
     this.app.use((_, res) => {
-      const FrontEndPath = path.join(__dirname, '..', 'views', 'index.html');
+      const FrontEndPath = path.join(
+        __dirname,
+        '..',
+        'views',
+        'browser',
+        'index.html'
+      );
       res.sendFile(FrontEndPath);
     });
   }
