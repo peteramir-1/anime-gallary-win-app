@@ -46,7 +46,6 @@
     "@ng-icons/material-icons": "^33.0.0",
     "@typescript-eslint/types": "^8.53.0",
     "@typescript-eslint/utils": "^8.53.0",
-    "@videojs/themes": "^1.0.1",
     "apollo-angular": "^13.0.0",
     "autoprefixer": "^10.4.23",
     "graphql": "^16.9.0",

@@ -26,11 +26,6 @@
             "assets": ["src/assets"],
             "styles": [
               "video.js/dist/video-js.css",
-              "src/assets/scss/videojs-theme-1.scss",
-              "@videojs/themes/dist/forest/index.css",
-              "@videojs/themes/dist/city/index.css",
-              "@videojs/themes/dist/fantasy/index.css",
-              "@videojs/themes/dist/sea/index.css",
               "videojs-playlist-ui/dist/videojs-playlist-ui.css",
               "src/mat-theme.scss",
               "src/fonts/fonts.scss",

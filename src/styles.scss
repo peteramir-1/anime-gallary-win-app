@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+// Video.js Themes
+@import url('./assets/scss/video.js-themes/index.scss');
+
 // Style for Custom Electron titlebar to hide title
 .cet-title {
   @apply hidden;
