@@ -1,0 +1,12 @@
+<article
+  [class.grid-cols-1]="gridCol === 1"
+  [class.grid-cols-2]="gridCol === 2"
+  [class.grid-cols-3]="gridCol === 3"
+  [class.grid-cols-4]="gridCol === 4"
+  [class.grid-cols-5]="gridCol === 5"
+  [class.grid-cols-6]="gridCol === 6"
+  [class.grid-cols-7]="gridCol === 7"
+  [class.grid-cols-8]="gridCol === 8"
+  class="grid w-full place-items-center gap-6">
+  <ng-content></ng-content>
+</article>
