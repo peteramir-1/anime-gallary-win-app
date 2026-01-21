@@ -39,7 +39,7 @@ export const readDirectoriesRecursively = async (
     for (const item of list) {
       const isExcluded = excludedFolderNames.some(
         excluded =>
-          excluded.toUpperCase() === item.name.toLocaleUpperCase() ||
+          excluded.toUpperCase() === item.name.toUpperCase() ||
           excluded.toUpperCase().endsWith('\\' + item.name.toUpperCase())
       );
 
