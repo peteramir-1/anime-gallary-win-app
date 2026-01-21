@@ -1,6 +1,26 @@
 import fs from 'fs';
 import path from 'path';
 
+const excludedFolderNames = [
+  // Root Directory System Folders
+  '$Recycle.bin', // Recyle bin data for the drive
+  'System Volume Information', // System Restore points and indexing
+  'ProgramData', // Shared application data for all users
+  'Recovery', // Windows Recovery Environment (WinRE) data
+  'MSOCache', // Microsoft Office local installation source
+  '$WinREAgent', // Created during Windows updates for recovery
+
+  // User Profile Hidden Folders
+  'AppData', // User-specific app settings (Local, LocalLow, Roaming)
+
+  // Hidden System Files (Root)
+  'pagefile.sys', // Virtual memory paging file
+  'hiberfil.sys', // Hibernation state data
+  'swapfile.sys', // Virtual memory for universal apps
+  'bootmgr', // Windows Boot Manager
+  'BOOTNXT', // Boot loader component
+];
+
 /**
  * Recursively reads the contents of a directory and all its subdirectories.
  * @param {string} dirPath - The path of the directory to read.
@@ -17,6 +37,16 @@ export const readDirectoriesRecursively = async (
 
     // Loop through each item in the directory
     for (const item of list) {
+      const isExcluded = excludedFolderNames.some(
+        excluded =>
+          excluded.toUpperCase() === item.name.toLocaleUpperCase() ||
+          excluded.toUpperCase().endsWith('\\' + item.name.toUpperCase())
+      );
+
+      if (isExcluded) {
+        continue;
+      }
+
       const fullPath = path.join(dirPath, item.name);
 
       if (item.isDirectory()) {
