@@ -10,16 +10,20 @@
 
   <div class="row-span-6" appWidgetContainer>
     <section appScrollable>
-      <article class="mx-auto grid w-fit grid-cols-5 gap-x-8 gap-y-6">
-        @for ( anime of filteredAnimes | async | filterBy : ['name'] :
-        animeNameSearch ; track anime) {
-        <app-anime-card [anime]="anime" [navigatable]="true"></app-anime-card>
+      <app-anime-card-grid>
+        @for (
+          anime of filteredAnimes
+            | async
+            | filterBy: ['name'] : animeNameSearch;
+          track anime
+        ) {
+          <app-anime-card [anime]="anime" [navigatable]="true"></app-anime-card>
         } @empty {
-        <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
-          No Anime Found
-        </h3>
+          <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
+            No Anime Found
+          </h3>
         }
-      </article>
+      </app-anime-card-grid>
     </section>
   </div>
 </div>
