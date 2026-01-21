@@ -45,11 +45,11 @@
       </div>
     </header>
     @if ((animes | async)?.length !== 0) {
-      <article class="grid w-full grid-cols-5 place-items-center gap-6">
+      <app-anime-card-grid>
         @for (anime of (animes | async)?.d; track anime) {
           <app-anime-card [anime]="anime" [navigatable]="true"></app-anime-card>
         }
-      </article>
+      </app-anime-card-grid>
     }
   </article>
 </div>
