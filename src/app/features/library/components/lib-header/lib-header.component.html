@@ -3,7 +3,7 @@
     <ng-icon name="heroPlus"></ng-icon>
   </button>
 </section>
-<section class="flex-auto">
+<section class="flex-grow max-w-full">
   <input
     type="text"
     name="search"
@@ -11,11 +11,10 @@
     placeholder="Search Example: Demon Slayer"
     [formControl]="searchResultControl"
     appInput />
-</section>
-<section class="grid grid-cols-10 gap-x-2">
   <!-- Filter By Like/Love/Favorite -->
-  <section class="col-span-1 flex items-center justify-center">
-    @if (!likedFilter.getValue()) {
+</section>
+<section class="flex-initial flex items-center justify-center">
+  @if (!likedFilter.getValue()) {
     <ng-icon
       class="cursor-pointer align-text-top"
       size="1.75rem"
@@ -23,7 +22,7 @@
       name="jamHeart"
       matTooltip="All Anime"
       (click)="likedFilter.next(true)"></ng-icon>
-    } @else {
+  } @else {
     <ng-icon
       class="cursor-pointer align-text-top"
       size="1.75rem"
@@ -31,20 +30,21 @@
       name="jamHeartF"
       matTooltip="Liked Anime"
       (click)="likedFilter.next(false)"></ng-icon>
-    }
-    <ng-template #jamHeartF>
-      <ng-icon
-        class="cursor-pointer align-text-top"
-        size="1.75rem"
-        color="#dc2626"
-        name="jamHeartF"
-        matTooltip="Liked Anime"
-        (click)="likedFilter.next(false)"></ng-icon>
-    </ng-template>
-  </section>
+  }
+  <ng-template #jamHeartF>
+    <ng-icon
+      class="cursor-pointer align-text-top"
+      size="1.75rem"
+      color="#dc2626"
+      name="jamHeartF"
+      matTooltip="Liked Anime"
+      (click)="likedFilter.next(false)"></ng-icon>
+  </ng-template>
+</section>
 
+<section class="min-w-[50%] flex flex-row content-stretch flex-nowrap gap-4">
   <!-- Filter By Status of the anime incomplete/complete/all -->
-  <section class="col-span-2">
+  <section class="flex-grow">
     <app-select
       class="min-w-28"
       name="status"
@@ -63,7 +63,7 @@
   </section>
 
   <!-- Filter By Anime Season autumn/summer/winter/spring/all -->
-  <section class="col-span-2">
+  <section class="flex-grow">
     <app-select
       class="w-full"
       name="season"
@@ -88,7 +88,7 @@
   </section>
 
   <!-- Filter By Anime Release Date -->
-  <section class="col-span-2">
+  <section class="flex-grow">
     <app-select
       class="w-full"
       name="releaseDate"
@@ -98,14 +98,14 @@
       (ngModelChange)="setReleaseDateFilter($event)">
       <app-option [value]="null">N/A</app-option>
       @for (year of years; track year) {
-      <app-option [value]="year">
-        {{ year }}
-      </app-option>
+        <app-option [value]="year">
+          {{ year }}
+        </app-option>
       }
     </app-select>
   </section>
 
-  <section class="col-span-3">
+  <section class="flex-grow">
     <app-select
       class="w-full"
       name="orderBy"

@@ -1,6 +1,6 @@
 <div height="auto" appWidgetContainer>
   <app-lib-header
-    appScrollable
+    class="px-8"
     [animes]="animes | async"
     (onFiltering)="setNewAnimeList($event)"
     (onSearchByName)="searchByName($event)"></app-lib-header>
@@ -13,7 +13,8 @@
   ) {
     <app-anime-card [anime]="anime" [navigatable]="true"></app-anime-card>
   } @empty {
-    <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
+    <h3
+      class="placeholder w-full p-4 font-semibold text-neutral-950 dark:text-white">
       No Anime Found
     </h3>
   }
