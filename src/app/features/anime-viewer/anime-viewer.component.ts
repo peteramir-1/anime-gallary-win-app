@@ -26,6 +26,9 @@ export class AnimeViewerComponent {
   private readonly electronService = inject(ElectronService);
   private readonly getAnimesFromFolderGQL = inject(GetAnimesFromFolderGQL);
 
+  readonly placeholderClasses =
+    'placeholder w-full p-4 font-semibold text-neutral-950 dark:text-white';
+
   readonly animesFolderPath = signal<string>('');
   readonly displayedAnimes = signal<AnimeFf[]>([]);
   readonly animes = signal<AnimeFf[]>([]);
