@@ -19,7 +19,7 @@
 </header>
 
 <app-anime-card-grid
-  [class.!pt-16]="animes().length !== 0"
+  class="[&:not(:has(>_article_>_header.hidden))]:!pt-16"
   height="auto"
   appWidgetContainer
   appScrollable
