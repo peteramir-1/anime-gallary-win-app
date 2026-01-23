@@ -1,29 +1,20 @@
-<div
-  class="grid h-full w-full grid-cols-1 grid-rows-[min-content,_repeat(6,_minmax(0,_1fr))] gap-4">
-  <div appWidgetContainer>
-    <app-lib-header
-      appScrollable
-      [animes]="animes | async"
-      (onFiltering)="setNewAnimeList($event)"
-      (onSearchByName)="searchByName($event)"></app-lib-header>
-  </div>
-
-  <div class="row-span-6" appWidgetContainer>
-    <section appScrollable>
-      <app-anime-card-grid>
-        @for (
-          anime of filteredAnimes
-            | async
-            | filterBy: ['name'] : animeNameSearch;
-          track anime
-        ) {
-          <app-anime-card [anime]="anime" [navigatable]="true"></app-anime-card>
-        } @empty {
-          <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
-            No Anime Found
-          </h3>
-        }
-      </app-anime-card-grid>
-    </section>
-  </div>
+<div height="auto" appWidgetContainer>
+  <app-lib-header
+    appScrollable
+    [animes]="animes | async"
+    (onFiltering)="setNewAnimeList($event)"
+    (onSearchByName)="searchByName($event)"></app-lib-header>
 </div>
+
+<app-anime-card-grid height="auto" appWidgetContainer appScrollable>
+  @for (
+    anime of filteredAnimes | async | filterBy: ['name'] : animeNameSearch;
+    track anime
+  ) {
+    <app-anime-card [anime]="anime" [navigatable]="true"></app-anime-card>
+  } @empty {
+    <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
+      No Anime Found
+    </h3>
+  }
+</app-anime-card-grid>
