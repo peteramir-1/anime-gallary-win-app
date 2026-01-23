@@ -4,10 +4,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 @Component({
-    selector: 'app-library',
-    templateUrl: './library.component.html',
-    styleUrls: ['./library.component.scss'],
-    standalone: false
+  selector: 'app-library',
+  templateUrl: './library.component.html',
+  styleUrls: ['./library.component.scss'],
+  host: {
+    class: 'h-full grid grid-rows-[auto_1fr] gap-5',
+  },
+  standalone: false,
 })
 export class LibraryComponent implements OnInit {
   animeNameSearch = '';
@@ -16,11 +19,11 @@ export class LibraryComponent implements OnInit {
     filter(animes => (!!animes ? animes : []))
   );
   filteredAnimes = new BehaviorSubject<any[]>([]);
-  
+
   ngOnInit(): void {
-    this.animes.toPromise().then((animes) => {
+    this.animes.toPromise().then(animes => {
       this.filteredAnimes.next(animes);
-    })
+    });
   }
 
   /**
