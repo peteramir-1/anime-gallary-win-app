@@ -47,25 +47,4 @@ export class HelperService {
 
     return true;
   }
-
-  /**
-   * Divide an array into subarrays of a specified row number.
-   *
-   * @param {T[]} array - The array to be divided.
-   * @param {number} rowLength - The number of elements in each subarray.
-   * @returns {T[][]} The divided array.
-   */
-  divideArrayIntoSubarrays<T>(array: T[], rowLength: number): T[][] {
-    const dividedArray: T[][] = [];
-    const row: T[] = [];
-    array.forEach((element, index) => {
-      row.push(element);
-
-      if (row.length === rowLength || index === array.length - 1) {
-        dividedArray.push([...row]);
-        row.length = 0;;
-      }
-    });
-    return dividedArray;
-  }
 }

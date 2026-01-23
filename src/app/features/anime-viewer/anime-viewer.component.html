@@ -1,67 +1,54 @@
-<div
-  class="grid h-full w-full grid-cols-1 grid-rows-[min-content,_repeat(6,_minmax(0,_1fr))] gap-4">
-  <header appWidgetContainer>
-    <section class="flex flex-row gap-5 px-6">
-      <button
-        class="flex-initial"
-        type="button"
-        (click)="getAnimeData()"
-        appButton
-        matTooltip="Select Anime Folder">
-        <ng-icon name="matFolder"></ng-icon>
-      </button>
+<header height="auto" appWidgetContainer>
+  <section class="flex flex-row gap-5 px-6">
+    <button
+      class="flex-initial"
+      type="button"
+      (click)="getAnimeData()"
+      appButton
+      matTooltip="Select Anime Folder">
+      <ng-icon name="matFolder"></ng-icon>
+    </button>
 
-      <input
-        type="text"
-        [disabled]="!!error() || !animesFolderPath"
-        [(ngModel)]="searchText"
-        placeholder="Search"
-        appInput />
-    </section>
-  </header>
-
-  <section class="row-span-6 h-[calc(100%_-_1.75rem)]">
-    <header
-      class="block h-7 w-full rounded-t-md bg-teal-500 p-2 text-xs font-bold text-white">
-      {{ animesFolderPath() }}
-    </header>
-    <section class="!rounded-t-none !py-2" appWidgetContainer>
-      <section appScrollable>
-        @if (animes().length !== 0) {
-        <cdk-virtual-scroll-viewport
-          class="h-full"
-          [minBufferPx]="452 * 2"
-          [maxBufferPx]="452 * 2"
-          [itemSize]="452">
-          <div class="flex flex-1 flex-col gap-9">
-            <section
-              class="flex flex-1 flex-row"
-              *cdkVirtualFor="
-                let animeRow of divideArrayIntoSubarrays(
-                  animes() | filterBy : ['name'] : searchText,
-                  4
-                )
-              ">
-              @for (anime of animeRow; track anime.name) {
-              <app-anime-card
-                [anime]="anime"
-                [navigatable]="false"
-                class="md:1/2 w-full p-4 sm:w-1/2 lg:w-1/3 xl:w-1/4"></app-anime-card>
-              }
-            </section>
-          </div> </cdk-virtual-scroll-viewport
-        >} @else if(animesFolderPath() === '') {
-        <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
-          Please Select Anime Folder to View Animes
-        </h3>
-        } @else if (error()) {
-        {{ error() | titlecase }}
-        } @else {
-        <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
-          No Anime was Found
-        </h3>
-        }
-      </section>
-    </section>
+    <input
+      type="text"
+      [disabled]="!!error() || !animesFolderPath"
+      [(ngModel)]="searchText"
+      placeholder="Search"
+      appInput />
   </section>
-</div>
+</header>
+
+<app-anime-card-grid
+  [class.!pt-16]="animes().length !== 0"
+  height="auto"
+  appWidgetContainer
+  appScrollable
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50"
+  [scrollWindow]="false"
+  (scrolled)="updateDisplayedAnimes()">
+  <header
+    class="absolute top-0 right-0 z-10 min-h-[1em] w-full rounded-t-md bg-teal-500 p-2 text-xs font-bold text-white leading-normal"
+    [class.hidden]="animesFolderPath().length === 0">
+    {{ animesFolderPath() }}
+  </header>
+  @if (displayedAnimes().length !== 0) {
+    @for (
+      anime of displayedAnimes() | filterBy: ['name'] : searchText;
+      track anime.name
+    ) {
+      <app-anime-card [anime]="anime" [navigatable]="false"></app-anime-card>
+    }
+  } @else if (animesFolderPath() === '') {
+    <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
+      Please Select Anime Folder to View Animes
+    </h3>
+  } @else if (error()) {
+    {{ error() | titlecase }}
+  } @else {
+    <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
+      No Anime was Found
+    </h3>
+  }
+</app-anime-card-grid>

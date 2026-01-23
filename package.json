@@ -49,6 +49,7 @@
     "apollo-angular": "^13.0.0",
     "autoprefixer": "^10.4.23",
     "graphql": "^16.9.0",
+    "ngx-infinite-scroll": "^21.0.0",
     "ngx-pipes": "^3.2.2",
     "ngx-ui-loader": "^19.0.0",
     "postcss": "^8.5.6",

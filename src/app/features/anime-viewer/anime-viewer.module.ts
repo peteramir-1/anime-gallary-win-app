@@ -12,7 +12,7 @@ import { matfVideoColored } from '@ng-icons/material-file-icons/colored';
 import { matFolder } from '@ng-icons/material-icons/baseline';
 import { NgIconsModule } from '@ng-icons/core';
 
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [AnimeViewerComponent],
@@ -21,11 +21,11 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     SharedModule,
     InputModule,
     NgArrayPipesModule,
+    InfiniteScrollDirective,
     NgIconsModule.withIcons({
       matfVideoColored,
       matFolder,
     }),
-    ScrollingModule,
   ],
 })
 export class AnimeViewerModule {}
