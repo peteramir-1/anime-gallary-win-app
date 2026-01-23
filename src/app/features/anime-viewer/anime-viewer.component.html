@@ -41,13 +41,15 @@
       <app-anime-card [anime]="anime" [navigatable]="false"></app-anime-card>
     }
   } @else if (animesFolderPath() === '') {
-    <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
+    <h3
+      class="placeholder w-full p-4 font-semibold text-neutral-950 dark:text-white">
       Please Select Anime Folder to View Animes
     </h3>
   } @else if (error()) {
     {{ error() | titlecase }}
   } @else {
-    <h3 class="w-full p-4 font-semibold text-neutral-950 dark:text-white">
+    <h3
+      class="placeholder w-full p-4 font-semibold text-neutral-950 dark:text-white">
       No Anime was Found
     </h3>
   }
