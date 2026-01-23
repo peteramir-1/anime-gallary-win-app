@@ -25,9 +25,9 @@ export const CUSTOM_CONROL_VALUE_ACCESSOR: Provider = {
 };
 
 @Component({
-    selector: 'app-option',
-    template: `<span #text><ng-content></ng-content></span>`,
-    standalone: false
+  selector: 'app-option',
+  template: `<span #text><ng-content></ng-content></span>`,
+  standalone: false,
 })
 export class OptionComponent<T = any> {
   @Input() value: T;
@@ -40,8 +40,8 @@ export class OptionComponent<T = any> {
 }
 
 @Component({
-    selector: 'app-select',
-    template: `
+  selector: 'app-select',
+  template: `
     <mat-select
       class="relative flex h-full w-full cursor-pointer rounded-lg text-xs ring-1 input-bg-default input-ring-default input-text-default placeholder:input-text-default focus:ring-2 focus:input-primary-ring-default dark:input-bg-dark dark:input-ring-dark dark:input-text-dark dark:placeholder:input-text-dark dark:focus:input-primary-ring-dark"
       #select="matSelect"
@@ -53,7 +53,7 @@ export class OptionComponent<T = any> {
       <mat-select-trigger class="!text-xs">
         {{ value() | titlecase }}
       </mat-select-trigger>
-      @for(option of options; track option.value) {
+      @for (option of options; track option.value) {
         <mat-option [value]="option.value">
           {{ option.viewValue }}
         </mat-option>
@@ -64,13 +64,13 @@ export class OptionComponent<T = any> {
         <ng-content select="app-option"></ng-content>
       </div>
     }
-    `,
-    styles: [
-        `
+  `,
+  styles: [
+    `
       .mat-mdc-select-trigger {
         padding: theme('padding.2');
       }
-      
+
       .mat-mdc-select-trigger .mat-mdc-select-arrow {
         color: theme('colors.inputs.text.default');
       }
@@ -124,23 +124,20 @@ export class OptionComponent<T = any> {
         color: theme('colors.inputs.text.dark');
       }
     `,
-    ],
-    host: {
-        class: 'block',
-    },
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [CUSTOM_CONROL_VALUE_ACCESSOR],
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  ],
+  host: {
+    class: 'block',
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CUSTOM_CONROL_VALUE_ACCESSOR],
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SelectComponent implements AfterContentInit, ControlValueAccessor {
   @ViewChild(MatSelect) select: MatSelect;
   @ContentChildren(OptionComponent) queryOptions: QueryList<OptionComponent>;
 
-  @HostListener('click') onClick = () => this.select.open();
-  @HostListener('focus') onFocus = () => this.element.focus();
-
-  @Input() placeholder = "-- Click Here to Select --";
+  @Input() placeholder = '-- Click Here to Select --';
 
   options: { value: string; viewValue: string }[] = [];
   readonly viewNGContent = signal(true);
