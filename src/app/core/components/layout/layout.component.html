@@ -1,8 +1,9 @@
-<article
-  class="flex h-[calc(100vh_-_32px)] w-full flex-row flex-nowrap gap-4 p-8">
+<article class="flex h-full w-full flex-row flex-nowrap gap-4 p-8">
   <app-sidenav
-    class="flex min-w-max flex-initial flex-col gap-5"
-    appWidgetContainer
-    width="fit"></app-sidenav>
-  <ng-content></ng-content>
+    class="flex min-w-fit flex-col gap-5"
+    width="auto"
+    appWidgetContainer></app-sidenav>
+  <section class="flex-auto h-full">
+    <ng-content></ng-content>
+  </section>
 </article>
