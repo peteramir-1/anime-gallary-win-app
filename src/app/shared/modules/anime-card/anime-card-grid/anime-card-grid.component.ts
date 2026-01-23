@@ -7,6 +7,4 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeCardGridComponent {
-  @Input({ required: false }) gridCol: number = 5;
-}
+export class AnimeCardGridComponent {}
