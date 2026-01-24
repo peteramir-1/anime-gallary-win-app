@@ -171,28 +171,37 @@ export async function validatePathText(
     };
   }
 
-  let canonical: string;
-  try {
-    canonical = await fs.promises.realpath(path.resolve(raw));
-  } catch {
-    return {
-      success: false,
-      code: ErrorCode.FILE_NOT_FOUND,
-      message: 'File not found',
-    };
+  let canonical: string | null = null;
+
+  // Resolve the requested path only within the configured SAFE_ROOTS.
+  // This avoids interpreting user input relative to process.cwd() and
+  // ensures that canonicalization and containment checks are tied to the
+  // allowed root directories.
+  for (const root of SAFE_ROOTS) {
+    try {
+      const candidate = await fs.promises.realpath(path.resolve(root, raw));
+      const normalizedCandidate = candidate.endsWith(path.sep)
+        ? candidate.slice(0, -1)
+        : candidate;
+
+      if (containsBlockedSegment(normalizedCandidate)) {
+        continue;
+      }
+
+      if (!isInsideSafeRoots(normalizedCandidate)) {
+        continue;
+      }
+
+      // Found a canonical, allowed path within one of the SAFE_ROOTS.
+      canonical = normalizedCandidate;
+      break;
+    } catch {
+      // Ignore candidates that do not exist under this root.
+      continue;
+    }
   }
 
-  canonical = canonical.endsWith(path.sep) ? canonical.slice(0, -1) : canonical;
-
-  if (containsBlockedSegment(canonical)) {
-    return {
-      success: false,
-      code: ErrorCode.ACCESS_DENIED,
-      message: 'Access Denied',
-    };
-  }
-
-  if (!isInsideSafeRoots(canonical)) {
+  if (!canonical) {
     return {
       success: false,
       code: ErrorCode.ACCESS_DENIED,
