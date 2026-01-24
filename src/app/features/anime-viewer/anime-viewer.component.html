@@ -6,7 +6,7 @@
       (click)="getAnimeData()"
       appButton
       matTooltip="Select Anime Folder">
-      <ng-icon name="matFolder"></ng-icon>
+      <ng-icon name="matFolder" />
     </button>
 
     <input
@@ -38,7 +38,7 @@
       anime of displayedAnimes() | filterBy: ['name'] : searchText;
       track anime.name
     ) {
-      <app-anime-card [anime]="anime" [navigatable]="false"></app-anime-card>
+      <app-anime-card [anime]="anime" [navigatable]="false" />
     }
   } @else if (animesFolderPath() === '') {
     <h3 [class]="placeholderClasses">

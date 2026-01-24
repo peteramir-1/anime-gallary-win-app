@@ -4,7 +4,7 @@
   + RETUN BACK Button "<--"
   -->
     <button appButton type="button" role="navigation" (click)="back()">
-      <ng-icon name="heroArrowLeft"></ng-icon>
+      <ng-icon name="heroArrowLeft" />
     </button>
 
     <!--
@@ -54,12 +54,11 @@
                 required
                 inputLabel="numOfEpisodesInput"
                 label="Num. of Episodes">
-                <app-number-input
-                  id="numOfEpisodesInput"
+                <app-number-input id="numOfEpisodesInput"
                   required
                   inputId="numOfEpisodes"
                   min="1"
-                  formControlName="numOfEpisodes"></app-number-input>
+                  formControlName="numOfEpisodes" />
               </app-form-field>
             </section>
 
@@ -167,7 +166,7 @@
             </section>
           </section>
           <section class="flex w-1/3">
-            <image-input formControlName="thumbnail"></image-input>
+            <image-input formControlName="thumbnail" />
           </section>
         </section>
       </section>
@@ -194,7 +193,7 @@
             [matTooltipDisabled]="isMovie$ | async"
             [disabled]="isMovie$ | async"
             (click)="selectEpisodesFromFolder()">
-            <ng-icon name="matFolder"></ng-icon>
+            <ng-icon name="matFolder" />
           </button>
           <button
             appButton
@@ -203,7 +202,7 @@
             matTooltip="Clear All Episodes"
             color="danger"
             (click)="clearEpisodes()">
-            <ng-icon name="heroBackspaceSolid"></ng-icon>
+            <ng-icon name="heroBackspaceSolid" />
           </button>
         </header>
         <section class="grid grid-cols-2 gap-5" formArrayName="episodes">
@@ -212,10 +211,9 @@
           <app-form-field
             [for]="'file_input_' + i"
             [label]="'Episode ' + (i + 1)">
-            <app-filepath-input
-              [formControlName]="i"
+            <app-filepath-input [formControlName]="i"
               [extensions]="['mp4', 'flv', 'mwv']"
-              [id]="'file_input_' + i"></app-filepath-input>
+              [id]="'file_input_' + i" />
           </app-form-field>
           }
         </section>

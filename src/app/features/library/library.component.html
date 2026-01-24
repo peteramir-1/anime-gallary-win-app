@@ -1,9 +1,8 @@
 <div height="auto" appWidgetContainer>
-  <app-lib-header
-    class="px-8"
+  <app-lib-header class="px-8"
     [animes]="animes | async"
     (onFiltering)="setNewAnimeList($event)"
-    (onSearchByName)="searchByName($event)"></app-lib-header>
+    (onSearchByName)="searchByName($event)" />
 </div>
 
 <app-anime-card-grid height="auto" appWidgetContainer appScrollable>
@@ -11,7 +10,7 @@
     anime of filteredAnimes | async | filterBy: ['name'] : animeNameSearch;
     track anime
   ) {
-    <app-anime-card [anime]="anime" [navigatable]="true"></app-anime-card>
+    <app-anime-card [anime]="anime" [navigatable]="true" />
   } @empty {
     <h3
       class="placeholder w-full p-4 font-semibold text-neutral-950 dark:text-white">

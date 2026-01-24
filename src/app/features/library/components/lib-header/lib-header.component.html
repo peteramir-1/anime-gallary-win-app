@@ -1,6 +1,6 @@
 <section class="flex-initial">
   <button appButton routerLink="/library/add">
-    <ng-icon name="heroPlus"></ng-icon>
+    <ng-icon name="heroPlus" />
   </button>
 </section>
 <section class="flex-grow max-w-full">
@@ -15,30 +15,27 @@
 </section>
 <section class="flex-initial flex items-center justify-center">
   @if (!likedFilter.getValue()) {
-    <ng-icon
-      class="cursor-pointer align-text-top"
+    <ng-icon class="cursor-pointer align-text-top"
       size="1.75rem"
       color="#dc2626"
       name="jamHeart"
       matTooltip="All Anime"
-      (click)="likedFilter.next(true)"></ng-icon>
+      (click)="likedFilter.next(true)" />
   } @else {
-    <ng-icon
-      class="cursor-pointer align-text-top"
+    <ng-icon class="cursor-pointer align-text-top"
       size="1.75rem"
       color="#dc2626"
       name="jamHeartF"
       matTooltip="Liked Anime"
-      (click)="likedFilter.next(false)"></ng-icon>
+      (click)="likedFilter.next(false)" />
   }
   <ng-template #jamHeartF>
-    <ng-icon
-      class="cursor-pointer align-text-top"
+    <ng-icon class="cursor-pointer align-text-top"
       size="1.75rem"
       color="#dc2626"
       name="jamHeartF"
       matTooltip="Liked Anime"
-      (click)="likedFilter.next(false)"></ng-icon>
+      (click)="likedFilter.next(false)" />
   </ng-template>
 </section>
 

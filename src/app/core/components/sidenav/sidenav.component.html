@@ -8,7 +8,7 @@
       [routerLink]="item.link"
       routerLinkActive="!bg-teal-900 shadow-lg"
       [routerLinkActiveOptions]="{ exact: item.link === '/' ? true : false }">
-      <ng-icon [name]="item.icon"></ng-icon>
+      <ng-icon [name]="item.icon" />
       <span class="text-bold inline align-middle">
         {{ item.title | titlecase }}
       </span>
@@ -26,7 +26,7 @@
     <span
       class="flex animate-rotate-y items-center gap-2 animate-duration-500 animate-once"
       #lightModeBtn>
-      <ng-icon name="heroMoon"></ng-icon>
+      <ng-icon name="heroMoon" />
       <span class="text-bold inline align-middle">
         {{ 'Dark Mode' | titlecase }}
       </span>
@@ -34,7 +34,7 @@
     <span
       class="flex animate-rotate-y items-center gap-2 animate-duration-500 animate-once"
       #darkModeBtn>
-      <ng-icon name="heroSun"></ng-icon>
+      <ng-icon name="heroSun" />
       <span class="text-bold inline align-middle">
         {{ 'Light Mode' | titlecase }}
       </span>

@@ -1,11 +1,11 @@
 <div appWidgetContainer width="full">
   <article class="flex flex-col gap-8" appScrollable>
     <button appButton type="button" routerLink="/library" role="navigation">
-      <ng-icon name="heroArrowLeft"></ng-icon>
+      <ng-icon name="heroArrowLeft" />
     </button>
 
-    <app-anime-details-header [anime]="anime"></app-anime-details-header>
+    <app-anime-details-header [anime]="anime" />
 
-    <app-anime-details-watch [anime]="anime"></app-anime-details-watch>
+    <app-anime-details-watch [anime]="anime" />
   </article>
 </div>

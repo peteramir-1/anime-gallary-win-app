@@ -2,7 +2,7 @@
   <article class="flex flex-col gap-8" appScrollable>
     <header class="flex flex-row items-center gap-5">
       <button appButton [routerLink]="['/library', 'details', animeId]">
-        <ng-icon class="text-white" size="1rem" name="heroArrowLeft"></ng-icon>
+        <ng-icon class="text-white" size="1rem" name="heroArrowLeft" />
       </button>
       <h3
         class="text-xl font-semibold text-neutral-900 dark:text-white"
@@ -24,7 +24,7 @@
             class="gap-3"
             [disabled]="currentEpisode === 1"
             (click)="previous()">
-            <ng-icon size="1.25rem" name="heroArrowSmallLeft"></ng-icon>
+            <ng-icon size="1.25rem" name="heroArrowSmallLeft" />
             Previous
           </button>
           <h2 class="text-neutral-590 text-base font-bold dark:text-white">
@@ -35,7 +35,7 @@
             class="gap-3"
             [disabled]="currentEpisode === animeEpisodesLength"
             (click)="next()">
-            Next <ng-icon size="1.25rem" name="heroArrowSmallRight"></ng-icon>
+            Next <ng-icon size="1.25rem" name="heroArrowSmallRight" />
           </button>
         </section>
       </section>

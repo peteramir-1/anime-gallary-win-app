@@ -47,7 +47,7 @@
     @if ((animes | async)?.length !== 0) {
       <app-anime-card-grid>
         @for (anime of (animes | async)?.d; track anime) {
-          <app-anime-card [anime]="anime" [navigatable]="true"></app-anime-card>
+          <app-anime-card [anime]="anime" [navigatable]="true" />
         }
       </app-anime-card-grid>
     }

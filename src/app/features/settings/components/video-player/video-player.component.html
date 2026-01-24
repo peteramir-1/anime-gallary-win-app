@@ -44,7 +44,7 @@
           label="autoplay"
           [flexCol]="false"
           labelFixedWidthPercentage="25">
-          <on-off-input formControlName="autoplay"></on-off-input>
+          <on-off-input formControlName="autoplay" />
         </app-form-field>
         <app-form-field
           class="w-full"
@@ -52,7 +52,7 @@
           help="Causes the video to start over as soon as it ends."
           [flexCol]="false"
           labelFixedWidthPercentage="25">
-          <on-off-input formControlName="loop"></on-off-input>
+          <on-off-input formControlName="loop" />
         </app-form-field>
         <app-form-field
           class="w-full"
@@ -60,21 +60,21 @@
           help="Will silence any audio by default."
           [flexCol]="false"
           labelFixedWidthPercentage="25">
-          <on-off-input formControlName="muted"></on-off-input>
+          <on-off-input formControlName="muted" />
         </app-form-field>
         <app-form-field
           class="w-full"
           label="picture in picture"
           [flexCol]="false"
           labelFixedWidthPercentage="25">
-          <on-off-input formControlName="pip"></on-off-input>
+          <on-off-input formControlName="pip" />
         </app-form-field>
         <app-form-field
           class="w-full"
           label="enable controls"
           [flexCol]="false"
           labelFixedWidthPercentage="25">
-          <on-off-input formControlName="controls"></on-off-input>
+          <on-off-input formControlName="controls" />
         </app-form-field>
       </section>
     </article>
@@ -88,17 +88,15 @@
         <h4>
           {{ 'hotkeys' | titlecase }}
         </h4>
-        <ng-icon
-          class="ml-1 cursor-pointer"
+        <ng-icon class="ml-1 cursor-pointer"
           matTooltipPosition="left"
           matTooltipClass="text-xs"
           matTooltip="Controls how player-wide hotkeys operate."
           size="1rem"
-          name="heroQuestionMarkCircle"></ng-icon>
-        <on-off-input
-          class="ml-4"
+          name="heroQuestionMarkCircle" />
+        <on-off-input class="ml-4"
           (ngModelChange)="toggleHotkeyControls($event)"
-          formControlName="hotkeys"></on-off-input>
+          formControlName="hotkeys" />
       </header>
       <section class="ml-4 flex flex-col gap-4">
         <app-form-field
@@ -107,7 +105,7 @@
           help="Enables seeking the video by pressing the number keys."
           [flexCol]="false"
           labelFixedWidthPercentage="35">
-          <on-off-input formControlName="enableNumbers"></on-off-input>
+          <on-off-input formControlName="enableNumbers" />
         </app-form-field>
         <app-form-field
           class="w-full"
@@ -115,7 +113,7 @@
           help="Enables increasing/decreasing the volume by scrolling the mouse wheel."
           [flexCol]="false"
           labelFixedWidthPercentage="35">
-          <on-off-input formControlName="enableVolumeScroll"></on-off-input>
+          <on-off-input formControlName="enableVolumeScroll" />
         </app-form-field>
         <app-form-field
           class="w-full"
@@ -123,7 +121,7 @@
           help="Enables toggling the video fullscreen by pressing the F key."
           [flexCol]="false"
           labelFixedWidthPercentage="35">
-          <on-off-input formControlName="enableFullscreen"></on-off-input>
+          <on-off-input formControlName="enableFullscreen" />
         </app-form-field>
         <app-form-field
           class="w-full"
@@ -131,8 +129,7 @@
           help="Enables the use of Ctrl/Alt/Cmd + Number keys for skipping around in the video."
           [flexCol]="false"
           labelFixedWidthPercentage="35">
-          <on-off-input
-            formControlName="enableModifiersForNumbers"></on-off-input>
+          <on-off-input formControlName="enableModifiersForNumbers" />
         </app-form-field>
         <app-form-field
           class="w-full"
@@ -140,7 +137,7 @@
           help="Enables the volume mute to be toggle by pressing the M key."
           [flexCol]="false"
           labelFixedWidthPercentage="35">
-          <on-off-input formControlName="enableMute"></on-off-input>
+          <on-off-input formControlName="enableMute" />
         </app-form-field>
         <app-form-field
           class="w-full"
@@ -148,10 +145,9 @@
           help="The number of seconds to seek forward and backwards when using the Right and Left Arrow keys."
           [flexCol]="false"
           labelFixedWidthPercentage="35">
-          <app-number-input
-            min="1"
+          <app-number-input min="1"
             max="15"
-            formControlName="seekStep"></app-number-input>
+            formControlName="seekStep" />
         </app-form-field>
         <app-form-field
           class="w-full"
@@ -159,13 +155,12 @@
           help="The percentage to increase/decrease the volume level when using the Up and Down Arrow keys."
           [flexCol]="false"
           labelFixedWidthPercentage="35">
-          <app-number-input
-            min="0.1"
+          <app-number-input min="0.1"
             max="1"
             notManuallyEditable
             decimal="1"
             #volumeStep
-            formControlName="volumeStep"></app-number-input>
+            formControlName="volumeStep" />
         </app-form-field>
       </section>
     </article>

@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'lib-wrapper',
-    template: `<router-outlet></router-outlet>`,
+    template: `<router-outlet />`,
     standalone: false
 })
 export class LibraryWrapperComponent {

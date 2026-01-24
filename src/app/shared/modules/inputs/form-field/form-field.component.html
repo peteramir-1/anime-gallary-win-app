@@ -25,13 +25,12 @@
       *
     </span>
     @if (help) {
-      <ng-icon
-        class="flex-initial cursor-pointer items-center align-text-top"
+      <ng-icon class="flex-initial cursor-pointer items-center align-text-top"
         matTooltipPosition="left"
         matTooltipClass="text-xs"
         [matTooltip]="help"
-      name="heroQuestionMarkCircle"></ng-icon>
+      name="heroQuestionMarkCircle" />
     }
   </div>
-  <ng-content></ng-content>
+  <ng-content />
 </label>

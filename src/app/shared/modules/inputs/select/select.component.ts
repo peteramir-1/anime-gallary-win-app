@@ -26,7 +26,7 @@ export const CUSTOM_CONROL_VALUE_ACCESSOR: Provider = {
 
 @Component({
   selector: 'app-option',
-  template: `<span #text><ng-content></ng-content></span>`,
+  template: `<span #text><ng-content /></span>`,
   standalone: false,
 })
 export class OptionComponent<T = any> {
@@ -61,7 +61,7 @@ export class OptionComponent<T = any> {
     </mat-select>
     @if (viewNGContent()) {
       <div class="hidden">
-        <ng-content select="app-option"></ng-content>
+        <ng-content select="app-option" />
       </div>
     }
   `,

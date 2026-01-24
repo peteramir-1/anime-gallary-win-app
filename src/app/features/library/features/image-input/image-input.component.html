@@ -16,8 +16,7 @@
   [attr.aria-describedby]="id + '-placeholder'"
   [for]="id"
   tabindex="0">
-  <image-input-placeholder
-    [ngClass]="{ hidden: value() }"
-    [id]="id + '-placeholder'"></image-input-placeholder>
+  <image-input-placeholder [ngClass]="{ hidden: value() }"
+    [id]="id + '-placeholder'" />
   <input [id]="id" class="hidden" type="text" [value]="value()" />
 </label>
