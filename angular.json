@@ -38,6 +38,7 @@
               "videojs-playlist-ui",
               "videojs-hotkeys",
               "@videojs/xhr",
+              "@xmldom/xmldom",
               "global/document",
               "global/window",
               "keycode",
