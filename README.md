@@ -6,7 +6,7 @@ Frontend Angular application bundled with an Electron backend for serving local 
 
 This repository contains an Angular front-end app (the UI) and an Electron-based backend (local server, file serving and GraphQL API) packaged together as a desktop application.
 
-- Frontend: Angular (18) app in the repository root `src` folder.
+- Frontend: Angular (21) app in the repository root `src` folder.
 - Backend: Electron app and server code in the `anime-gallery-electron` folder.
 
 ## Key Features
@@ -18,7 +18,7 @@ This repository contains an Angular front-end app (the UI) and an Electron-based
 
 ## Tech Stack
 
-- Angular 18
+- Angular 21
 - Electron (backend app in `anime-gallery-electron`)
 - GraphQL (Apollo client & server)
 - TailwindCSS + custom plugins
