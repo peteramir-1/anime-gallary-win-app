@@ -4,53 +4,72 @@ import { RequestHandler } from 'express';
 import { validatePathForExpress } from '../helpers/path-vallidation';
 
 // Supported file types
-const picturesMimeTypes: { [string: string]: string } = {
+const picturesMimeTypes: { [ext: string]: string } = {
   '.gif': 'image/gif',
   '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
   '.png': 'image/png',
 };
 
 /**
  * Serves an image based on the provided file path.
- * Validates the file path and checks if the file exists.
- * Ensures the file type is supported before sending.
- * Streams the image file to the response.
- *
- * @param {Object} req - Express.js request object
- * @param {Object} res - Express.js response object
- * @throws {Error} if the file does not exist or the media type is unsupported
+ * Uses the async validatePathForExpress which may already send an HTTP response.
  */
-export const servePicture: RequestHandler = (req, res) => {
-  const filepath = validatePathForExpress(req, res);
-  if (typeof filepath === 'object') return;
+export const servePicture: RequestHandler = async (req, res) => {
+  try {
+    // Validate path using the new async validator which may already send an HTTP response.
+    const validated = await validatePathForExpress(req, res);
+    if (typeof validated !== 'string') {
+      // validatePathForExpress already handled the response (error), so stop processing.
+      return;
+    }
+    const filepath = validated;
 
-  // Get the file stats
-  fs.stat(filepath, (err, stats) => {
-    // Check if the file exists
-    if (err || !stats.isFile()) {
-      return res.status(404).send('File not found');
+    // Use promises API for stat to avoid mixing callback and async styles
+    let stats: fs.Stats;
+    try {
+      stats = await fs.promises.stat(filepath);
+    } catch {
+      if (!res.headersSent) return res.status(404).send('File not found');
+      return;
+    }
+
+    if (!stats.isFile()) {
+      if (!res.headersSent) return res.status(404).send('File not found');
+      return;
     }
 
     // Get the file extension and validate it
     const extension = path.extname(filepath).toLowerCase();
-
-    // Check if the file type is supported
-    if (!picturesMimeTypes[extension]) {
-      return res.status(415).send('Unsupported media type');
+    const mime = picturesMimeTypes[extension];
+    if (!mime) {
+      if (!res.headersSent)
+        return res.status(415).send('Unsupported media type');
+      return;
     }
 
-    // Create a stream and pipe it to the response
-    const fileStream = fs.createReadStream(filepath);
+    // Stream the file to the response
+    const stream = fs.createReadStream(filepath);
 
-    // Send the file
-    fileStream.on('open', () => {
-      res.set('Content-Type', picturesMimeTypes[extension]);
-      fileStream.pipe(res);
+    stream.on('open', () => {
+      // Set content type and pipe
+      if (!res.headersSent) {
+        res.setHeader('Content-Type', mime);
+      }
+      stream.pipe(res);
     });
 
-    // Handle errors
-    fileStream.on('error', () => {
-      res.status(500).send('Error reading the file');
+    stream.on('error', err => {
+      console.error('File stream error:', err);
+      try {
+        if (!res.headersSent) res.status(500).send('Error reading the file');
+        else res.destroy();
+      } catch {
+        // ignore
+      }
     });
-  });
+  } catch (err) {
+    console.error('servePicture error:', err);
+    if (!res.headersSent) res.status(500).send('Internal Server Error');
+  }
 };

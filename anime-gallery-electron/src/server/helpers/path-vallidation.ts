@@ -1,8 +1,26 @@
-import path from 'path';
+// secure-path-validation.ts
 import fs from 'fs';
+import path from 'path';
 import si from 'systeminformation';
-import isPathInside from 'is-path-inside';
 import { Request, Response } from 'express';
+
+export enum ErrorCode {
+  SAFE_ROOTS_NOT_INITIALIZED = 'SAFE_ROOTS_NOT_INITIALIZED',
+  INVALID_INPUT = 'INVALID_INPUT',
+  PATH_TOO_LONG = 'PATH_TOO_LONG',
+  INVALID_PATH = 'INVALID_PATH',
+  NETWORK_PATH_NOT_ALLOWED = 'NETWORK_PATH_NOT_ALLOWED',
+  ACCESS_DENIED = 'ACCESS_DENIED',
+  FILE_NOT_FOUND = 'FILE_NOT_FOUND',
+  UNABLE_TO_OPEN = 'UNABLE_TO_OPEN',
+  RACE_DETECTED = 'RACE_DETECTED',
+  UNREADABLE_DIRECTORY = 'UNREADABLE_DIRECTORY',
+  UNKNOWN = 'UNKNOWN',
+}
+
+export type Result<T> =
+  | { success: true; data: T }
+  | { success: false; code: ErrorCode; message: string };
 
 const SAFE_ROOTS: string[] = [];
 const BLOCKED = [
@@ -22,49 +40,53 @@ const BLOCKED = [
   'BOOTNXT',
 ];
 
-type Result<T> = { success: true; data: T } | { success: false; error: string };
-
 /**
  * Initialize safe roots once on app startup.
- * Canonicalizes, dedupes, and excludes the system drive.
+ * - Uses async APIs
+ * - Canonicalizes, dedupes, normalizes trailing separators
+ * - Excludes the system drive
  */
 export async function initSafeRoots(): Promise<void> {
   const disks = await si.fsSize();
   const systemDrive = (process.env.SystemDrive || 'C:').toUpperCase();
 
   const roots = new Set<string>();
+
   for (const d of disks) {
     if (!d.mount) continue;
     try {
-      // Ensure trailing separator for consistent comparisons
       const candidate = d.mount.endsWith(path.sep)
         ? d.mount
         : d.mount + path.sep;
       if (candidate.toUpperCase().startsWith(systemDrive)) continue;
-      const real = fs.realpathSync(candidate);
-      // Normalize to platform-specific form and ensure trailing sep
+      const real = await fs.promises.realpath(candidate);
       const normalized = real.endsWith(path.sep) ? real : real + path.sep;
       roots.add(normalized);
     } catch {
-      // ignore mounts we cannot resolve
       continue;
     }
   }
 
-  // Replace SAFE_ROOTS contents atomically
   SAFE_ROOTS.length = 0;
   SAFE_ROOTS.push(...Array.from(roots));
 }
 
 /**
- * Helper to check if a path contains any blocked segment.
- * Uses path segment comparison to avoid substring false positives.
+ * Split a canonical path into segments (lowercased) for blocked-segment checks.
  */
-function containsBlockedSegment(canonicalPath: string): boolean {
-  const parts = canonicalPath
+function pathSegmentsLower(canonicalPath: string): string[] {
+  const normalized = path.normalize(canonicalPath);
+  return normalized
     .split(path.sep)
     .filter(Boolean)
-    .map(p => p.toLowerCase());
+    .map(s => s.toLowerCase());
+}
+
+/**
+ * Check whether canonicalPath contains any blocked segment.
+ */
+function containsBlockedSegment(canonicalPath: string): boolean {
+  const parts = pathSegmentsLower(canonicalPath);
   for (const blocked of BLOCKED) {
     const b = blocked.toLowerCase();
     if (parts.includes(b)) return true;
@@ -73,102 +95,208 @@ function containsBlockedSegment(canonicalPath: string): boolean {
 }
 
 /**
- * Validate a path string and return canonical absolute path or error.
- * - Rejects null bytes, control chars, overly long input
- * - Resolves symlinks and canonicalizes
- * - Ensures containment inside SAFE_ROOTS
- * - Checks blocked segments and existence
+ * Ensure canonicalPath is contained inside at least one SAFE_ROOT.
  */
-export function validatePathText(requestPath: unknown): Result<string> {
-  // Basic checks
-  if (!Array.isArray(SAFE_ROOTS) || SAFE_ROOTS.length === 0) {
-    return { success: false, error: 'Safe roots not initialized' };
-  }
-  if (typeof requestPath !== 'string') {
-    return { success: false, error: 'File path is required' };
-  }
+function isInsideSafeRoots(canonicalPath: string): boolean {
+  if (!SAFE_ROOTS.length) return false;
 
-  const raw = requestPath.trim();
-  if (!raw) return { success: false, error: 'File path is required' };
-  if (raw.length > 4096) return { success: false, error: 'Path too long' };
-  if (raw.indexOf('\0') !== -1)
-    return { success: false, error: 'Invalid path' };
-  if (/[\x00-\x1F]/.test(raw)) return { success: false, error: 'Invalid path' };
+  const normalizedPath = canonicalPath.endsWith(path.sep)
+    ? canonicalPath.slice(0, -1)
+    : canonicalPath;
 
-  // Disallow UNC network paths on Windows explicitly
-  if (raw.startsWith('\\\\'))
-    return { success: false, error: 'Network paths not allowed' };
-
-  // Resolve and canonicalize
-  let canonical: string;
-  try {
-    canonical = fs.realpathSync(path.resolve(raw));
-  } catch {
-    return { success: false, error: 'File not found' };
-  }
-
-  // Normalize trailing separators off for file checks, but keep canonical form
-  canonical = canonical.endsWith(path.sep) ? canonical.slice(0, -1) : canonical;
-
-  // Blocked segments check
-  if (containsBlockedSegment(canonical)) {
-    return { success: false, error: 'Access Denied!' };
-  }
-
-  // Containment check: ensure canonical is inside at least one SAFE_ROOT
-  let allowed = false;
   for (const root of SAFE_ROOTS) {
     try {
-      // root is expected canonical and with trailing sep from initSafeRoots
-      const canonicalRoot = fs.realpathSync(root);
-      // Use path.relative to avoid substring pitfalls
-      const rel = path.relative(canonicalRoot, canonical);
+      const canonicalRoot = root.endsWith(path.sep) ? root.slice(0, -1) : root;
+      const rel = path.relative(canonicalRoot, normalizedPath);
       if (rel === '' || (!rel.startsWith('..') && !path.isAbsolute(rel))) {
-        allowed = true;
-        break;
-      }
-      // fallback to isPathInside if you prefer
-      if (isPathInside(canonical, canonicalRoot)) {
-        allowed = true;
-        break;
+        return true;
       }
     } catch {
       continue;
     }
   }
-  if (!allowed) return { success: false, error: 'Access denied!' };
+  return false;
+}
 
-  // Existence check
+/**
+ * Validate a path string and return canonical absolute path or structured error.
+ */
+export async function validatePathText(
+  requestPath: unknown
+): Promise<Result<string>> {
+  if (!Array.isArray(SAFE_ROOTS) || SAFE_ROOTS.length === 0) {
+    return {
+      success: false,
+      code: ErrorCode.SAFE_ROOTS_NOT_INITIALIZED,
+      message: 'Safe roots not initialized',
+    };
+  }
+
+  if (typeof requestPath !== 'string') {
+    return {
+      success: false,
+      code: ErrorCode.INVALID_INPUT,
+      message: 'File path is required',
+    };
+  }
+
+  const raw = requestPath.trim();
+  if (!raw) {
+    return {
+      success: false,
+      code: ErrorCode.INVALID_INPUT,
+      message: 'File path is required',
+    };
+  }
+  if (raw.length > 4096) {
+    return {
+      success: false,
+      code: ErrorCode.PATH_TOO_LONG,
+      message: 'Path too long',
+    };
+  }
+  if (raw.indexOf('\0') !== -1 || /[\x00-\x1F]/.test(raw)) {
+    return {
+      success: false,
+      code: ErrorCode.INVALID_PATH,
+      message: 'Invalid path',
+    };
+  }
+
+  if (raw.startsWith('\\\\')) {
+    return {
+      success: false,
+      code: ErrorCode.NETWORK_PATH_NOT_ALLOWED,
+      message: 'Network paths not allowed',
+    };
+  }
+
+  let canonical: string;
   try {
-    if (!fs.existsSync(canonical))
-      return { success: false, error: 'File not found' };
+    canonical = await fs.promises.realpath(path.resolve(raw));
   } catch {
-    return { success: false, error: 'File not found' };
+    return {
+      success: false,
+      code: ErrorCode.FILE_NOT_FOUND,
+      message: 'File not found',
+    };
+  }
+
+  canonical = canonical.endsWith(path.sep) ? canonical.slice(0, -1) : canonical;
+
+  if (containsBlockedSegment(canonical)) {
+    return {
+      success: false,
+      code: ErrorCode.ACCESS_DENIED,
+      message: 'Access Denied',
+    };
+  }
+
+  if (!isInsideSafeRoots(canonical)) {
+    return {
+      success: false,
+      code: ErrorCode.ACCESS_DENIED,
+      message: 'Access denied',
+    };
+  }
+
+  try {
+    await fs.promises.access(canonical, fs.constants.F_OK);
+  } catch {
+    return {
+      success: false,
+      code: ErrorCode.FILE_NOT_FOUND,
+      message: 'File not found',
+    };
   }
 
   return { success: true, data: canonical };
 }
 
 /**
- * Express wrapper that uses validatePathText and returns HTTP responses.
+ * Validate and open a file atomically to mitigate TOCTOU.
  */
-export const validatePathForExpress = (
+export async function validateAndOpenFile(
+  requestPath: unknown
+): Promise<Result<{ path: string; fd: fs.promises.FileHandle }>> {
+  const v = await validatePathText(requestPath);
+  if (!v.success) return { success: false, code: v.code, message: v.message };
+
+  const canonical = v.data;
+  let fh: fs.promises.FileHandle | null = null;
+  try {
+    fh = await fs.promises.open(canonical, 'r');
+
+    const [fstat, statPath] = await Promise.all([
+      fh.stat(),
+      fs.promises.stat(canonical),
+    ]);
+
+    const devMatch =
+      typeof fstat.dev !== 'undefined' && typeof statPath.dev !== 'undefined'
+        ? fstat.dev === statPath.dev
+        : true;
+    const inoMatch =
+      typeof fstat.ino !== 'undefined' && typeof statPath.ino !== 'undefined'
+        ? fstat.ino === statPath.ino
+        : true;
+
+    if (!(devMatch && inoMatch)) {
+      await fh.close();
+      return {
+        success: false,
+        code: ErrorCode.RACE_DETECTED,
+        message: 'Race detected or file changed during validation',
+      };
+    }
+
+    return { success: true, data: { path: canonical, fd: fh } };
+  } catch {
+    if (fh) {
+      try {
+        await fh.close();
+      } catch {
+        /* ignore */
+      }
+    }
+    return {
+      success: false,
+      code: ErrorCode.UNABLE_TO_OPEN,
+      message: 'Unable to open file',
+    };
+  }
+}
+
+/**
+ * Express wrapper that uses validatePathText and maps structured errors to HTTP responses.
+ */
+export const validatePathForExpress = async (
   req: Request,
   res: Response
-): string | Response => {
+): Promise<string | Response> => {
   if (!SAFE_ROOTS.length) {
     return res.status(500).send('Safe roots not initialized');
   }
 
   const requestPath = req.query.path;
-  const result = validatePathText(requestPath as unknown);
+  const result = await validatePathText(requestPath);
 
   if (!result.success) {
-    // Map some errors to appropriate HTTP codes
-    const err = result.error.toLowerCase();
-    if (err.includes('access')) return res.status(403).send(result.error);
-    if (err.includes('required')) return res.status(400).send(result.error);
-    return res.status(404).send(result.error);
+    switch (result.code) {
+      case ErrorCode.ACCESS_DENIED:
+        return res.status(403).send(result.message);
+      case ErrorCode.INVALID_INPUT:
+      case ErrorCode.PATH_TOO_LONG:
+      case ErrorCode.INVALID_PATH:
+      case ErrorCode.NETWORK_PATH_NOT_ALLOWED:
+        return res.status(400).send(result.message);
+      case ErrorCode.FILE_NOT_FOUND:
+        return res.status(404).send(result.message);
+      case ErrorCode.SAFE_ROOTS_NOT_INITIALIZED:
+        return res.status(500).send(result.message);
+      default:
+        return res.status(400).send(result.message);
+    }
   }
 
   return result.data;

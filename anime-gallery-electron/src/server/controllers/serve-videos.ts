@@ -5,7 +5,7 @@ import { RequestHandler } from 'express';
 import { validatePathForExpress } from '../helpers/path-vallidation';
 
 // Supported file types
-const videosMime: { [string: string]: string } = {
+const videosMime: { [ext: string]: string } = {
   '.mp4': 'video/mp4',
   '.webm': 'video/webm',
   '.ogg': 'video/ogg',
@@ -17,82 +17,93 @@ const videosMime: { [string: string]: string } = {
 
 /**
  * Serves a video stream based on user-provided path.
- * Handles range requests for video streaming.
- * @param {Object} req Express.js request object
- * @param {Object} res Express.js response object
- * @throws {Error} if the route is invalid or the file does not exist
+ * Uses the async validatePathForExpress and fs.promises APIs.
  */
-export const serveVideo: RequestHandler = (req, res) => {
+export const serveVideo: RequestHandler = async (req, res) => {
   try {
-    // validate path
-    const filepath = validatePathForExpress(req, res);
-    if (typeof filepath === 'object') return undefined;
+    // Validate path using the new async validator which may already send an HTTP response.
+    const validated = await validatePathForExpress(req, res);
+    if (typeof validated !== 'string') {
+      // validatePathForExpress already handled the response (error), so stop processing.
+      return;
+    }
+    const filepath = validated;
 
-    // Get the file extension
+    // Determine extension and mime
     const extension = path.extname(filepath).toLowerCase();
+    const mime = videosMime[extension];
+    if (!mime) {
+      return res.status(415).send('Unsupported media type');
+    }
 
-    // get file stats
-    fs.stat(filepath, (err, stats) => {
-      // check if file exists
-      if (err || !stats.isFile()) {
-        return res.status(404).send('File not found');
-      }
+    // Use promises API for stat to avoid mixing callback and async styles
+    let stats: fs.Stats;
+    try {
+      stats = await fs.promises.stat(filepath);
+    } catch {
+      return res.status(404).send('File not found');
+    }
 
-      // check if file type is supported
-      if (!videosMime[extension]) {
-        return res.status(415).send('Unsupported media type');
-      }
+    if (!stats.isFile()) {
+      return res.status(404).send('File not found');
+    }
 
-      // Set the correct Content-Type header
-      res.setHeader('Content-Type', videosMime[extension]);
+    const fileSize = stats.size;
+    const headerRange = req.headers.range;
 
-      // Get the file size
-      const fileSize = stats.size;
-
-      // Get the range header
-      const headerRange = req.headers.range;
-
-      // If no range header, send the entire file
-      if (!headerRange) {
-        res.status(200);
-        const videoStream = fs.createReadStream(filepath);
-        videoStream.pipe(res);
-        return;
-      }
-
-      // Handle range requests for video streaming
-      // Parse range header to determine the start and end of the video stream
-      const ranges = rangeParser(fileSize, headerRange);
-
-      // Check if the range header is valid
-      if (ranges === -1) {
-        return res.status(416).send('Requested Range Not Satisfiable');
-      }
-
-      // Check if the range header is valid
-      if (ranges === -2) {
-        return res.status(416).send('Result is invalid');
-      }
-
-      // Set the start and end of the video stream
-      const start = ranges[0].start;
-      const end = ranges[0].end > fileSize - 1 ? fileSize - 1 : ranges[0].end;
-      const chunkSize = end - start + 1;
-
-      // Set response headers for video streaming
-      res.writeHead(206, {
-        'Content-Range': `bytes ${start}-${end}/${fileSize}`,
-        'Accept-Ranges': 'bytes',
-        'Content-Length': chunkSize,
-        'Content-Type': 'video/mp4', // Change based on your video file format
+    // No range header: stream entire file
+    if (!headerRange) {
+      res.status(200);
+      res.setHeader('Content-Type', mime);
+      const stream = fs.createReadStream(filepath);
+      stream.on('error', err => {
+        console.error('Stream error:', err);
+        if (!res.headersSent) res.status(500).send('Internal Server Error');
+        else res.destroy();
       });
+      stream.pipe(res);
+      return;
+    }
 
-      // Stream the video chunk
-      const videoStream = fs.createReadStream(filepath, { start, end });
-      videoStream.pipe(res);
+    // Parse range header
+    const ranges = rangeParser(fileSize, headerRange as string);
+
+    if (ranges === -1) {
+      return res.status(416).send('Requested Range Not Satisfiable');
+    }
+    if (ranges === -2) {
+      return res.status(416).send('Result is invalid');
+    }
+
+    // Use the first range
+    const start = ranges[0].start;
+    const end = ranges[0].end > fileSize - 1 ? fileSize - 1 : ranges[0].end;
+    const chunkSize = end - start + 1;
+
+    // Set headers and stream the requested chunk
+    res.writeHead(206, {
+      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+      'Accept-Ranges': 'bytes',
+      'Content-Length': String(chunkSize),
+      'Content-Type': mime,
     });
+
+    const stream = fs.createReadStream(filepath, { start, end });
+    stream.on('error', err => {
+      console.error('Stream error:', err);
+      try {
+        if (!res.headersSent) res.status(500).send('Internal Server Error');
+        else res.destroy();
+      } catch {
+        // ignore
+      }
+    });
+    stream.pipe(res);
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).send('Internal Server Error');
+    console.error('Error in serveVideo:', error);
+    // If validatePathForExpress already sent a response, avoid sending another
+    if (!res.headersSent) {
+      res.status(500).send('Internal Server Error');
+    }
   }
 };
