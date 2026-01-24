@@ -54,6 +54,14 @@ export const validatePath = (
     return res.status(404).send('Video file not found');
   }
 
+  const BLOCKED = ['\\Windows', '\\Program Files', '\\ProgramData'];
+
+  if (
+    BLOCKED.some(b => normalizedPath.toLowerCase().includes(b.toLowerCase()))
+  ) {
+    return res.status(403).send('Access Denied!');
+  }
+
   // Ensure path is inside at least one safe root
   const isAllowed = SAFE_ROOTS.some(root => isPathInside(normalizedPath, root));
 
