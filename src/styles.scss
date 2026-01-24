@@ -10,6 +10,23 @@
   @apply hidden;
 }
 
+@layer base {
+  html body {
+    background-image: url('./assets//pictures//bg.svg');
+  }
+
+  body:after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+    background-color: black;
+  }
+}
+
 @layer components {
   .btn {
     @apply flex select-none items-center self-start rounded-lg px-5 py-3 text-center text-sm font-medium text-white transition-all duration-300;
