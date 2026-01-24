@@ -41,6 +41,11 @@ export const validatePath = (
     return res.status(400).send('File path is required');
   }
 
+  // Disallow UNC paths
+  if (path.isAbsolute(requestPath) && requestPath.startsWith('\\\\')) {
+    return res.status(403).send('Network paths not allowed');
+  }
+
   let normalizedPath: string;
   try {
     // Resolve + normalize user input
