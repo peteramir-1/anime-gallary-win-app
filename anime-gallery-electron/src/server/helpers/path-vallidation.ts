@@ -171,6 +171,17 @@ export async function validatePathText(
     };
   }
 
+  // Disallow absolute paths from user input. The path must be interpreted
+  // strictly as a relative path segment under one of the SAFE_ROOTS so that
+  // `path.resolve(root, raw)` cannot escape the configured roots.
+  if (path.isAbsolute(raw)) {
+    return {
+      success: false,
+      code: ErrorCode.INVALID_PATH,
+      message: 'Absolute paths are not allowed',
+    };
+  }
+
   let canonical: string | null = null;
 
   // Resolve the requested path only within the configured SAFE_ROOTS.
