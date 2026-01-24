@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import rangeParser from 'range-parser';
 import { RequestHandler } from 'express';
-import { validatePath } from '../helpers/path-vallidation';
+import { validatePathForExpress } from '../helpers/path-vallidation';
 
 // Supported file types
 const videosMime: { [string: string]: string } = {
@@ -25,7 +25,7 @@ const videosMime: { [string: string]: string } = {
 export const serveVideo: RequestHandler = (req, res) => {
   try {
     // validate path
-    const filepath = validatePath(req, res);
+    const filepath = validatePathForExpress(req, res);
     if (typeof filepath === 'object') return undefined;
 
     // Get the file extension

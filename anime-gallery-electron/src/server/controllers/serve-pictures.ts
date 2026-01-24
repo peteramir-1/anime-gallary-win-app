@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import { RequestHandler } from 'express';
-import { validatePath } from '../helpers/path-vallidation';
+import { validatePathForExpress } from '../helpers/path-vallidation';
 
 // Supported file types
 const picturesMimeTypes: { [string: string]: string } = {
@@ -15,13 +15,13 @@ const picturesMimeTypes: { [string: string]: string } = {
  * Validates the file path and checks if the file exists.
  * Ensures the file type is supported before sending.
  * Streams the image file to the response.
- * 
+ *
  * @param {Object} req - Express.js request object
  * @param {Object} res - Express.js response object
  * @throws {Error} if the file does not exist or the media type is unsupported
  */
 export const servePicture: RequestHandler = (req, res) => {
-  const filepath = validatePath(req, res);
+  const filepath = validatePathForExpress(req, res);
   if (typeof filepath === 'object') return;
 
   // Get the file stats
