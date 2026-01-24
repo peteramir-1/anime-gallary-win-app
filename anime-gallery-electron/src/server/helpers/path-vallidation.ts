@@ -30,6 +30,11 @@ export const validatePath = (
   req: Request,
   res: Response
 ): string | Response => {
+  // Ensure safe roots have been initialized
+  if (!SAFE_ROOTS.length) {
+    return res.status(500).send('Safe roots not initialized');
+  }
+
   const requestPath = req.query.path;
 
   if (typeof requestPath !== 'string') {
