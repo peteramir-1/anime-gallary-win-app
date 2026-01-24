@@ -34,6 +34,7 @@ import { animeResolver } from './graphql/schema/animes/animes.resolver';
 import { animesTypeDefs } from './graphql/schema/animes/animes.typeDefs';
 import { settingsResolver } from './graphql/schema/settings/settings.resolver';
 import { settingsTypeDefs } from './graphql/schema/settings/settings.typeDefs';
+import { initSafeRoots } from './helpers/path-vallidation';
 
 type DatabaseConnections = { [databaseName: string]: Database.Database };
 
@@ -52,6 +53,7 @@ export class ApplicationServer implements APPLICATION_SERVER {
     await this.createDatabaseConnections();
     await this.createApolloServer();
     await this.apolloServer?.start();
+    await initSafeRoots();
     this.registerSPAFiles();
     this.addRoutes();
 

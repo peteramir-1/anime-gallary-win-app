@@ -1,55 +1,60 @@
 import path from 'path';
 import fs from 'fs';
+import si from 'systeminformation';
+import isPathInside from 'is-path-inside';
 import { Request, Response } from 'express';
 
-const SAFE_ROOT = fs.realpathSync(process.env.MEDIA_ROOT || process.cwd());
+let SAFE_ROOTS: string[] = [];
 
 /**
- * Validates a given route by resolving the absolute path and normalizing it.
- * Ensures the route does not start with C: and that the file exists.
- * @param {Object} req Express.js request object
- * @param {Object} res Express.js response object
- * @returns {string} normalized path
- * @throws {Error} if the route is invalid
+ * Initialize safe roots once on app startup
+ * Allows all drives except the system drive
  */
-export const validatePath = (req: Request, res: Response): string | Response => {
+export async function initSafeRoots(): Promise<void> {
+  const disks = await si.fsSize();
+  const systemDrive = (process.env.SystemDrive || 'C:').toUpperCase();
+
+  SAFE_ROOTS = disks
+    .map(d => d.mount)
+    .filter(Boolean)
+    .map(m => (m.endsWith(path.sep) ? m : m + path.sep))
+    .filter(m => !m.toUpperCase().startsWith(systemDrive))
+    .map(m => fs.realpathSync(m));
+}
+
+/**
+ * Validates a given path against all safe roots.
+ * Prevents path traversal and excludes the system drive.
+ */
+export const validatePath = (
+  req: Request,
+  res: Response
+): string | Response => {
   const requestPath = req.query.path;
 
-  // Check if path query parameter exists
-  if (!requestPath) {
+  if (typeof requestPath !== 'string') {
     return res.status(400).send('File path is required');
   }
 
-  // Resolve the absolute path relative to the safe root
-  const resolvedPath = path.resolve(SAFE_ROOT, String(requestPath));
-
-  // Normalize and resolve symlinks to prevent directory traversal
   let normalizedPath: string;
   try {
-    normalizedPath = fs.realpathSync(resolvedPath);
+    // Resolve + normalize user input
+    normalizedPath = fs.realpathSync(path.resolve(requestPath));
   } catch {
     return res.status(404).send('Video file not found');
   }
 
-  // Disallow access to C: drive explicitly (in addition to SAFE_ROOT restriction)
-  if (normalizedPath.toLocaleLowerCase().startsWith('c:')) {
+  // Ensure path is inside at least one safe root
+  const isAllowed = SAFE_ROOTS.some(root => isPathInside(normalizedPath, root));
+
+  if (!isAllowed) {
     return res.status(403).send('Access Denied!');
   }
 
-  // Ensure the normalized path is within the safe root directory
-  const safeRootWithSep = SAFE_ROOT.endsWith(path.sep) ? SAFE_ROOT : SAFE_ROOT + path.sep;
-  if (
-    normalizedPath !== SAFE_ROOT &&
-    !normalizedPath.startsWith(safeRootWithSep)
-  ) {
-    return res.status(403).send('Access Denied!');
-  }
-
-  // Check if the file exists
+  // Ensure file exists
   if (!fs.existsSync(normalizedPath)) {
     return res.status(404).send('Video file not found');
   }
 
-  // Return the validated and normalized path
   return normalizedPath;
 };
