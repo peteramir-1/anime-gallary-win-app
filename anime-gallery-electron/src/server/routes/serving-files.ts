@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import rateLimit from 'express-rate-limit';
-import { servePicture } from '../controllers/serve-pictures';
-import { serveVideo } from '../controllers/serve-videos';
+import { servePictureController } from '../controllers/serve-pictures';
+import { serveVideoController } from '../controllers/serve-videos';
 
 const router: Router = express.Router();
 
@@ -12,8 +12,8 @@ const servingFilesLimiter = rateLimit({
 
 router.use(servingFilesLimiter);
 
-router.get('/picture', servePicture);
+router.get('/picture', new servePictureController().serve);
 
-router.get('/video', serveVideo);
+router.get('/video', new serveVideoController().serve);
 
 export default router;
