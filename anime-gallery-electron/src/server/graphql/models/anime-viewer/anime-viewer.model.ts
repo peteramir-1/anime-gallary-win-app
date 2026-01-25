@@ -3,7 +3,7 @@ import path from 'path';
 import { v4 } from 'uuid';
 import { GraphQLError } from 'graphql';
 import _ from 'lodash';
-import { readDirectoriesRecursivelySafe } from '../../helpers/models';
+import { DirectoryDataHandler } from '../../helpers/models';
 
 /**
  * Interface representing an Anime file/folder.
@@ -90,9 +90,11 @@ export class AnimeViewerModel {
    * @returns {Promise<void>}
    */
   async readMainFolder(): Promise<void> {
-    const mainFolderDirectories = await readDirectoriesRecursivelySafe(
-      this.mainFolderPath
-    );
+    const directoryDataHandler = new DirectoryDataHandler();
+    const mainFolderDirectories =
+      await directoryDataHandler.readDirectoriesRecursively(
+        this.mainFolderPath
+      );
     const animes = this.removeDuplicateAnimes(
       this.convertDirectoriesToAnimes(mainFolderDirectories)
     );
