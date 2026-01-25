@@ -20,7 +20,7 @@ export interface AnimeFF {
 /**
  * Class representing the Anime Viewer Model.
  */
-export class AnimeViewerModel {
+export class AnimeViewerModel extends DirectoryDataHandler {
   private readonly pictureExtensions = [
     '.jpg',
     '.jpeg',
@@ -83,18 +83,18 @@ export class AnimeViewerModel {
    * Creates an instance of AnimeViewrModel.
    * @param {string} mainFolderPath - The main folder path where animes are stored.
    */
-  constructor(private mainFolderPath: string) {}
+  constructor(private mainFolderPath: string) {
+    super();
+  }
 
   /**
    * Reads the main folder and initializes the animes and their episodes.
    * @returns {Promise<void>}
    */
   async readMainFolder(): Promise<void> {
-    const directoryDataHandler = new DirectoryDataHandler();
-    const mainFolderDirectories =
-      await directoryDataHandler.readDirectoriesRecursively(
-        this.mainFolderPath
-      );
+    const mainFolderDirectories = await this.readDirectoriesRecursively(
+      this.mainFolderPath
+    );
     const animes = this.removeDuplicateAnimes(
       this.convertDirectoriesToAnimes(mainFolderDirectories)
     );

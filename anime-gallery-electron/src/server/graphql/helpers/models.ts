@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { PathValidation } from '../../helpers/path-vallidation';
 
-export class DirectoryDataHandler extends PathValidation {
+export abstract class DirectoryDataHandler extends PathValidation {
   async readDirectoriesRecursively(rootPath: string): Promise<fs.Dirent[]> {
     const result: fs.Dirent[] = [];
     const visited = new Set<string>();
